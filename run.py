@@ -1,5 +1,8 @@
 import gspread
 from google.oauth2.service_account import Credentials
+import colorama
+from colorama import Fore, Back
+colorama.init(autoreset=True)
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -20,4 +23,3 @@ week4 = SHEET.worksheet('3weeks').get_all_values()
 # print(week2)
 # print(week3)
 # print(week4)
-
