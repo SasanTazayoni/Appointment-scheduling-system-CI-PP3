@@ -20,8 +20,8 @@ def login_prompt():
     """
     Prompt the user for a login and a password
     """
-    print(Fore.GREEN + 'Appointment Booking System\n')
 
+    print(Fore.BLUE + 'Appointment Booking System\n')
     print('Please enter the correct login details\n')
 
     while True:
@@ -47,9 +47,14 @@ def login_prompt():
                 break
                 
 def update_cell_dates():
+    """
+    Dynamically add dates to all of the google sheets for each day 
+    of the week depending on the time of access
+    """
     
-    print(Fore.GREEN + 'Updating worksheet...')
-    worksheet_names = ["week1", "week2", "week3", "week4", "week5", "week6", "week7", "week8", "week9", "week10", "week11", "week12"]
+    print(Fore.YELLOW + 'Updating worksheet...')
+    worksheet_names = [ "week1", "week2", "week3", "week4", "week5", "week6",
+                        "week7", "week8", "week9", "week10", "week11", "week12" ]
     current_datetime = datetime.datetime.now()
     
     for i, worksheet_name in enumerate(worksheet_names):
