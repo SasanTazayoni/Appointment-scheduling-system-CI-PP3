@@ -15,11 +15,33 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('python_scheduling_system')
 
-week1 = SHEET.worksheet('current').get_all_values()
-week2 = SHEET.worksheet('1week').get_all_values()
-week3 = SHEET.worksheet('2weeks').get_all_values()
-week4 = SHEET.worksheet('3weeks').get_all_values()
-# print(week1)
-# print(week2)
-# print(week3)
-# print(week4)
+def login_prompt():
+    """
+    Prompt the user for a login and a password
+    """
+    print(Fore.GREEN + 'Appointment Booking System')
+
+    print('Please enter the correct login details\n')
+
+    while True:
+        login = input("Username: \n")
+        
+        if not login.strip():
+            print(Fore.RED + "Username cannot be empty.\n")
+            continue
+        
+        while True:
+            password = input("Password: \n")
+
+            if not password.strip():
+                print(Fore.RED + "Password cannot be empty.\n")
+                continue
+            
+            if login == "admin" and password == "password":
+                print(Fore.GREEN + "Login successful!")
+                return
+            else:
+                print(Fore.RED + "Login failed. Please try again.\n")
+                break
+
+login_prompt()
