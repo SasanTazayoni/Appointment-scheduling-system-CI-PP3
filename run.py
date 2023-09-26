@@ -48,20 +48,26 @@ def login_prompt():
                 
 def update_cell_dates():
     """
-    Dynamically add dates to all of the google sheets for each day 
-    of the week depending on the time of access
+    Update worksheet based on login date and time.
+    """
+
+# login_prompt()
+
+def set_cell_dates():
+    """
+    This function is entirely for testing purposes. 
+    The dates of the spreadsheet can be set manually.
     """
     
-    print(Fore.YELLOW + 'Updating worksheet...')
-    worksheet_names = [ "week1", "week2", "week3", "week4", "week5", "week6",
-                        "week7", "week8", "week9", "week10", "week11", "week12" ]
+    print(Fore.YELLOW + 'Updating worksheets...')
+    worksheet_names = [ "week1", "week2", "week3", "week4", "week5", "week6", "week7", "week8", "week9", "week10", "week11", "week12" ]
     current_datetime = datetime.datetime.now()
     
     for i, worksheet_name in enumerate(worksheet_names):
         worksheet = SHEET.worksheet(worksheet_name)
 
         days_since_monday = (current_datetime.weekday() - 0) % 7
-        start_date = current_datetime - datetime.timedelta(days=days_since_monday) + datetime.timedelta(weeks=i)
+        start_date = current_datetime - datetime.timedelta(days=days_since_monday) - datetime.timedelta(weeks=22) + datetime.timedelta(weeks=i)
 
         dates = [start_date + datetime.timedelta(days=j) for j in range(5)]
 
@@ -74,5 +80,4 @@ def update_cell_dates():
 
         worksheet.update_cells(cell_values)
 
-login_prompt()
-
+# set_cell_dates()
