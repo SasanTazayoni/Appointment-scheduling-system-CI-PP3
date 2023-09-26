@@ -53,35 +53,6 @@ def update_cell_dates():
 
 # login_prompt()
 
-def fixed_cell_dates():
-    """
-    This function is entirely for testing purposes. 
-    The dates of the spreadsheet can be set manually.
-    """
-    
-    print(Fore.YELLOW + 'Updating worksheets...')
-    worksheet_names = [ "week1", "week2", "week3", "week4", "week5", "week6", "week7", "week8", "week9", "week10", "week11", "week12" ]
-    current_datetime = datetime.datetime.now()
-    
-    for i, worksheet_name in enumerate(worksheet_names):
-        worksheet = SHEET.worksheet(worksheet_name)
-
-        days_since_monday = (current_datetime.weekday() - 0) % 7
-        start_date = current_datetime - datetime.timedelta(days=days_since_monday) - datetime.timedelta(weeks=22) + datetime.timedelta(weeks=i)
-
-        dates = [start_date + datetime.timedelta(days=j) for j in range(5)]
-
-        formatted_dates = [f"{date.strftime('%A')} ({date.strftime('%d-%m-%Y')})" for date in dates]
-
-        cell_values = worksheet.range("A2:A6")
-
-        for j, date in enumerate(formatted_dates):
-            cell_values[j].value = date
-
-        worksheet.update_cells(cell_values)
-
-# fixed_cell_dates()
-
 # Get Monday's date of the current week
 current_datetime = datetime.datetime.now()
 days_since_monday = current_datetime.weekday()
@@ -138,12 +109,62 @@ def refresh_cells(worksheet):
     worksheet.update_cells(cell_list)
 
 if difference_in_weeks == 0:
-    print(Fore.BLUE + "Worksheets up to date")
+    print(Fore.BLUE + "Worksheets are up to date")
 elif difference_in_weeks > 12:
+    print(Fore.BLUE + "It seems that you have been away for a long time.\n")
     print(Fore.YELLOW + "Renewing worksheets...")
 
     for worksheet in SHEET.worksheets():
         refresh_cells(worksheet)
         set_cell_dates(worksheet)
+
+    print(Fore.GREEN + "All worksheets have been updated.")
 elif difference_in_weeks > 0:
-    print("Updating worksheets...")
+    print(Fore.YELLOW + "Updating worksheets...")
+
+    for i in range(1, 13):
+        worksheet_title = f"week{i}"
+        worksheet = SHEET.worksheet(worksheet_title)
+        week_number = int(worksheet_title.lstrip("week"))
+        target_week_number = week_number + difference_in_weeks
+
+        # Check if the target week number is within the valid range (1 to 12)
+        if 1 <= target_week_number <= 12:
+            target_worksheet_title = f"week{target_week_number}"
+            target_worksheet = SHEET.worksheet(target_worksheet_title)
+            target_data = target_worksheet.get('B2:Q6')
+            worksheet.update('B2:Q6', target_data)
+            set_cell_dates(worksheet)
+
+            print(f"{worksheet_title} updated from {target_worksheet_title}")
+
+    print(Fore.GREEN + "Worksheets have been updated.")
+
+def fix_cell_dates():
+    """
+    This function is entirely for testing purposes. 
+    The dates of the spreadsheet can be set manually.
+    """
+    
+    print(Fore.YELLOW + 'Updating worksheets...')
+    worksheet_names = [ "week1", "week2", "week3", "week4", "week5", "week6", "week7", "week8", "week9", "week10", "week11", "week12" ]
+    current_datetime = datetime.datetime.now()
+    
+    for i, worksheet_name in enumerate(worksheet_names):
+        worksheet = SHEET.worksheet(worksheet_name)
+
+        days_since_monday = (current_datetime.weekday() - 0) % 7
+        start_date = current_datetime - datetime.timedelta(days=days_since_monday) - datetime.timedelta(weeks=2) + datetime.timedelta(weeks=i)
+
+        dates = [start_date + datetime.timedelta(days=j) for j in range(5)]
+
+        formatted_dates = [f"{date.strftime('%A')} ({date.strftime('%d-%m-%Y')})" for date in dates]
+
+        cell_values = worksheet.range("A2:A6")
+
+        for j, date in enumerate(formatted_dates):
+            cell_values[j].value = date
+
+        worksheet.update_cells(cell_values)
+
+# fix_cell_dates()
