@@ -53,7 +53,7 @@ def update_cell_dates():
 
 # login_prompt()
 
-def set_cell_dates():
+def fixed_cell_dates():
     """
     This function is entirely for testing purposes. 
     The dates of the spreadsheet can be set manually.
@@ -80,4 +80,70 @@ def set_cell_dates():
 
         worksheet.update_cells(cell_values)
 
-# set_cell_dates()
+# fixed_cell_dates()
+
+# Get Monday's date of the current week
+current_datetime = datetime.datetime.now()
+days_since_monday = current_datetime.weekday()
+monday_date = current_datetime - datetime.timedelta(days=days_since_monday)
+
+# Get Monday's date for the first week on the spreadsheet
+w1_worksheet_cell_value = SHEET.worksheet("week1").acell("A2").value
+
+# Determine the difference in weeks between the 2
+date_part = w1_worksheet_cell_value.split("(")[1].split(")")[0].strip()
+cell_date = datetime.datetime.strptime(date_part, "%d-%m-%Y")
+difference_in_weeks = (monday_date - cell_date).days // 7
+
+print(difference_in_weeks)
+
+def set_cell_dates(worksheet):
+    """
+    Set cell dates based on the current date and the worksheet name.
+    """
+    worksheet_names = [
+        "week1", "week2", "week3", "week4",
+        "week5", "week6", "week7", "week8",
+        "week9", "week10", "week11", "week12"
+    ]
+    
+    # Get the index of the worksheet in the list
+    worksheet_index = worksheet_names.index(worksheet.title)
+
+    # Calculate the start date for the worksheet
+    days_since_monday = (current_datetime.weekday() - 0) % 7
+    start_date = current_datetime - datetime.timedelta(days=days_since_monday) - datetime.timedelta(weeks=0) + datetime.timedelta(weeks=worksheet_index)
+
+    # Generate dates for the worksheet
+    dates = [start_date + datetime.timedelta(days=j) for j in range(5)]
+
+    # Format dates as strings
+    formatted_dates = [f"{date.strftime('%A')} ({date.strftime('%d-%m-%Y')})" for date in dates]
+
+    # Update the A2:A6 cells with the formatted dates
+    cell_values = worksheet.range("A2:A6")
+    for j, date in enumerate(formatted_dates):
+        cell_values[j].value = date
+
+    # Update the cells in the worksheet
+    worksheet.update_cells(cell_values)
+
+def refresh_cells(worksheet):
+    """
+    Clear all appointment bookings from old dates.
+    """
+    cell_list = worksheet.range('B2:Q6')
+    for cell in cell_list:
+        cell.value = 'OPEN'
+    worksheet.update_cells(cell_list)
+
+if difference_in_weeks == 0:
+    print(Fore.BLUE + "Worksheets up to date")
+elif difference_in_weeks > 12:
+    print(Fore.YELLOW + "Renewing worksheets...")
+
+    for worksheet in SHEET.worksheets():
+        refresh_cells(worksheet)
+        set_cell_dates(worksheet)
+elif difference_in_weeks > 0:
+    print("Updating worksheets...")
