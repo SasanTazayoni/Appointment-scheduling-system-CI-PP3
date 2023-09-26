@@ -137,6 +137,12 @@ elif difference_in_weeks > 0:
             set_cell_dates(worksheet)
 
             print(f"{worksheet_title} updated from {target_worksheet_title}")
+        else:
+            # If the target week number is not within the valid range, update cells B2:Q6 with 'OPEN'
+            cell_list = worksheet.range('B2:Q6')
+            for cell in cell_list:
+                cell.value = 'OPEN'
+            worksheet.update_cells(cell_list)
 
     print(Fore.GREEN + "Worksheets have been updated.")
 
@@ -146,7 +152,7 @@ def fix_cell_dates():
     The dates of the spreadsheet can be set manually.
     """
     
-    print(Fore.YELLOW + 'Updating worksheets...')
+    print(Fore.YELLOW + 'Setting dates...')
     worksheet_names = [ "week1", "week2", "week3", "week4", "week5", "week6", "week7", "week8", "week9", "week10", "week11", "week12" ]
     current_datetime = datetime.datetime.now()
     
