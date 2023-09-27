@@ -71,7 +71,7 @@ def update_cell_dates():
 
         for worksheet in SHEET.worksheets():
             refresh_cells(worksheet)
-            set_cell_dates(worksheet)
+            set_cell_dates(worksheet, current_datetime)
 
         print(Fore.GREEN + "All worksheets have been updated.")
     elif difference_in_weeks > 0:
@@ -89,7 +89,7 @@ def update_cell_dates():
                 target_worksheet = SHEET.worksheet(target_worksheet_title)
                 target_data = target_worksheet.get('B2:Q6')
                 worksheet.update('B2:Q6', target_data)
-                set_cell_dates(worksheet)
+                set_cell_dates(worksheet, current_datetime)
 
                 print(f"{worksheet_title} updated from {target_worksheet_title}")
             else:
@@ -101,7 +101,7 @@ def update_cell_dates():
 
         print(Fore.GREEN + "Worksheets have been updated.")
 
-def set_cell_dates(worksheet):
+def set_cell_dates(worksheet, login_date):
     """
     Set cell dates based on the current date and the worksheet name.
     """
