@@ -5,6 +5,7 @@ from colorama import Fore, Back
 colorama.init(autoreset=True)
 import datetime
 import time
+import os
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -21,7 +22,27 @@ SHEET = GSPREAD_CLIENT.open('appointment_scheduling_system')
 USERNAME = "admin"
 PASSWORD = "password"
 MAX_LOGIN_ATTEMPTS = 3
-LOCKOUT_DURATION = 60
+LOCKOUT_DURATION = 10
+
+def handle_lockout():
+    """
+    Handle the lockout behavior.
+    """
+    locked_out = True
+    
+    # Disable keyboard input
+    os.system('stty -echo')
+    
+    try:
+        for remaining_lockout_time in range(LOCKOUT_DURATION, 0, -1):
+            print(Fore.RED + f"Maximum login attempts reached. You are now locked out for {remaining_lockout_time} seconds.", end="\r")
+            time.sleep(1)
+
+        print(Fore.GREEN + "You are now unlocked.")
+    finally:
+        os.system('stty echo')
+
+    return locked_out
 
 def login_prompt():
     """
@@ -29,10 +50,14 @@ def login_prompt():
     """
 
     print(Fore.BLUE + 'Appointment Booking System\n')
-    print(Fore.BLUE + 'Please enter the correct login details\n')
 
     login_attempts = 0
     locked_out = False
+
+    if locked_out:
+        locked_out = handle_lockout()
+
+    print(Fore.BLUE + 'Please enter the correct login details\n')
 
     while login_attempts < MAX_LOGIN_ATTEMPTS and not locked_out:
         login = input("Username: \n")
@@ -57,18 +82,10 @@ def login_prompt():
                 login_attempts += 1
                 if login_attempts == MAX_LOGIN_ATTEMPTS:
                     print(Fore.RED + "Login failed.\n")
+                    locked_out = handle_lockout()
                 else:
                     print(Fore.RED + "Login failed. Please try again.\n")
                 break
-
-        if login_attempts >= MAX_LOGIN_ATTEMPTS:
-            locked_out = True
-            remaining_lockout_time = LOCKOUT_DURATION
-            while remaining_lockout_time > 0:
-                print(Fore.RED + f"Maximum login attempts reached. You are now locked out for {remaining_lockout_time - 1} seconds..", end="\r")
-                time.sleep(1)
-                remaining_lockout_time -= 1
-            print()
                 
 def update_cell_dates():
     """
@@ -125,7 +142,7 @@ def update_cell_dates():
 
         print(Fore.GREEN + "Worksheets have been updated.")
 
-def set_cell_dates(worksheet, login_date):
+def set_cell_dates(worksheet, current_datetime):
     """
     Set cell dates based on the current date and the worksheet name.
     """
