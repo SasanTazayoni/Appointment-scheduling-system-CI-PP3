@@ -35,18 +35,16 @@ def handle_lockout():
         for remaining_lockout_time in range(LOCKOUT_DURATION, 0, -1):
             print(Fore.RED + f"Maximum login attempts reached. You are now locked out for {remaining_lockout_time} seconds.", end="\r")
             time.sleep(1)
-
-        print(Fore.GREEN + "You are now unlocked.")
     finally:
         os.system('stty echo')
-
-    return locked_out
+    
+    login_prompt()
 
 def login_prompt():
     """
     Prompt the user for a login and a password
     """
-
+    print()
     print(Fore.BLUE + 'Appointment Booking System\n')
 
     login_attempts = 0
@@ -89,18 +87,13 @@ def update_cell_dates():
     """
     Update worksheet based on login date and time.
     """
-    # Get Monday's date of the current week
     current_datetime = datetime.datetime.now()
-    days_since_monday = current_datetime.weekday()
-    monday_date = current_datetime - datetime.timedelta(days=days_since_monday)
+    monday_date = get_monday_date(current_datetime)
 
     # Get Monday's date for the first week on the spreadsheet
     w1_worksheet_cell_value = SHEET.worksheet("week1").acell("A2").value
 
-    # Determine the difference in weeks between the 2
-    date_part = w1_worksheet_cell_value.split("(")[1].split(")")[0].strip()
-    cell_date = datetime.datetime.strptime(date_part, "%d-%m-%Y")
-    difference_in_weeks = (monday_date - cell_date).days // 7
+    difference_in_weeks = get_week_difference(monday_date, w1_worksheet_cell_value)
 
     if difference_in_weeks == 0:
         print(Fore.BLUE + "Worksheets are up to date")
@@ -139,6 +132,23 @@ def update_cell_dates():
                 worksheet.update_cells(cell_list)
 
         print(Fore.GREEN + "Worksheets have been updated.")
+
+def get_monday_date(current_datetime):
+    """
+    Get Monday's date of the current week.
+    """
+    days_since_monday = current_datetime.weekday()
+    monday_date = current_datetime - datetime.timedelta(days=days_since_monday)
+    return monday_date
+
+def get_week_difference(monday_date, w1_worksheet_cell_value):
+    """
+    Determine the difference in weeks between the current week and the spreadsheet's first week.
+    """
+    date_part = w1_worksheet_cell_value.split("(")[1].split(")")[0].strip()
+    cell_date = datetime.datetime.strptime(date_part, "%d-%m-%Y")
+    difference_in_weeks = (monday_date - cell_date).days // 7
+    return difference_in_weeks
 
 def set_cell_dates(worksheet, current_datetime):
     """
