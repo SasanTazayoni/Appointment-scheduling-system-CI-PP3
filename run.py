@@ -1,5 +1,6 @@
 import gspread
 from google.oauth2.service_account import Credentials
+from config import USERNAME, PASSWORD
 import colorama
 from colorama import Fore, Back
 colorama.init(autoreset=True)
@@ -18,9 +19,6 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('appointment_scheduling_system')
 
-# Login variables
-USERNAME = "admin"
-PASSWORD = "password"
 MAX_LOGIN_ATTEMPTS = 3
 LOCKOUT_DURATION = 10
 
