@@ -50,23 +50,56 @@ def update_cell_dates():
     """
     Update worksheet based on login date and time.
     """
+    # Get Monday's date of the current week
+    current_datetime = datetime.datetime.now()
+    days_since_monday = current_datetime.weekday()
+    monday_date = current_datetime - datetime.timedelta(days=days_since_monday)
 
-# login_prompt()
+    # Get Monday's date for the first week on the spreadsheet
+    w1_worksheet_cell_value = SHEET.worksheet("week1").acell("A2").value
 
-# Get Monday's date of the current week
-current_datetime = datetime.datetime.now()
-days_since_monday = current_datetime.weekday()
-monday_date = current_datetime - datetime.timedelta(days=days_since_monday)
+    # Determine the difference in weeks between the 2
+    date_part = w1_worksheet_cell_value.split("(")[1].split(")")[0].strip()
+    cell_date = datetime.datetime.strptime(date_part, "%d-%m-%Y")
+    difference_in_weeks = (monday_date - cell_date).days // 7
 
-# Get Monday's date for the first week on the spreadsheet
-w1_worksheet_cell_value = SHEET.worksheet("week1").acell("A2").value
+    if difference_in_weeks == 0:
+        print(Fore.BLUE + "Worksheets are up to date")
+    elif difference_in_weeks > 12:
+        print(Fore.BLUE + "It seems that you have been away for a long time.\n")
+        print(Fore.YELLOW + "Renewing worksheets...")
 
-# Determine the difference in weeks between the 2
-date_part = w1_worksheet_cell_value.split("(")[1].split(")")[0].strip()
-cell_date = datetime.datetime.strptime(date_part, "%d-%m-%Y")
-difference_in_weeks = (monday_date - cell_date).days // 7
+        for worksheet in SHEET.worksheets():
+            refresh_cells(worksheet)
+            set_cell_dates(worksheet)
 
-print(difference_in_weeks)
+        print(Fore.GREEN + "All worksheets have been updated.")
+    elif difference_in_weeks > 0:
+        print(Fore.YELLOW + "Updating worksheets...")
+
+        for i in range(1, 13):
+            worksheet_title = f"week{i}"
+            worksheet = SHEET.worksheet(worksheet_title)
+            week_number = int(worksheet_title.lstrip("week"))
+            target_week_number = week_number + difference_in_weeks
+
+            # Check if the target week number is within the valid range (1 to 12)
+            if 1 <= target_week_number <= 12:
+                target_worksheet_title = f"week{target_week_number}"
+                target_worksheet = SHEET.worksheet(target_worksheet_title)
+                target_data = target_worksheet.get('B2:Q6')
+                worksheet.update('B2:Q6', target_data)
+                set_cell_dates(worksheet)
+
+                print(f"{worksheet_title} updated from {target_worksheet_title}")
+            else:
+                # If the target week number is not within the valid range, update cells B2:Q6 with 'OPEN'
+                cell_list = worksheet.range('B2:Q6')
+                for cell in cell_list:
+                    cell.value = 'OPEN'
+                worksheet.update_cells(cell_list)
+
+        print(Fore.GREEN + "Worksheets have been updated.")
 
 def set_cell_dates(worksheet):
     """
@@ -108,43 +141,7 @@ def refresh_cells(worksheet):
         cell.value = 'OPEN'
     worksheet.update_cells(cell_list)
 
-if difference_in_weeks == 0:
-    print(Fore.BLUE + "Worksheets are up to date")
-elif difference_in_weeks > 12:
-    print(Fore.BLUE + "It seems that you have been away for a long time.\n")
-    print(Fore.YELLOW + "Renewing worksheets...")
-
-    for worksheet in SHEET.worksheets():
-        refresh_cells(worksheet)
-        set_cell_dates(worksheet)
-
-    print(Fore.GREEN + "All worksheets have been updated.")
-elif difference_in_weeks > 0:
-    print(Fore.YELLOW + "Updating worksheets...")
-
-    for i in range(1, 13):
-        worksheet_title = f"week{i}"
-        worksheet = SHEET.worksheet(worksheet_title)
-        week_number = int(worksheet_title.lstrip("week"))
-        target_week_number = week_number + difference_in_weeks
-
-        # Check if the target week number is within the valid range (1 to 12)
-        if 1 <= target_week_number <= 12:
-            target_worksheet_title = f"week{target_week_number}"
-            target_worksheet = SHEET.worksheet(target_worksheet_title)
-            target_data = target_worksheet.get('B2:Q6')
-            worksheet.update('B2:Q6', target_data)
-            set_cell_dates(worksheet)
-
-            print(f"{worksheet_title} updated from {target_worksheet_title}")
-        else:
-            # If the target week number is not within the valid range, update cells B2:Q6 with 'OPEN'
-            cell_list = worksheet.range('B2:Q6')
-            for cell in cell_list:
-                cell.value = 'OPEN'
-            worksheet.update_cells(cell_list)
-
-    print(Fore.GREEN + "Worksheets have been updated.")
+login_prompt()
 
 def fix_cell_dates():
     """
