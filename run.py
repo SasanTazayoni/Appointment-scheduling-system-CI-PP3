@@ -8,17 +8,20 @@ import datetime
 import time
 import os
 
+# Define the scope for Google Sheets API
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
     "https://www.googleapis.com/auth/drive.file",
     "https://www.googleapis.com/auth/drive"
     ]
 
+# Initialize Google Sheets API credentials
 CREDS = Credentials.from_service_account_file('creds.json')
 SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('appointment_scheduling_system')
 
+# Define maximum login attempts and lockout duration
 MAX_LOGIN_ATTEMPTS = 3
 LOCKOUT_DURATION = 10
 
@@ -33,9 +36,11 @@ def handle_lockout():
     
     try:
         for remaining_lockout_time in range(LOCKOUT_DURATION, 0, -1):
+            # Print lockout message
             print(Fore.RED + f"Maximum login attempts reached. You are now locked out for {remaining_lockout_time} seconds.", end="\r")
             time.sleep(1)
     finally:
+        # Enable keyboard input after lockout
         os.system('stty echo')
     
     login_prompt()
@@ -95,6 +100,7 @@ def update_cell_dates():
 
     difference_in_weeks = get_week_difference(monday_date, w1_worksheet_cell_value)
 
+    # Update worksheets based on the difference in weeks
     if difference_in_weeks == 0:
         print(Fore.BLUE + "Worksheets are up to date")
     elif difference_in_weeks > 12:
@@ -145,8 +151,11 @@ def get_week_difference(monday_date, w1_worksheet_cell_value):
     """
     Determine the difference in weeks between the current week and the spreadsheet's first week.
     """
+    # Extract the date part from the cell value
     date_part = w1_worksheet_cell_value.split("(")[1].split(")")[0].strip()
+    # Convert it to a datetime object
     cell_date = datetime.datetime.strptime(date_part, "%d-%m-%Y")
+    # Calculate the difference in weeks
     difference_in_weeks = (monday_date - cell_date).days // 7
     return difference_in_weeks
 
@@ -185,9 +194,12 @@ def refresh_cells(worksheet):
     """
     Clear all appointment bookings from old dates.
     """
+    # Get a list of cells in the specified range
     cell_list = worksheet.range('B2:Q6')
+    # Set the value of each cell to 'OPEN'
     for cell in cell_list:
         cell.value = 'OPEN'
+    # Update the cells in the worksheet
     worksheet.update_cells(cell_list)
 
 login_prompt()
