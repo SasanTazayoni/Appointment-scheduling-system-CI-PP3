@@ -4,6 +4,7 @@ import colorama
 from colorama import Fore, Back
 colorama.init(autoreset=True)
 import datetime
+import time
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -16,8 +17,11 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('appointment_scheduling_system')
 
+# Login variables
 USERNAME = "admin"
 PASSWORD = "password"
+MAX_LOGIN_ATTEMPTS = 3
+LOCKOUT_DURATION = 60
 
 def login_prompt():
     """
@@ -27,7 +31,10 @@ def login_prompt():
     print(Fore.BLUE + 'Appointment Booking System\n')
     print(Fore.BLUE + 'Please enter the correct login details\n')
 
-    while True:
+    login_attempts = 0
+    locked_out = False
+
+    while login_attempts < MAX_LOGIN_ATTEMPTS and not locked_out:
         login = input("Username: \n")
         
         if not login.strip():
@@ -43,11 +50,25 @@ def login_prompt():
             
             if login == USERNAME and password == PASSWORD:
                 print(Fore.GREEN + "Login successful!\n")
+                login_attempts = 0
                 update_cell_dates()
                 return
             else:
-                print(Fore.RED + "Login failed. Please try again.\n")
+                login_attempts += 1
+                if login_attempts == MAX_LOGIN_ATTEMPTS:
+                    print(Fore.RED + "Login failed.\n")
+                else:
+                    print(Fore.RED + "Login failed. Please try again.\n")
                 break
+
+        if login_attempts >= MAX_LOGIN_ATTEMPTS:
+            locked_out = True
+            remaining_lockout_time = LOCKOUT_DURATION
+            while remaining_lockout_time > 0:
+                print(Fore.RED + f"Maximum login attempts reached. You are now locked out for {remaining_lockout_time - 1} seconds..", end="\r")
+                time.sleep(1)
+                remaining_lockout_time -= 1
+            print()
                 
 def update_cell_dates():
     """
