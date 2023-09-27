@@ -16,13 +16,16 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('appointment_scheduling_system')
 
+USERNAME = "admin"
+PASSWORD = "password"
+
 def login_prompt():
     """
     Prompt the user for a login and a password
     """
 
     print(Fore.BLUE + 'Appointment Booking System\n')
-    print('Please enter the correct login details\n')
+    print(Fore.BLUE + 'Please enter the correct login details\n')
 
     while True:
         login = input("Username: \n")
@@ -38,7 +41,7 @@ def login_prompt():
                 print(Fore.RED + "Password cannot be empty.\n")
                 continue
             
-            if login == "admin" and password == "password":
+            if login == USERNAME and password == PASSWORD:
                 print(Fore.GREEN + "Login successful!\n")
                 update_cell_dates()
                 return
