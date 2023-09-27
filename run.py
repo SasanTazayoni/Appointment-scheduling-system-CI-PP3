@@ -16,10 +16,17 @@ SCOPE = [
     ]
 
 # Initialize Google Sheets API credentials
-CREDS = Credentials.from_service_account_file('creds.json')
-SCOPED_CREDS = CREDS.with_scopes(SCOPE)
-GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
-SHEET = GSPREAD_CLIENT.open('appointment_scheduling_system')
+try:
+    CREDS = Credentials.from_service_account_file('creds.json')
+    SCOPED_CREDS = CREDS.with_scopes(SCOPE)
+    GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
+    SHEET = GSPREAD_CLIENT.open('appointment_scheduling_system')
+except AuthenticationError as auth_error:
+    print(Fore.RED + "Authentication Error: Unable to authenticate with Google Sheets.")
+    print(Fore.RED + f"Details: {str(auth_error)}")
+except Exception as e:
+    print(Fore.RED + "An unexpected error occurred.")
+    print(Fore.RED + f"Details: {str(e)}")
 
 # Define maximum login attempts and lockout duration
 MAX_LOGIN_ATTEMPTS = 3
@@ -37,7 +44,7 @@ def handle_lockout():
     try:
         for remaining_lockout_time in range(LOCKOUT_DURATION, 0, -1):
             # Print lockout message
-            print(Fore.RED + f"Maximum login attempts reached. You are now locked out for {remaining_lockout_time} seconds.", end="\r")
+            print(Fore.RED + f"Maximum login attempts reached. You are now locked out for {remaining_lockout_time} second(s).", end="\r")
             time.sleep(1)
     finally:
         # Enable keyboard input after lockout
