@@ -66,6 +66,7 @@ def login_prompt():
             login()
             break
         elif choice == 'no':
+            print()
             print(Fore.YELLOW + "Exiting the program.")
             exit()
         else:
@@ -227,33 +228,32 @@ def refresh_cells(worksheet):
     # Update the cells in the worksheet
     worksheet.update_cells(cell_list)
 
-login_prompt()
+# login_prompt()
 
-def fix_cell_dates():
+def pick_week():
     """
-    This function is entirely for testing purposes. 
-    The dates of the spreadsheet can be set manually.
+    Ask the user to pick a week from the spreadsheet.
     """
+    week_titles = [f"Week{i}" for i in range(1, 13)]
     
-    print(Fore.YELLOW + 'Setting dates...')
-    worksheet_names = [ "week1", "week2", "week3", "week4", "week5", "week6", "week7", "week8", "week9", "week10", "week11", "week12" ]
-    current_datetime = datetime.datetime.now()
+    print(Fore.BLUE + "Please select a number from 1-12 where Week1 represents the current week:\n")
     
-    for i, worksheet_name in enumerate(worksheet_names):
-        worksheet = SHEET.worksheet(worksheet_name)
+    for i, title in enumerate(week_titles, start=1):
+        if i == len(week_titles):
+            print(f"{Fore.WHITE}'{i}' {Fore.BLUE}--> {Fore.BLUE}{title}")
+        else:
+            print(f"{Fore.WHITE}'{i}' {Fore.BLUE}--> {Fore.BLUE}{title}", end=f"{Fore.BLUE}, ")
+    
+    while True:
+        try:
+            print()
+            choice = int(input("Enter the number of the week you want to select: "))
+            if 1 <= choice <= len(week_titles):
+                selected_week_title = week_titles[choice - 1]
+                return selected_week_title
+            else:
+                print(Fore.RED + "Invalid week number. Please enter a number between 1 and 12.")
+        except ValueError:
+            print(Fore.RED + "Invalid input. Please enter a number between 1 and 12.")
 
-        days_since_monday = (current_datetime.weekday() - 0) % 7
-        start_date = current_datetime - datetime.timedelta(days=days_since_monday) - datetime.timedelta(weeks=2) + datetime.timedelta(weeks=i)
-
-        dates = [start_date + datetime.timedelta(days=j) for j in range(5)]
-
-        formatted_dates = [f"{date.strftime('%A')} ({date.strftime('%d-%m-%Y')})" for date in dates]
-
-        cell_values = worksheet.range("A2:A6")
-
-        for j, date in enumerate(formatted_dates):
-            cell_values[j].value = date
-
-        worksheet.update_cells(cell_values)
-
-# fix_cell_dates()
+pick_week()
