@@ -89,14 +89,14 @@ def login():
     print(Fore.BLUE + 'Please enter the correct login details\n')
 
     while login_attempts < MAX_LOGIN_ATTEMPTS and not locked_out:
-        login = input("Username: \n")
+        login = input(Fore.BLUE + "Username: \n")
         
         if not login.strip():
             print(Fore.RED + "Username cannot be empty.\n")
             continue
         
         while True:
-            password = input("Password: \n")
+            password = input(Fore.BLUE + "Password: \n")
 
             if not password.strip():
                 print(Fore.RED + "Password cannot be empty.\n")
@@ -167,6 +167,9 @@ def update_cell_dates():
 
         print(Fore.GREEN + "Worksheets have been updated.")
 
+    # Prompt the user to select a week
+    pick_week()
+
 def get_monday_date(current_datetime):
     """
     Get Monday's date of the current week.
@@ -235,37 +238,43 @@ def pick_week():
     Ask the user to pick a week from the spreadsheet or log out.
     """
     # Generate week titles from Week1 to Week12
-    week_titles = [f"Week{i}" for i in range(1, 13)]
+    week_titles = [f"week{i}" for i in range(1, 13)]
 
     while True:
-        print(Fore.BLUE + "Please select a number from 1-12 where Week1 represents the current week:")
-        print(Fore.BLUE + "Enter '0' to log out.\n")
+        print(Fore.BLUE + "Please select a number from 1-12 where Week1 represents the current week or enter '0' to log out:\n")
     
         # Display week options
         for i, title in enumerate(week_titles, start=1):
-            print(f"{Fore.WHITE}'{i}' {Fore.BLUE}--> {Fore.BLUE}{title}", end=f"{Fore.BLUE}, ")
+            print(f"{Fore.BLUE}'{i}' {Fore.WHITE}--> {Fore.WHITE}{title}", end=f"{Fore.WHITE}, ")
 
         # Display the log out option 
-        print(f"{Fore.WHITE}'0' {Fore.BLUE}--> {Fore.BLUE}Log out")
+        print(f"{Fore.BLUE}'0' {Fore.WHITE}--> {Fore.WHITE}Log out")
         print()
         
         try:
-            choice = input("Enter the number of the week you want to select (or '0' to log out): ")
+            choice = input(Fore.BLUE + "Enter the number of the week you want to select (or '0' to log out): ")
             if choice == '0':
-                login()  # Log out and trigger the login function
+                login_prompt()  # Log out and trigger the login function
             else:
                 choice = int(choice)
                 if 1 <= choice <= len(week_titles):
-                    selected_week_title = week_titles[choice - 1]
-                    pick_day(selected_week_title)  # Call the pick_day function with the selected week
+                    selected_week = week_titles[choice - 1]
+                    get_dates_from_worksheet(selected_week)  # Call the function with the selected week to find the days of the week
+                    break
                 else:
-                    print(Fore.RED + "Invalid week number. Please enter a number between 0 and 12.")
+                    print(Fore.RED + "Appointments in the past and appointments beyond 12 weeks in the future are not accessible. Please enter a number between 0 and 12.")
         except ValueError:
             print(Fore.RED + "Invalid input. Please enter a number between 0 and 12.")
 
-def pick_day(selected_week):
+def get_dates_from_worksheet(selected_week):
     """
-    Ask the user to pick a day of the week from the selected week in the spreadsheet.
+    Get the dates from cells A2 to A6 in the selected worksheet.
     """
+    print(Fore.YELLOW + 'Retrieving dates...')
+    worksheet = SHEET.worksheet(selected_week)
+    date_values = worksheet.range("A2:A6")
+    dates = [date.value for date in date_values]
+    pick_day(dates)
 
 # login_prompt()
+pick_week()
