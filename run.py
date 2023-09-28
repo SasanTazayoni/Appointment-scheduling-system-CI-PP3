@@ -292,9 +292,11 @@ def pick_day(dates):
             choice = input("Enter the number of the date you want to select (or '0' to exit):\n")
             choice = int(choice)
 
+            # Check if the user wants to return to week selection
             if choice == 0:
                 pick_week()  # Return to week selection
                 break
+            # Check if the user selected a valid date
             elif 1 <= choice <= len(dates):
                 selected_date = dates[choice - 1]
                 print(Fore.GREEN + f"You selected: {selected_date}")
@@ -303,6 +305,8 @@ def pick_day(dates):
                 print(Fore.RED + "Invalid choice. Please enter a valid number.")
         except ValueError:
             print(Fore.RED + "Invalid input. Please enter a number or '0' to exit.")
+
+
 
 # login_prompt()
 pick_week()
