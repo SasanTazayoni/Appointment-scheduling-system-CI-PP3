@@ -82,6 +82,7 @@ def login():
     if locked_out:
         locked_out = handle_lockout()
 
+    print()
     print(Fore.BLUE + 'Please enter the correct login details\n')
 
     while login_attempts < MAX_LOGIN_ATTEMPTS and not locked_out:
