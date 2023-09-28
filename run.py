@@ -54,10 +54,27 @@ def handle_lockout():
 
 def login_prompt():
     """
-    Prompt the user for a login and a password
+    Ask whether the user would like to log in and present the name of the application
     """
     print()
     print(Fore.BLUE + 'Appointment Booking System\n')
+
+    while True:
+        choice = input(Fore.BLUE + 'Would you like to log in? (yes/no): ').strip().lower()
+
+        if choice == 'yes':
+            login()
+            break
+        elif choice == 'no':
+            print(Fore.YELLOW + "Exiting the program.")
+            exit()
+        else:
+            print(Fore.RED + "Invalid choice. Please enter 'yes' or 'no'.\n")
+
+def login():
+    """
+    Ask the user for a login and a password
+    """
 
     login_attempts = 0
     locked_out = False
