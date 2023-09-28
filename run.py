@@ -69,6 +69,8 @@ def login_prompt():
             print()
             print(Fore.YELLOW + "Exiting the program.")
             exit()
+        elif not choice:
+            print(Fore.RED + "The input cannot be empty. Please enter 'yes' or 'no'.\n")
         else:
             print(Fore.RED + "Invalid choice. Please enter 'yes' or 'no'.\n")
 
