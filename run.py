@@ -96,7 +96,7 @@ def login():
             continue
         
         while True:
-            password = input(Fore.BLUE + "Password: \n")
+            password = input("Password: \n")
 
             if not password.strip():
                 print(Fore.RED + "Password cannot be empty.\n")
@@ -274,9 +274,9 @@ def get_dates_from_worksheet(selected_week):
     worksheet = SHEET.worksheet(selected_week)
     date_values = worksheet.range("A2:A6")
     dates = [date.value for date in date_values]
-    pick_day(dates)
+    pick_day(dates, selected_week)
 
-def pick_day(dates):
+def pick_day(dates, selected_week):
     """
     Ask the user to pick a day of the week from the selected week in the spreadsheet.
     """
@@ -300,18 +300,57 @@ def pick_day(dates):
             elif 1 <= choice <= len(dates):
                 selected_date = dates[choice - 1]
                 print(Fore.GREEN + f"You selected: {selected_date}")
-                display_appointment_slots(selected_date)
+                display_appointment_slots(selected_date, selected_week)
                 break
             else:
                 print(Fore.RED + "Invalid choice. Please enter a valid number.")
         except ValueError:
             print(Fore.RED + "Invalid input. Please enter a number or '0' to exit.")
 
-def display_appointment_slots(selected_date):
+def display_appointment_slots(selected_date, selected_week):
     """
     Display appointment slots for the selected day in the selected week.
     """
     print(Fore.YELLOW + f"Retrieving appointment slots...")
-    print(selected_date)
+    
+    # Extract the day name from the selected_date
+    selected_day = selected_date.split(" ")[0]
+    
+    # Map day names to column indices (Monday: 2, Tuesday: 3, Wednesday: 4, Thursday: 5, Friday: 6)
+    day_to_column = {
+        "Monday": 2,
+        "Tuesday": 3,
+        "Wednesday": 4,
+        "Thursday": 5,
+        "Friday": 6
+    }
 
-login_prompt()
+    # Get the column index for the selected day
+    column_index = day_to_column.get(selected_day)
+
+    # Get the selected worksheet
+    worksheet = SHEET.worksheet(selected_week)
+
+    # Get appointment slots for the selected day (cells Bn to Qn)
+    slots = worksheet.range(f"B{column_index}:Q{column_index}")
+
+    # Initialize a list to store the available slots
+    available_slots = []
+
+    # Iterate through the appointment slots and check availability
+    for slot in slots:
+        if slot.value == "OPEN":
+            # Convert the column index to a time slot
+            time_slot = f"{8 + (slot.col - 2)}:00 AM"
+            available_slots.append(time_slot)
+
+    if available_slots:
+        print(Fore.GREEN + f"Available appointment slots for {selected_day} in {selected_week}:")
+        for slot in available_slots:
+            print(Fore.BLUE + slot)
+    else:
+        print(Fore.RED + "No available appointment slots for this day.")
+
+
+# login_prompt()
+pick_week()
