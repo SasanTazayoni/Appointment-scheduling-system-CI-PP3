@@ -60,7 +60,7 @@ def login_prompt():
     print(Fore.BLUE + 'Appointment Booking System\n')
 
     while True:
-        choice = input(Fore.BLUE + 'Would you like to log in? (yes/no): ').strip().lower()
+        choice = input(Fore.BLUE + 'Would you like to log in? (yes/no): \n').strip().lower()
 
         if choice == 'yes':
             login()
@@ -232,28 +232,32 @@ def refresh_cells(worksheet):
 
 def pick_week():
     """
-    Ask the user to pick a week from the spreadsheet.
+    Ask the user to pick a week from the spreadsheet or log out.
     """
     week_titles = [f"Week{i}" for i in range(1, 13)]
-    
-    print(Fore.BLUE + "Please select a number from 1-12 where Week1 represents the current week:\n")
-    
-    for i, title in enumerate(week_titles, start=1):
-        if i == len(week_titles):
-            print(f"{Fore.WHITE}'{i}' {Fore.BLUE}--> {Fore.BLUE}{title}")
-        else:
-            print(f"{Fore.WHITE}'{i}' {Fore.BLUE}--> {Fore.BLUE}{title}", end=f"{Fore.BLUE}, ")
-    
+
     while True:
+        print(Fore.BLUE + "Please select a number from 1-12 where Week1 represents the current week:")
+        print(Fore.BLUE + "Enter '0' to log out.\n")
+    
+        for i, title in enumerate(week_titles, start=1):
+            print(f"{Fore.WHITE}'{i}' {Fore.BLUE}--> {Fore.BLUE}{title}", end=f"{Fore.BLUE}, ")
+        
+        print(f"{Fore.WHITE}'0' {Fore.BLUE}--> {Fore.BLUE}Log out")
+        print()
+        
         try:
-            print()
-            choice = int(input("Enter the number of the week you want to select: "))
-            if 1 <= choice <= len(week_titles):
-                selected_week_title = week_titles[choice - 1]
-                return selected_week_title
+            choice = input("Enter the number of the week you want to select (or '0' to log out): ")
+            if choice == '0':
+                login()  # Log out and trigger the login function
             else:
-                print(Fore.RED + "Invalid week number. Please enter a number between 1 and 12.")
+                choice = int(choice)
+                if 1 <= choice <= len(week_titles):
+                    selected_week_title = week_titles[choice - 1]
+                    return selected_week_title
+                else:
+                    print(Fore.RED + "Invalid week number. Please enter a number between 0 and 12.")
         except ValueError:
-            print(Fore.RED + "Invalid input. Please enter a number between 1 and 12.")
+            print(Fore.RED + "Invalid input. Please enter a number between 0 and 12.")
 
 pick_week()
