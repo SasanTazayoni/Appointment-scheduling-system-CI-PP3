@@ -60,7 +60,7 @@ def login_prompt():
     print(Fore.BLUE + 'Appointment Booking System\n')
 
     while True:
-        choice = input(Fore.BLUE + 'Would you like to log in? (yes/no): \n').strip().lower()
+        choice = input('Would you like to log in? (yes/no): \n').strip().lower()
 
         if choice == 'yes':
             login()
@@ -89,10 +89,10 @@ def login():
     print(Fore.BLUE + 'Please enter the correct login details\n')
 
     while login_attempts < MAX_LOGIN_ATTEMPTS and not locked_out:
-        login = input(Fore.BLUE + "Username: \n")
+        login = input("Username: \n")
         
         if not login.strip():
-            print(Fore.RED + "Username cannot be empty.\n")
+            print("Username cannot be empty.\n")
             continue
         
         while True:
@@ -252,7 +252,7 @@ def pick_week():
         print()
         
         try:
-            choice = input(Fore.BLUE + "Enter the number of the week you want to select (or '0' to log out): ")
+            choice = input("Enter the number of the week you want to select (or '0' to log out): ")
             if choice == '0':
                 login_prompt()  # Log out and trigger the login function
             else:
@@ -275,6 +275,34 @@ def get_dates_from_worksheet(selected_week):
     date_values = worksheet.range("A2:A6")
     dates = [date.value for date in date_values]
     pick_day(dates)
+
+def pick_day(dates):
+    """
+    Ask the user to pick a day of the week from the selected week in the spreadsheet.
+    """
+    # Print the dates and options
+    start_date = dates[0]
+    print(Fore.GREEN + f"Retrieved dates for week beginning on '{start_date}':")
+    for i, date in enumerate(dates, start=1):
+        print(f"{Fore.BLUE}[{i}] {Fore.WHITE}{date}")
+
+    # Ask the user to pick a date or enter '0' to exit
+    while True:
+        try:
+            choice = input("Enter the number of the date you want to select (or '0' to exit):\n")
+            choice = int(choice)
+
+            if choice == 0:
+                pick_week()  # Return to week selection
+                break
+            elif 1 <= choice <= len(dates):
+                selected_date = dates[choice - 1]
+                print(Fore.GREEN + f"You selected: {selected_date}")
+                return  # Exit the function
+            else:
+                print(Fore.RED + "Invalid choice. Please enter a valid number.")
+        except ValueError:
+            print(Fore.RED + "Invalid input. Please enter a number or '0' to exit.")
 
 # login_prompt()
 pick_week()
