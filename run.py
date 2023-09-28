@@ -300,13 +300,18 @@ def pick_day(dates):
             elif 1 <= choice <= len(dates):
                 selected_date = dates[choice - 1]
                 print(Fore.GREEN + f"You selected: {selected_date}")
-                return  # Exit the function
+                display_appointment_slots(selected_date)
+                break
             else:
                 print(Fore.RED + "Invalid choice. Please enter a valid number.")
         except ValueError:
             print(Fore.RED + "Invalid input. Please enter a number or '0' to exit.")
 
+def display_appointment_slots(selected_date):
+    """
+    Display appointment slots for the selected day in the selected week.
+    """
+    print(Fore.YELLOW + f"Retrieving appointment slots...")
+    print(selected_date)
 
-
-# login_prompt()
-pick_week()
+login_prompt()
