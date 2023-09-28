@@ -230,21 +230,22 @@ def refresh_cells(worksheet):
     # Update the cells in the worksheet
     worksheet.update_cells(cell_list)
 
-# login_prompt()
-
 def pick_week():
     """
     Ask the user to pick a week from the spreadsheet or log out.
     """
+    # Generate week titles from Week1 to Week12
     week_titles = [f"Week{i}" for i in range(1, 13)]
 
     while True:
         print(Fore.BLUE + "Please select a number from 1-12 where Week1 represents the current week:")
         print(Fore.BLUE + "Enter '0' to log out.\n")
     
+        # Display week options
         for i, title in enumerate(week_titles, start=1):
             print(f"{Fore.WHITE}'{i}' {Fore.BLUE}--> {Fore.BLUE}{title}", end=f"{Fore.BLUE}, ")
-        
+
+        # Display the log out option 
         print(f"{Fore.WHITE}'0' {Fore.BLUE}--> {Fore.BLUE}Log out")
         print()
         
@@ -256,10 +257,15 @@ def pick_week():
                 choice = int(choice)
                 if 1 <= choice <= len(week_titles):
                     selected_week_title = week_titles[choice - 1]
-                    return selected_week_title
+                    pick_day(selected_week_title)  # Call the pick_day function with the selected week
                 else:
                     print(Fore.RED + "Invalid week number. Please enter a number between 0 and 12.")
         except ValueError:
             print(Fore.RED + "Invalid input. Please enter a number between 0 and 12.")
 
-pick_week()
+def pick_day(selected_week):
+    """
+    Ask the user to pick a day of the week from the selected week in the spreadsheet.
+    """
+
+# login_prompt()
