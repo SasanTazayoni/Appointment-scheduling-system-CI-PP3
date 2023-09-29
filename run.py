@@ -92,7 +92,7 @@ def login():
         login = input("Username: \n")
         
         if not login.strip():
-            print("Username cannot be empty.\n")
+            print(Fore.RED + "Username cannot be empty.\n")
             continue
         
         while True:
@@ -103,6 +103,7 @@ def login():
                 continue
             
             if login == USERNAME and password == PASSWORD:
+                print()
                 print(Fore.GREEN + "Login successful!\n")
                 login_attempts = 0
                 update_cell_dates()
@@ -241,7 +242,7 @@ def pick_week():
     week_titles = [f"week{i}" for i in range(1, 13)]
 
     while True:
-        print(Fore.BLUE + "Please select a number from 1-12 where Week1 represents the current week or enter '0' to log out:\n")
+        print(Fore.BLUE + "Please select a number from 1-12 where week1 represents the current week or enter '0' to log out:\n")
     
         # Display week options
         for i, title in enumerate(week_titles, start=1):
@@ -341,7 +342,7 @@ def display_appointment_slots(selected_date, selected_week):
     for slot in slots:
         if slot.value == "OPEN":
             # Convert the column index to a time slot
-            time_slot = f"{8 + (slot.col - 2)}:00 AM"
+            time_slot = f"{9 + (slot.col - 2)}:00 AM"
             available_slots.append(time_slot)
 
     if available_slots:
