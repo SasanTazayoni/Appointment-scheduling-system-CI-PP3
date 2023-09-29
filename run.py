@@ -308,12 +308,10 @@ def pick_day(dates, selected_week):
         except ValueError:
             print(Fore.RED + "Invalid input. Please enter a number or '0' to exit.")
 
-def display_appointment_slots(selected_date, selected_week):
+def retrieve_appointment_slots(selected_date, selected_week):
     """
-    Display appointment slots for the selected day in the selected week.
+    Retrieve appointment slots for the selected day in the selected week.
     """
-    print(Fore.YELLOW + f"Retrieving appointment slots...")
-    
     # Extract the day name from the selected_date
     selected_day = selected_date.split(" ")[0]
     
@@ -351,6 +349,16 @@ def display_appointment_slots(selected_date, selected_week):
             all_slots.append(f"{time_slot} {Fore.BLUE}BOOKED{Fore.RESET}")
         else:
             all_slots.append(f"{time_slot} {Fore.RED}BLOCKED{Fore.RESET}")
+
+    return all_slots
+
+def display_appointment_slots(selected_date, selected_week):
+    """
+    Display appointment slots for the selected day in the selected week.
+    """
+    print(Fore.YELLOW + f"Retrieving appointment slots...")
+    
+    all_slots = retrieve_appointment_slots(selected_date, selected_week)
 
     print()
     print(Fore.GREEN + f"Retrieved appointment slots for {selected_date}:\n")
