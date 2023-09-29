@@ -16,17 +16,11 @@ SCOPE = [
     ]
 
 # Initialize Google Sheets API credentials
-try:
-    CREDS = Credentials.from_service_account_file('creds.json')
-    SCOPED_CREDS = CREDS.with_scopes(SCOPE)
-    GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
-    SHEET = GSPREAD_CLIENT.open('appointment_scheduling_system')
-except AuthenticationError as auth_error:
-    print(Fore.RED + "Authentication Error: Unable to authenticate with Google Sheets.")
-    print(Fore.RED + f"Details: {str(auth_error)}")
-except Exception as e:
-    print(Fore.RED + "An unexpected error occurred.")
-    print(Fore.RED + f"Details: {str(e)}")
+CREDS = Credentials.from_service_account_file('creds.json')
+SCOPED_CREDS = CREDS.with_scopes(SCOPE)
+GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
+SHEET = GSPREAD_CLIENT.open('appointment_scheduling_system')
+
 
 # Define maximum login attempts and lockout duration
 MAX_LOGIN_ATTEMPTS = 3
@@ -360,11 +354,44 @@ def display_appointment_slots(selected_date, selected_week):
     
     all_slots = retrieve_appointment_slots(selected_date, selected_week)
 
+    # Present visual display for time slots
     print()
     print(Fore.GREEN + f"Retrieved appointment slots for {Fore.BLUE}{selected_date}:\n")
     appointment_string = "  ".join(all_slots)
     print(appointment_string)
     print()
+    select_appointment_slot(all_slots, selected_date, selected_week)
+
+def select_appointment_slot(all_slots, selected_date, selected_week):
+    """
+    Prompt the user to select a single time slot or a time range.
+    """
+    time_slots = [slot.split(' ')[0] for slot in all_slots]
+
+    while True:
+        try:
+            choice = input("Enter the desired appointment time or range (e.g., '09:00' or '10:30-11:30'): \n")
+
+            # Split the user input by '-' to check for a range
+            if '-' in choice:
+                start_time, end_time = choice.split('-')
+
+                # Check if both start_time and end_time are in the time_slots
+                if start_time in time_slots and end_time in time_slots:
+                    selected_time_range = f"{start_time}-{end_time}"
+                    print(Fore.GREEN + f"You selected: {selected_time_range}")
+                    break
+                else:
+                    print(Fore.RED + "Invalid time range. Please enter valid time slots.")
+            else:
+                # Check if the single choice is in time_slots
+                if choice in time_slots:
+                    print(Fore.GREEN + f"You selected: {choice}")
+                    break
+                else:
+                    print(Fore.RED + "Invalid time slot. Please enter a valid time slot.")
+        except ValueError:
+            print(Fore.RED + "Invalid input. Please enter a valid appointment time or range.")
 
 # login_prompt()
 pick_week()
