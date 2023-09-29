@@ -242,14 +242,14 @@ def pick_week():
     week_titles = [f"week{i}" for i in range(1, 13)]
 
     while True:
-        print(Fore.BLUE + "Please select a number from 1-12 where week1 represents the current week or enter '0' to log out:\n")
+        print(Fore.BLUE + "Please select a number between 1 to 12 where week1 represents the current week or enter '0' to log out:\n")
     
         # Display week options
         for i, title in enumerate(week_titles, start=1):
-            print(f"{Fore.BLUE}'{i}' {Fore.WHITE}--> {Fore.WHITE}{title}", end=f"{Fore.WHITE}, ")
+            print(f"{Fore.BLUE}[{i}] {Fore.WHITE}{title}", end=f"{Fore.WHITE}, ")
 
         # Display the log out option 
-        print(f"{Fore.BLUE}'0' {Fore.WHITE}--> {Fore.WHITE}Log out")
+        print(f"{Fore.BLUE}[0] {Fore.WHITE}Log out")
         print()
         
         try:
@@ -335,23 +335,28 @@ def display_appointment_slots(selected_date, selected_week):
     # Get appointment slots for the selected day (cells Bn to Qn)
     slots = worksheet.range(f"B{column_index}:Q{column_index}")
 
+    # Get the time slots from row 2 (A2:Q2)
+    time_slots_range = worksheet.range(f"B1:Q1")
+    time_slots = [cell.value for cell in time_slots_range]
+
     # Initialize a list to store the available slots
-    available_slots = []
+    all_slots = []
 
     # Iterate through the appointment slots and check availability
-    for slot in slots:
+    for i, slot in enumerate(slots):
+        time_slot = time_slots[i]
         if slot.value == "OPEN":
-            # Convert the column index to a time slot
-            time_slot = f"{9 + (slot.col - 2)}:00 AM"
-            available_slots.append(time_slot)
+            all_slots.append(f"{time_slot} {Fore.GREEN}OPEN{Fore.RESET}")
+        elif slot.value == "BOOKED":
+            all_slots.append(f"{time_slot} {Fore.BLUE}BOOKED{Fore.RESET}")
+        else:
+            all_slots.append(f"{time_slot} {Fore.RED}BLOCKED{Fore.RESET}")
 
-    if available_slots:
-        print(Fore.GREEN + f"Available appointment slots for {selected_day} in {selected_week}:")
-        for slot in available_slots:
-            print(Fore.BLUE + slot)
-    else:
-        print(Fore.RED + "No available appointment slots for this day.")
-
+    print()
+    print(Fore.GREEN + f"Retrieved appointment slots for {selected_date}:\n")
+    appointment_string = "  ".join(all_slots)
+    print(appointment_string)
+    print()
 
 # login_prompt()
 pick_week()
