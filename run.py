@@ -324,27 +324,27 @@ def retrieve_appointment_slots(selected_date, selected_week):
     # Get the selected worksheet
     worksheet = SHEET.worksheet(selected_week)
 
-    # Get appointment slots for the selected day (cells Bn to Qn)
+    # Get appointment slots for the selected day
     slots = worksheet.range(f"B{column_index}:Q{column_index}")
 
     # Get the time slots from row 2 (A2:Q2)
     time_slots_range = worksheet.range(f"B1:Q1")
     time_slots = [cell.value for cell in time_slots_range]
 
-    # Initialize a list to store the available slots
-    all_slots = []
+    # Create a dictionary to store time slots and their statuses
+    time_slot_status = {}
 
     # Iterate through the appointment slots and check availability
     for i, slot in enumerate(slots):
         time_slot = time_slots[i]
         if slot.value == "OPEN":
-            all_slots.append(f"{time_slot} {Fore.GREEN}OPEN{Fore.RESET}")
+            time_slot_status[time_slot] = "OPEN"
         elif slot.value == "BOOKED":
-            all_slots.append(f"{time_slot} {Fore.BLUE}BOOKED{Fore.RESET}")
+            time_slot_status[time_slot] = "BOOKED"
         else:
-            all_slots.append(f"{time_slot} {Fore.RED}BLOCKED{Fore.RESET}")
+            time_slot_status[time_slot] = "BLOCKED"
 
-    return all_slots
+    return time_slot_status
 
 def display_appointment_slots(selected_date, selected_week):
     """
@@ -357,8 +357,17 @@ def display_appointment_slots(selected_date, selected_week):
     # Present visual display for time slots
     print()
     print(Fore.GREEN + f"Retrieved appointment slots for {Fore.BLUE}{selected_date}:\n")
-    appointment_string = "  ".join(all_slots)
-    print(appointment_string)
+
+    color_codes = {
+        "BLOCKED": Fore.RED,
+        "BOOKED": Fore.BLUE,
+        "OPEN": Fore.GREEN
+    }
+    
+    # Iterate through the dictionary and format the slots
+    formatted_slots = " ".join([f"{time_slot} {color_codes[status]}{status} {Fore.RESET}" for time_slot, status in all_slots.items()])
+    print(formatted_slots)
+
     print()
     select_appointment_slot(all_slots, selected_date, selected_week)
 
@@ -366,7 +375,6 @@ def select_appointment_slot(all_slots, selected_date, selected_week):
     """
     Prompt the user to select a single time slot or a time range.
     """
-    time_slots = [slot.split(' ')[0] for slot in all_slots]
 
     while True:
         try:
