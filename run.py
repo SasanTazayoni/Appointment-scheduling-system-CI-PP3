@@ -361,7 +361,7 @@ def display_appointment_slots(selected_date, selected_week):
     all_slots = retrieve_appointment_slots(selected_date, selected_week)
 
     print()
-    print(Fore.GREEN + f"Retrieved appointment slots for {selected_date}:\n")
+    print(Fore.GREEN + f"Retrieved appointment slots for {Fore.BLUE}{selected_date}:\n")
     appointment_string = "  ".join(all_slots)
     print(appointment_string)
     print()
