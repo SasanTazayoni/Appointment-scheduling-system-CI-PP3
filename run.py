@@ -281,10 +281,10 @@ def pick_day(dates, selected_week):
     for i, date in enumerate(dates, start=1):
         print(f"{Fore.BLUE}[{i}] {Fore.WHITE}{date}")
 
-    # Ask the user to pick a date or enter '0' to exit
+    # Ask the user to pick a date or enter '0' to repick week
     while True:
         try:
-            choice = input("Enter the number of the date you want to select (or '0' to exit):\n")
+            choice = input("Enter the number of the date you want to select (or '0' to repick week):\n")
             choice = int(choice)
 
             # Check if the user wants to return to week selection
@@ -300,7 +300,7 @@ def pick_day(dates, selected_week):
             else:
                 print(Fore.RED + "Invalid choice. Please enter a valid number.")
         except ValueError:
-            print(Fore.RED + "Invalid input. Please enter a number or '0' to exit.")
+            print(Fore.RED + "Invalid input. Please enter a number or '0' to repick day.")
 
 def retrieve_appointment_slots(selected_date, selected_week):
     """
@@ -370,7 +370,16 @@ def select_appointment_slot(all_slots, selected_date, selected_week):
 
     while True:
         try:
-            choice = input("Enter the desired appointment time or range (e.g., '09:00' or '10:30-11:30'): \n")
+            choice = input("Enter the desired appointment time or range (e.g. '09:00' or '10:30-11:30'),'cancel' to return to date selection or 'logout' to log out: \n")
+
+            if choice.lower() == 'cancel':
+                print(Fore.YELLOW + 'Returning to previous menu...')
+                get_dates_from_worksheet(selected_week)  # Return to date selection
+                return
+            elif choice.lower() == 'logout':
+                print(Fore.YELLOW + 'Logging out...')
+                login_prompt()  # Log out and trigger the login function
+                return
 
             # Split the user input by '-' to check for a range
             if '-' in choice:
