@@ -404,11 +404,32 @@ def select_appointment_slot(all_slots, selected_date, selected_week):
                 # Check if the single choice is valid
                 if choice in all_slots:
                     print(Fore.GREEN + f"You selected: {choice}")
+                    retrieve_appointment_details(selected_week, selected_date, choice)
                     break
                 else:
                     print(Fore.RED + "Invalid time slot. Please enter a valid time slot.")
         except ValueError:
             print(Fore.RED + "Invalid input. Please enter a valid appointment time or range.")
+
+def retrieve_appointment_details(selected_week, selected_date, selected_time):
+    """
+    Retrieve the appointment details from the selected cell in the worksheet.
+    """
+    # Access the worksheet for the selected week
+    worksheet = SHEET.worksheet(selected_week)
+
+    # Find the cell corresponding to the selected_date in column A (A2:A6)
+    date_cells = worksheet.range("A2:A6")
+    date_cell = next((cell for cell in date_cells if cell.value == selected_date), None)
+
+    # Find the cell corresponding to the selected_time in row 1 (B1:Q1)
+    time_cells = worksheet.range("B1:Q1")
+    time_cell = next((cell for cell in time_cells if cell.value == selected_time), None)
+
+    # Access the cell using row and column values and print its value
+    appointment_details = worksheet.cell(date_cell.row, time_cell.col).value
+
+    handle_appointment_action(appointment_details)
 
 # login_prompt()
 pick_week()
