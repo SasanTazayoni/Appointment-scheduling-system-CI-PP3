@@ -440,13 +440,25 @@ def handle_appointment_action(appointment_details):
             print(Fore.BLUE + f"This is an {Fore.GREEN}OPEN {Fore.BLUE}slot.")
             action = input("Enter '1' to book, '2' to block the slot or '3' cancel the action \n")
             if action == "1":
-                # Implement booking logic here
-                print(Fore.GREEN + f"The slot is now {Fore.BLUE}BOOKED.")
-                break
+                # Ask for confirmation
+                confirmed = get_confirmation()
+                if confirmed:
+                    # Implement appointment booking logic here
+                    print(Fore.GREEN + f"The appointment slot is now {Fore.BLUE}BOOKED.")
+                    break
+                else:
+                    print(Fore.YELLOW + "Returning to previous menu...")
+                    continue
             elif action == "2":
-                # Implement blocking logic here
-                print(Fore.GREEN + f"The slot is now {Fore.RED}BLOCKED.")
-                break
+                # Ask for confirmation
+                confirmed = get_confirmation()
+                if confirmed:
+                    # Implement slot blocking logic here
+                    print(Fore.GREEN + f"The slot is now {Fore.RED}BLOCKED.")
+                    break
+                else:
+                    print(Fore.YELLOW + "Returning to previous menu...")
+                    continue
             elif action == "3":
                 print(Fore.YELLOW + "Action cancelled.")
                 break
@@ -457,9 +469,15 @@ def handle_appointment_action(appointment_details):
             print(Fore.BLUE + "This is a BOOKED slot.")
             action = input("Enter '1' to cancel the booking or '2' to cancel the action \n")
             if action == "1":
-                # Implement appointment cancellation logic here
-                print(Fore.GREEN + "The appointment was cancelled and the slot is now OPEN.")
-                break
+                # Ask for confirmation
+                confirmed = get_confirmation()
+                if confirmed:
+                    # Implement appointment cancellation logic here
+                    print(Fore.GREEN + "The appointment was cancelled and the slot is now OPEN.")
+                    break
+                else:
+                    print(Fore.YELLOW + "Returning to previous menu...")
+                    continue
             elif action == "2":
                 print(Fore.YELLOW + "Action cancelled.")
                 break
@@ -490,7 +508,7 @@ def get_confirmation():
     Ask the user for confirmation and return True if 'yes' and False if 'no'.
     """
     while True:
-        confirm = input("Do you wish to confirm? (yes/no) \n").lower()
+        confirm = input("Do you wish to confirm this change? (yes/no) \n").lower()
         if confirm == "yes":
             return True
         elif confirm == "no":
@@ -501,5 +519,5 @@ def get_confirmation():
 # login_prompt()
 selected_week = "week4"
 selected_date = "Friday (20-10-2023)"
-selected_time = "11:00"
+selected_time = "10:30"
 retrieve_appointment_details(selected_week, selected_date, selected_time)
