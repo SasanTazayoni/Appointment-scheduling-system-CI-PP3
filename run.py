@@ -393,16 +393,16 @@ def select_appointment_slot(all_slots, selected_date, selected_week):
             if '-' in choice:
                 start_time, end_time = choice.split('-')
 
-                # Check if both start_time and end_time are in the time_slots
-                if start_time in time_slots and end_time in time_slots:
+                # Check if both start_time and end_time are valid
+                if start_time in all_slots and end_time in all_slots:
                     selected_time_range = f"{start_time}-{end_time}"
                     print(Fore.GREEN + f"You selected: {selected_time_range}")
                     break
                 else:
                     print(Fore.RED + "Invalid time range. Please enter valid time slots.")
             else:
-                # Check if the single choice is in time_slots
-                if choice in time_slots:
+                # Check if the single choice is valid
+                if choice in all_slots:
                     print(Fore.GREEN + f"You selected: {choice}")
                     break
                 else:
