@@ -369,9 +369,9 @@ def display_appointment_slots(selected_date, selected_week):
     print(formatted_slots)
 
     print()
-    select_appointment_slot(all_slots, selected_date, selected_week)
+    select_appointment_slots(all_slots, selected_date, selected_week)
 
-def select_appointment_slot(all_slots, selected_date, selected_week):
+def select_appointment_slots(all_slots, selected_date, selected_week):
     """
     Prompt the user to select a single time slot or a time range.
     """
@@ -404,14 +404,14 @@ def select_appointment_slot(all_slots, selected_date, selected_week):
                 # Check if the single choice is valid
                 if choice in all_slots:
                     print(Fore.GREEN + f"You selected: {choice}")
-                    update_appointment_details(selected_week, selected_date, choice)
+                    update_appointment_details(all_slots, selected_date, selected_week, choice)
                     break
                 else:
                     print(Fore.RED + "Invalid time slot. Please enter a valid time slot.")
         except ValueError:
             print(Fore.RED + "Invalid input. Please enter a valid appointment time or range.")
 
-def update_appointment_details(selected_week, selected_date, selected_time):
+def update_appointment_details(all_slots, selected_date, selected_week, selected_time):
     """
     Updates the appointment details from the selected cell in the worksheet.
     """
@@ -432,7 +432,13 @@ def update_appointment_details(selected_week, selected_date, selected_time):
     appointment_details = worksheet.cell(date_cell.row, time_cell.col).value
 
     slot_update = handle_appointment_action(appointment_details)
-    print(slot_update)
+
+    if slot_update == "":
+        # Trigger the function again if slot_update is an empty string
+        display_appointment_slots(selected_date, selected_week)
+    else:
+        # Print the value for other cases
+        print(slot_update)
 
 def handle_appointment_action(appointment_details):
     """
@@ -441,12 +447,11 @@ def handle_appointment_action(appointment_details):
     while True:
         if appointment_details == "OPEN":
             print(Fore.BLUE + f"This is an {Fore.GREEN}OPEN {Fore.BLUE}slot.")
-            action = input("Enter '1' to book, '2' to block the slot or '3' cancel the action \n")
+            action = input("Enter '1' to book, '2' to block the slot or '3' to return to the previous menu \n")
             if action == "1":
                 # Ask for confirmation
                 confirmed = get_confirmation()
                 if confirmed:
-                    # Implement appointment booking logic here
                     print(Fore.GREEN + f"The appointment slot is now {Fore.BLUE}BOOKED.")
                     return "BOOKED"
                 else:
@@ -456,7 +461,6 @@ def handle_appointment_action(appointment_details):
                 # Ask for confirmation
                 confirmed = get_confirmation()
                 if confirmed:
-                    # Implement slot blocking logic here
                     print(Fore.GREEN + f"The slot is now {Fore.RED}BLOCKED.")
                     return "BLOCKED"
                 else:
@@ -470,12 +474,11 @@ def handle_appointment_action(appointment_details):
 
         elif appointment_details == "BOOKED":
             print(Fore.BLUE + "This is a BOOKED appointment slot.")
-            action = input("Enter '1' to cancel the booking or '2' to cancel the action \n")
+            action = input("Enter '1' to unblock the slot or '2' to return to the previous menu \n")
             if action == "1":
                 # Ask for confirmation
                 confirmed = get_confirmation()
                 if confirmed:
-                    # Implement appointment cancellation logic here
                     print(Fore.GREEN + "The appointment was cancelled and the slot is now OPEN.")
                     return "OPEN"
                 else:
@@ -489,12 +492,11 @@ def handle_appointment_action(appointment_details):
 
         elif appointment_details == "BLOCKED":
             print(Fore.BLUE + f"This is a {Fore.RED}BLOCKED {Fore.BLUE}slot.")
-            action = input("Enter '1' to unblock the slot or '2' to cancel the action \n")
+            action = input("Enter '1' to unblock the slot or '2' to return to the previous menu \n")
             if action == "1":
                 # Ask for confirmation
                 confirmed = get_confirmation()
                 if confirmed:
-                    # Implement slot unblocking logic here
                     print(Fore.GREEN + "The slot was unblocked and is now OPEN.")
                     return "OPEN"
                 else:
@@ -519,8 +521,4 @@ def get_confirmation():
         else:
             print(Fore.RED + "Invalid input. Please enter 'yes' or 'no'.")
 
-# login_prompt()
-selected_week = "week4"
-selected_date = "Friday (20-10-2023)"
-selected_time = "11:00"
-update_appointment_details(selected_week, selected_date, selected_time)
+login_prompt()
