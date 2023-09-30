@@ -458,7 +458,7 @@ def handle_appointment_action(appointment_details):
             action = input("Enter '1' to cancel the booking or '2' to cancel the action \n")
             if action == "1":
                 # Implement appointment cancellation logic here
-                print(Fore.GREEN + "The appointment was cancelled and is now OPEN.")
+                print(Fore.GREEN + "The appointment was cancelled and the slot is now OPEN.")
                 break
             elif action == "2":
                 print(Fore.YELLOW + "Action cancelled.")
@@ -482,5 +482,5 @@ def handle_appointment_action(appointment_details):
 # login_prompt()
 selected_week = "week4"
 selected_date = "Friday (20-10-2023)"
-selected_time = "11:30"
+selected_time = "10:30"
 retrieve_appointment_details(selected_week, selected_date, selected_time)
