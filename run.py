@@ -431,5 +431,56 @@ def retrieve_appointment_details(selected_week, selected_date, selected_time):
 
     handle_appointment_action(appointment_details)
 
+def handle_appointment_action(appointment_details):
+    """
+    Handle user actions based on appointment details.
+    """
+    while True:
+        if appointment_details == "OPEN":
+            print(Fore.BLUE + f"This is an {Fore.GREEN}OPEN {Fore.BLUE}slot.")
+            action = input("Enter '1' to book, '2' to block the slot or '3' cancel the action \n")
+            if action == "1":
+                # Implement booking logic here
+                print(Fore.GREEN + f"The slot is now {Fore.BLUE}BOOKED.")
+                break
+            elif action == "2":
+                # Implement blocking logic here
+                print(Fore.GREEN + f"The slot is now {Fore.RED}BLOCKED.")
+                break
+            elif action == "3":
+                print(Fore.YELLOW + "Action cancelled.")
+                break
+            else:
+                print(Fore.RED + "Invalid input. Please enter a valid value.")
+
+        elif appointment_details == "BOOKED":
+            print(Fore.BLUE + "This is a BOOKED slot.")
+            action = input("Enter '1' to cancel the booking or '2' to cancel the action \n")
+            if action == "1":
+                # Implement appointment cancellation logic here
+                print(Fore.GREEN + "The appointment was cancelled and is now OPEN.")
+                break
+            elif action == "2":
+                print(Fore.YELLOW + "Action cancelled.")
+                break
+            else:
+                print(Fore.RED + "Invalid input. Please enter a valid value.")
+
+        elif appointment_details == "BLOCKED":
+            print(Fore.BLUE + f"This is a {Fore.RED}BLOCKED {Fore.BLUE}slot.")
+            action = input("Enter '1' to unblock the slot or '2' to cancel the action \n")
+            if action == "1":
+                # Implement slot unblocking logic here
+                print(Fore.GREEN + "The slot was unblocked and is now OPEN.")
+                break
+            elif action == "2":
+                print(Fore.YELLOW + "Action cancelled.")
+                break
+            else:
+                print(Fore.RED + "Invalid input. Please enter a valid value.")
+
 # login_prompt()
-pick_week()
+selected_week = "week4"
+selected_date = "Friday (20-10-2023)"
+selected_time = "11:30"
+retrieve_appointment_details(selected_week, selected_date, selected_time)
