@@ -404,16 +404,16 @@ def select_appointment_slot(all_slots, selected_date, selected_week):
                 # Check if the single choice is valid
                 if choice in all_slots:
                     print(Fore.GREEN + f"You selected: {choice}")
-                    retrieve_appointment_details(selected_week, selected_date, choice)
+                    update_appointment_details(selected_week, selected_date, choice)
                     break
                 else:
                     print(Fore.RED + "Invalid time slot. Please enter a valid time slot.")
         except ValueError:
             print(Fore.RED + "Invalid input. Please enter a valid appointment time or range.")
 
-def retrieve_appointment_details(selected_week, selected_date, selected_time):
+def update_appointment_details(selected_week, selected_date, selected_time):
     """
-    Retrieve the appointment details from the selected cell in the worksheet.
+    Updates the appointment details from the selected cell in the worksheet.
     """
     # Access the worksheet for the selected week
     worksheet = SHEET.worksheet(selected_week)
@@ -463,8 +463,8 @@ def handle_appointment_action(appointment_details):
                     print(Fore.YELLOW + "Aborting...")
                     continue
             elif action == "3":
-                print(Fore.YELLOW + "Action cancelled.")
-                break
+                print(Fore.YELLOW + "Returning to previous menu...")
+                return ''
             else:
                 print(Fore.RED + "Invalid input. Please enter a valid value.")
 
@@ -482,8 +482,8 @@ def handle_appointment_action(appointment_details):
                     print(Fore.YELLOW + "Aborting...")
                     continue
             elif action == "2":
-                print(Fore.YELLOW + "Action cancelled.")
-                break
+                print(Fore.YELLOW + "Returning to previous menu...")
+                return ''
             else:
                 print(Fore.RED + "Invalid input. Please enter a valid value.")
 
@@ -501,8 +501,8 @@ def handle_appointment_action(appointment_details):
                     print(Fore.YELLOW + "Aborting...")
                     continue
             elif action == "2":
-                print(Fore.YELLOW + "Action cancelled.")
-                break
+                print(Fore.YELLOW + "Returning to previous menu...")
+                return ''
             else:
                 print(Fore.RED + "Invalid input. Please enter a valid value.")
 
@@ -523,4 +523,4 @@ def get_confirmation():
 selected_week = "week4"
 selected_date = "Friday (20-10-2023)"
 selected_time = "11:00"
-retrieve_appointment_details(selected_week, selected_date, selected_time)
+update_appointment_details(selected_week, selected_date, selected_time)
