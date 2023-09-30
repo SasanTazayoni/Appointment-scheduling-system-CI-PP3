@@ -470,17 +470,36 @@ def handle_appointment_action(appointment_details):
             print(Fore.BLUE + f"This is a {Fore.RED}BLOCKED {Fore.BLUE}slot.")
             action = input("Enter '1' to unblock the slot or '2' to cancel the action \n")
             if action == "1":
-                # Implement slot unblocking logic here
-                print(Fore.GREEN + "The slot was unblocked and is now OPEN.")
-                break
+                # Ask for confirmation
+                confirmed = get_confirmation()
+                if confirmed:
+                    # Implement slot unblocking logic here
+                    print(Fore.GREEN + "The slot was unblocked and is now OPEN.")
+                    break
+                else:
+                    print(Fore.YELLOW + "Returning to previous menu...")
+                    continue
             elif action == "2":
                 print(Fore.YELLOW + "Action cancelled.")
                 break
             else:
                 print(Fore.RED + "Invalid input. Please enter a valid value.")
 
+def get_confirmation():
+    """
+    Ask the user for confirmation and return True if 'yes' and False if 'no'.
+    """
+    while True:
+        confirm = input("Do you wish to confirm? (yes/no) \n").lower()
+        if confirm == "yes":
+            return True
+        elif confirm == "no":
+            return False
+        else:
+            print(Fore.RED + "Invalid input. Please enter 'yes' or 'no'.")
+
 # login_prompt()
 selected_week = "week4"
 selected_date = "Friday (20-10-2023)"
-selected_time = "10:30"
+selected_time = "11:00"
 retrieve_appointment_details(selected_week, selected_date, selected_time)
