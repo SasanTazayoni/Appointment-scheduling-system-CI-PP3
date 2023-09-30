@@ -427,9 +427,12 @@ def retrieve_appointment_details(selected_week, selected_date, selected_time):
     time_cell = next((cell for cell in time_cells if cell.value == selected_time), None)
 
     # Access the cell using row and column values and print its value
+    appointment_cell_values = worksheet.cell(date_cell.row, time_cell.col)
+    # Access coordinates of the cell for editing
     appointment_details = worksheet.cell(date_cell.row, time_cell.col).value
 
-    handle_appointment_action(appointment_details)
+    slot_update = handle_appointment_action(appointment_details)
+    print(slot_update)
 
 def handle_appointment_action(appointment_details):
     """
@@ -445,9 +448,9 @@ def handle_appointment_action(appointment_details):
                 if confirmed:
                     # Implement appointment booking logic here
                     print(Fore.GREEN + f"The appointment slot is now {Fore.BLUE}BOOKED.")
-                    break
+                    return "BOOKED"
                 else:
-                    print(Fore.YELLOW + "Returning to previous menu...")
+                    print(Fore.YELLOW + "Aborting...")
                     continue
             elif action == "2":
                 # Ask for confirmation
@@ -455,9 +458,9 @@ def handle_appointment_action(appointment_details):
                 if confirmed:
                     # Implement slot blocking logic here
                     print(Fore.GREEN + f"The slot is now {Fore.RED}BLOCKED.")
-                    break
+                    return "BLOCKED"
                 else:
-                    print(Fore.YELLOW + "Returning to previous menu...")
+                    print(Fore.YELLOW + "Aborting...")
                     continue
             elif action == "3":
                 print(Fore.YELLOW + "Action cancelled.")
@@ -466,7 +469,7 @@ def handle_appointment_action(appointment_details):
                 print(Fore.RED + "Invalid input. Please enter a valid value.")
 
         elif appointment_details == "BOOKED":
-            print(Fore.BLUE + "This is a BOOKED slot.")
+            print(Fore.BLUE + "This is a BOOKED appointment slot.")
             action = input("Enter '1' to cancel the booking or '2' to cancel the action \n")
             if action == "1":
                 # Ask for confirmation
@@ -474,9 +477,9 @@ def handle_appointment_action(appointment_details):
                 if confirmed:
                     # Implement appointment cancellation logic here
                     print(Fore.GREEN + "The appointment was cancelled and the slot is now OPEN.")
-                    break
+                    return "OPEN"
                 else:
-                    print(Fore.YELLOW + "Returning to previous menu...")
+                    print(Fore.YELLOW + "Aborting...")
                     continue
             elif action == "2":
                 print(Fore.YELLOW + "Action cancelled.")
@@ -493,9 +496,9 @@ def handle_appointment_action(appointment_details):
                 if confirmed:
                     # Implement slot unblocking logic here
                     print(Fore.GREEN + "The slot was unblocked and is now OPEN.")
-                    break
+                    return "OPEN"
                 else:
-                    print(Fore.YELLOW + "Returning to previous menu...")
+                    print(Fore.YELLOW + "Aborting...")
                     continue
             elif action == "2":
                 print(Fore.YELLOW + "Action cancelled.")
@@ -519,5 +522,5 @@ def get_confirmation():
 # login_prompt()
 selected_week = "week4"
 selected_date = "Friday (20-10-2023)"
-selected_time = "10:30"
+selected_time = "11:00"
 retrieve_appointment_details(selected_week, selected_date, selected_time)
