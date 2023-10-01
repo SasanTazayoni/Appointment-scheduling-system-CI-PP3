@@ -98,7 +98,7 @@ def login():
             
             if login == USERNAME and password == PASSWORD:
                 print()
-                print(Fore.GREEN + "Login successful!\n")
+                print(Fore.GREEN + "Login successful!")
                 login_attempts = 0
                 update_cell_dates()
                 return
@@ -122,13 +122,14 @@ def update_cell_dates():
     w1_worksheet_cell_value = SHEET.worksheet("week1").acell("A2").value
 
     difference_in_weeks = get_week_difference(monday_date, w1_worksheet_cell_value)
+    print(Fore.YELLOW + "Checking worksheets...")
 
     # Update worksheets based on the difference in weeks
     if difference_in_weeks == 0:
-        print(Fore.BLUE + "Worksheets are up to date")
+        print(Fore.BLUE + "Worksheets are up to date\n")
     elif difference_in_weeks > 12:
         print(Fore.BLUE + "It seems that you have been away for a long time.\n")
-        print(Fore.YELLOW + "Renewing worksheets...")
+        print(Fore.YELLOW + "Renewing worksheets...\n")
 
         for worksheet in SHEET.worksheets():
             refresh_cells(worksheet)
@@ -136,7 +137,7 @@ def update_cell_dates():
 
         print(Fore.GREEN + "All worksheets have been updated.")
     elif difference_in_weeks > 0:
-        print(Fore.YELLOW + "Updating worksheets...")
+        print(Fore.YELLOW + "Updating worksheets...\n")
 
         for i in range(1, 13):
             worksheet_title = f"week{i}"
@@ -355,7 +356,6 @@ def display_appointment_slots(selected_date, selected_week):
     all_slots = retrieve_appointment_slots(selected_date, selected_week)
 
     # Present visual display for time slots
-    print()
     print(Fore.GREEN + f"Retrieved appointment slots for {Fore.BLUE}{selected_date}:\n")
 
     color_codes = {
@@ -474,7 +474,7 @@ def handle_appointment_action(appointment_details):
 
         elif appointment_details == "BOOKED":
             print(Fore.BLUE + "This is a BOOKED appointment slot.")
-            action = input("Enter '1' to unblock the slot or '2' to return to the previous menu \n")
+            action = input("Enter '1' to cancel the slot or '2' to return to the previous menu \n")
             if action == "1":
                 # Ask for confirmation
                 confirmed = get_confirmation()
