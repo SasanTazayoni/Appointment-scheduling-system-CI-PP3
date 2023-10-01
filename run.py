@@ -310,8 +310,8 @@ def retrieve_appointment_slots(selected_date, selected_week):
     # Extract the day name from the selected_date
     selected_day = selected_date.split(" ")[0]
     
-    # Map day names to column indices (Monday: 2, Tuesday: 3, Wednesday: 4, Thursday: 5, Friday: 6)
-    day_to_column = {
+    # Map day names to row indices (Monday: 2, Tuesday: 3, Wednesday: 4, Thursday: 5, Friday: 6)
+    day_to_row = {
         "Monday": 2,
         "Tuesday": 3,
         "Wednesday": 4,
@@ -319,14 +319,14 @@ def retrieve_appointment_slots(selected_date, selected_week):
         "Friday": 6
     }
 
-    # Get the column index for the selected day
-    column_index = day_to_column.get(selected_day)
+    # Get the row index for the selected day
+    row_index = day_to_row.get(selected_day)
 
     # Get the selected worksheet
     worksheet = SHEET.worksheet(selected_week)
 
     # Get appointment slots for the selected day
-    slots = worksheet.range(f"B{column_index}:Q{column_index}")
+    slots = worksheet.range(f"B{row_index}:Q{row_index}")
 
     # Get the time slots from row 2 (A2:Q2)
     time_slots_range = worksheet.range(f"B1:Q1")
