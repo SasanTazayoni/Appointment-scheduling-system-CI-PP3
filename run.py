@@ -459,6 +459,10 @@ def update_appointment_slots(selected_date, selected_week, selected_time):
             # Update the cell after to "BLOCKED"
             worksheet.update_cell(date_cell.row, next_time_col, 'BLOCKED')
 
+    if schedule_appointments():
+        # Trigger the function to display appointment slots again
+        display_appointment_slots(selected_date, selected_week)
+
 def handle_appointment_action(appointment_details):
     """
     Handle user actions based on appointment details.
@@ -541,5 +545,20 @@ def get_confirmation():
             return False
         else:
             print(Fore.RED + "Invalid input. Please enter 'yes' or 'no'.")
+
+def schedule_appointments():
+    """
+    Ask the user if they want to schedule more appointments.
+    Returns True if the user wants to schedule more appointments, False otherwise.
+    """
+    while True:
+        choice = input("Do you want to schedule more appointments? (yes/no): \n").strip().lower()
+        if choice == 'yes':
+            return True
+        elif choice == 'no':
+            print(Fore.YELLOW + "Exiting the program...")
+            exit()  # Exit the program
+        else:
+            print(Fore.RED + "Invalid choice. Please enter 'yes' or 'no'.")
 
 login_prompt()
