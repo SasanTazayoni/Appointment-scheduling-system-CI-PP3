@@ -231,27 +231,28 @@ def refresh_cells(worksheet):
 
 def pick_week():
     """
-    Ask the user to pick a week from the spreadsheet or log out.
+    Ask the user to pick a week from the spreadsheet or exit.
     """
     # Generate week titles from Week1 to Week12
     week_titles = [f"week{i}" for i in range(1, 13)]
 
     while True:
         print()
-        print(Fore.BLUE + "Please select a number between '1-12' where week1 represents the current week or enter '0' to log out:\n")
+        print(Fore.BLUE + "Please select a number between '1-12' where week1 represents the current week or enter '0' to exit:\n")
     
         # Display week options
         for i, title in enumerate(week_titles, start=1):
             print(f"{Fore.BLUE}[{i}] {Fore.WHITE}{title}", end=f"{Fore.WHITE}, ")
 
-        # Display the log out option 
-        print(f"{Fore.BLUE}[0] {Fore.WHITE}Log out")
+        # Display the exit option 
+        print(f"{Fore.BLUE}[0] {Fore.WHITE}Exit")
         print()
         
         try:
-            choice = input("Enter the number of the week you want to select (or '0' to log out): ")
+            choice = input("Enter the number of the week you want to select: ")
             if choice == '0':
-                login_prompt()  # Log out and trigger the login function
+                print(Fore.YELLOW + "Exiting the program...")
+                exit()  # Exit the program
             else:
                 choice = int(choice)
                 if 1 <= choice <= len(week_titles):
@@ -378,15 +379,15 @@ def select_appointment_slots(all_slots, selected_date, selected_week):
 
     while True:
         try:
-            choice = input("Enter the desired appointment time or range (e.g. '09:00' or '10:30-11:30'),'cancel' to return to date selection or 'logout' to log out: \n")
+            choice = input("Enter the desired appointment time or range (e.g. '09:00' or '10:30-11:30'),'cancel' to return to date selection or 'exit' to exit: \n")
 
             if choice.lower() == 'cancel':
                 print(Fore.YELLOW + 'Returning to previous menu...')
                 get_dates_from_worksheet(selected_week)  # Return to date selection
                 return
-            elif choice.lower() == 'logout':
-                print(Fore.YELLOW + 'Logging out...')
-                login_prompt()  # Log out and trigger the login function
+            elif choice.lower() == 'exit':
+                print(Fore.YELLOW + "Exiting the program...")
+                exit()  # Exit the program
                 return
 
             # Split the user input by '-' to check for a range
