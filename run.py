@@ -426,19 +426,21 @@ def update_appointment_details(all_slots, selected_date, selected_week, selected
     time_cells = worksheet.range("B1:Q1")
     time_cell = next((cell for cell in time_cells if cell.value == selected_time), None)
 
-    # Access the cell using row and column values and print its value
-    appointment_cell_values = worksheet.cell(date_cell.row, time_cell.col)
     # Access coordinates of the cell for editing
     appointment_details = worksheet.cell(date_cell.row, time_cell.col).value
 
     slot_update = handle_appointment_action(appointment_details)
 
+    # Update the slot based on user input
     if slot_update == "":
         # Trigger the function again if slot_update is an empty string
         display_appointment_slots(selected_date, selected_week)
-    else:
-        # Print the value for other cases
-        print(slot_update)
+    elif slot_update == "BLOCKED":
+        worksheet.update_cell(date_cell.row, time_cell.col, 'BLOCKED')
+    elif slot_update == "OPEN":
+        worksheet.update_cell(date_cell.row, time_cell.col, 'OPEN')
+    elif slot_update == "BOOKED":
+        worksheet.update_cell(date_cell.row, time_cell.col, 'BOOKED')
 
 def handle_appointment_action(appointment_details):
     """
