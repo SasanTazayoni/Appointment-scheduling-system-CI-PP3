@@ -61,7 +61,7 @@ def login_prompt():
             break
         elif choice == 'no':
             print()
-            print(Fore.YELLOW + "Exiting the program.")
+            print(Fore.YELLOW + "Exiting the program...")
             exit()
         elif not choice:
             print(Fore.RED + "The input cannot be empty. Please enter 'yes' or 'no'.\n")
@@ -126,10 +126,10 @@ def update_cell_dates():
 
     # Update worksheets based on the difference in weeks
     if difference_in_weeks == 0:
-        print(Fore.BLUE + "Worksheets are up to date\n")
+        print(Fore.BLUE + "Worksheets are up to date")
     elif difference_in_weeks > 12:
-        print(Fore.BLUE + "It seems that you have been away for a long time.\n")
-        print(Fore.YELLOW + "Renewing worksheets...\n")
+        print(Fore.BLUE + "It seems that you have been away for a long time.")
+        print(Fore.YELLOW + "Renewing worksheets...")
 
         for worksheet in SHEET.worksheets():
             refresh_cells(worksheet)
@@ -137,7 +137,7 @@ def update_cell_dates():
 
         print(Fore.GREEN + "All worksheets have been updated.")
     elif difference_in_weeks > 0:
-        print(Fore.YELLOW + "Updating worksheets...\n")
+        print(Fore.YELLOW + "Updating worksheets...")
 
         for i in range(1, 13):
             worksheet_title = f"week{i}"
@@ -237,7 +237,8 @@ def pick_week():
     week_titles = [f"week{i}" for i in range(1, 13)]
 
     while True:
-        print(Fore.BLUE + "Please select a number between 1 to 12 where week1 represents the current week or enter '0' to log out:\n")
+        print()
+        print(Fore.BLUE + "Please select a number between '1-12' where week1 represents the current week or enter '0' to log out:\n")
     
         # Display week options
         for i, title in enumerate(week_titles, start=1):
@@ -285,7 +286,7 @@ def pick_day(dates, selected_week):
     # Ask the user to pick a date or enter '0' to repick week
     while True:
         try:
-            choice = input("Enter the number of the date you want to select (or '0' to repick week):\n")
+            choice = input("Enter a number from '1-5' for the date you want to select or '0' to repick the week:\n")
             choice = int(choice)
 
             # Check if the user wants to return to week selection
@@ -301,7 +302,7 @@ def pick_day(dates, selected_week):
             else:
                 print(Fore.RED + "Invalid choice. Please enter a valid number.")
         except ValueError:
-            print(Fore.RED + "Invalid input. Please enter a number or '0' to repick day.")
+            print(Fore.RED + "Invalid input. Please enter a number between '1-5' or '0' to repick the day.")
 
 def retrieve_appointment_slots(selected_date, selected_week):
     """
@@ -368,7 +369,6 @@ def display_appointment_slots(selected_date, selected_week):
     formatted_slots = " ".join([f"{time_slot} {color_codes[status]}{status} {Fore.RESET}" for time_slot, status in all_slots.items()])
     print(formatted_slots)
 
-    print()
     select_appointment_slots(all_slots, selected_date, selected_week)
 
 def select_appointment_slots(all_slots, selected_date, selected_week):
@@ -404,16 +404,16 @@ def select_appointment_slots(all_slots, selected_date, selected_week):
                 # Check if the single choice is valid
                 if choice in all_slots:
                     print(Fore.GREEN + f"You selected: {choice}")
-                    update_appointment_details(all_slots, selected_date, selected_week, choice)
+                    update_appointment_slots(selected_date, selected_week, choice)
                     break
                 else:
                     print(Fore.RED + "Invalid time slot. Please enter a valid time slot.")
         except ValueError:
             print(Fore.RED + "Invalid input. Please enter a valid appointment time or range.")
 
-def update_appointment_details(all_slots, selected_date, selected_week, selected_time):
+def update_appointment_slots(selected_date, selected_week, selected_time):
     """
-    Updates the appointment details from the selected cell in the worksheet.
+    Update the slot and then ask if the user would like to schedule more appointments or exit.
     """
     # Access the worksheet for the selected week
     worksheet = SHEET.worksheet(selected_week)
