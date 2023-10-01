@@ -442,6 +442,21 @@ def update_appointment_details(all_slots, selected_date, selected_week, selected
     elif slot_update == "BOOKED":
         worksheet.update_cell(date_cell.row, time_cell.col, 'BOOKED')
 
+        # Check the cell before and after to see if they are "OPEN" and update individually
+        prev_time_col = time_cell.col - 1
+        next_time_col = time_cell.col + 1
+
+        prev_slot = worksheet.cell(date_cell.row, prev_time_col).value
+        next_slot = worksheet.cell(date_cell.row, next_time_col).value
+
+        if prev_slot == "OPEN":
+            # Update the cell before to "BLOCKED"
+            worksheet.update_cell(date_cell.row, prev_time_col, 'BLOCKED')
+
+        if next_slot == "OPEN":
+            # Update the cell after to "BLOCKED"
+            worksheet.update_cell(date_cell.row, next_time_col, 'BLOCKED')
+
 def handle_appointment_action(appointment_details):
     """
     Handle user actions based on appointment details.
