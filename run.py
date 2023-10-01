@@ -469,6 +469,7 @@ def handle_appointment_action(appointment_details):
     Handle user actions based on appointment details.
     """
     while True:
+        # If selected appointment slot was OPEN
         if appointment_details == "OPEN":
             print(Fore.BLUE + f"This is an {Fore.GREEN}OPEN {Fore.BLUE}slot.")
             action = input("Enter '1' to book, '2' to block the slot or '3' to return to the previous menu: \n")
@@ -495,7 +496,7 @@ def handle_appointment_action(appointment_details):
                 return ''
             else:
                 print(Fore.RED + "Invalid input. Please enter a valid value.")
-
+        # If selected appointment slot was BOOKED
         elif appointment_details == "BOOKED":
             print(Fore.BLUE + "This is a BOOKED appointment slot.")
             action = input("Enter '1' to cancel the slot or '2' to return to the previous menu: \n")
@@ -514,7 +515,7 @@ def handle_appointment_action(appointment_details):
                 return ''
             else:
                 print(Fore.RED + "Invalid input. Please enter a valid value.")
-
+        # If selected appointment slot was BLOCKED
         elif appointment_details == "BLOCKED":
             print(Fore.BLUE + f"This is a {Fore.RED}BLOCKED {Fore.BLUE}slot.")
             action = input("Enter '1' to unblock the slot or '2' to return to the previous menu: \n")
@@ -536,7 +537,7 @@ def handle_appointment_action(appointment_details):
 
 def get_confirmation():
     """
-    Ask the user for confirmation and return True if 'yes' and False if 'no'.
+    Ask the user for confirmation when changing a slot.
     """
     while True:
         confirm = input("Do you wish to confirm this change? (yes/no): \n").lower()
