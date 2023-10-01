@@ -400,7 +400,7 @@ def select_appointment_slots(all_slots, selected_date, selected_week):
                     print(Fore.GREEN + f"You selected: {selected_time_range}")
                     break
                 else:
-                    print(Fore.RED + "Invalid time range. Please enter valid time slots.")
+                    print(Fore.RED + "Invalid time range. Please ensure you entire times in the correct format (e.g. 15:00) and between 09:00 and 16:30")
             else:
                 # Check if the single choice is valid
                 if choice in all_slots:
@@ -408,7 +408,7 @@ def select_appointment_slots(all_slots, selected_date, selected_week):
                     update_appointment_slots(selected_date, selected_week, choice)
                     break
                 else:
-                    print(Fore.RED + "Invalid time slot. Please enter a valid time slot.")
+                    print(Fore.RED + "Invalid time range. Please ensure you entire times in the correct format (e.g. 15:00) and between 09:00 and 16:30")
         except ValueError:
             print(Fore.RED + "Invalid input. Please enter a valid appointment time or range.")
 
@@ -471,7 +471,7 @@ def handle_appointment_action(appointment_details):
     while True:
         if appointment_details == "OPEN":
             print(Fore.BLUE + f"This is an {Fore.GREEN}OPEN {Fore.BLUE}slot.")
-            action = input("Enter '1' to book, '2' to block the slot or '3' to return to the previous menu \n")
+            action = input("Enter '1' to book, '2' to block the slot or '3' to return to the previous menu: \n")
             if action == "1":
                 # Ask for confirmation
                 confirmed = get_confirmation()
@@ -498,7 +498,7 @@ def handle_appointment_action(appointment_details):
 
         elif appointment_details == "BOOKED":
             print(Fore.BLUE + "This is a BOOKED appointment slot.")
-            action = input("Enter '1' to cancel the slot or '2' to return to the previous menu \n")
+            action = input("Enter '1' to cancel the slot or '2' to return to the previous menu: \n")
             if action == "1":
                 # Ask for confirmation
                 confirmed = get_confirmation()
@@ -517,7 +517,7 @@ def handle_appointment_action(appointment_details):
 
         elif appointment_details == "BLOCKED":
             print(Fore.BLUE + f"This is a {Fore.RED}BLOCKED {Fore.BLUE}slot.")
-            action = input("Enter '1' to unblock the slot or '2' to return to the previous menu \n")
+            action = input("Enter '1' to unblock the slot or '2' to return to the previous menu: \n")
             if action == "1":
                 # Ask for confirmation
                 confirmed = get_confirmation()
@@ -539,7 +539,7 @@ def get_confirmation():
     Ask the user for confirmation and return True if 'yes' and False if 'no'.
     """
     while True:
-        confirm = input("Do you wish to confirm this change? (yes/no) \n").lower()
+        confirm = input("Do you wish to confirm this change? (yes/no): \n").lower()
         if confirm == "yes":
             return True
         elif confirm == "no":
