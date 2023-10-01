@@ -437,10 +437,13 @@ def update_appointment_details(all_slots, selected_date, selected_week, selected
         display_appointment_slots(selected_date, selected_week)
     elif slot_update == "BLOCKED":
         worksheet.update_cell(date_cell.row, time_cell.col, 'BLOCKED')
+        print(Fore.GREEN + f"The slot is now {Fore.RED}BLOCKED.")
     elif slot_update == "OPEN":
         worksheet.update_cell(date_cell.row, time_cell.col, 'OPEN')
+        print(Fore.GREEN + "The slot is now OPEN.")
     elif slot_update == "BOOKED":
         worksheet.update_cell(date_cell.row, time_cell.col, 'BOOKED')
+        print(Fore.GREEN + f"The appointment slot is now {Fore.BLUE}BOOKED.")
 
         # Check the cell before and after to see if they are "OPEN" and update individually
         prev_time_col = time_cell.col - 1
@@ -452,7 +455,6 @@ def update_appointment_details(all_slots, selected_date, selected_week, selected
         if prev_slot == "OPEN":
             # Update the cell before to "BLOCKED"
             worksheet.update_cell(date_cell.row, prev_time_col, 'BLOCKED')
-
         if next_slot == "OPEN":
             # Update the cell after to "BLOCKED"
             worksheet.update_cell(date_cell.row, next_time_col, 'BLOCKED')
@@ -469,7 +471,7 @@ def handle_appointment_action(appointment_details):
                 # Ask for confirmation
                 confirmed = get_confirmation()
                 if confirmed:
-                    print(Fore.GREEN + f"The appointment slot is now {Fore.BLUE}BOOKED.")
+                    print(Fore.YELLOW + "Processing request...")
                     return "BOOKED"
                 else:
                     print(Fore.YELLOW + "Aborting...")
@@ -478,7 +480,7 @@ def handle_appointment_action(appointment_details):
                 # Ask for confirmation
                 confirmed = get_confirmation()
                 if confirmed:
-                    print(Fore.GREEN + f"The slot is now {Fore.RED}BLOCKED.")
+                    print(Fore.YELLOW + "Processing request...")
                     return "BLOCKED"
                 else:
                     print(Fore.YELLOW + "Aborting...")
@@ -496,7 +498,8 @@ def handle_appointment_action(appointment_details):
                 # Ask for confirmation
                 confirmed = get_confirmation()
                 if confirmed:
-                    print(Fore.GREEN + "The appointment was cancelled and the slot is now OPEN.")
+                    print(Fore.YELLOW + "Processing request...")
+                    print(Fore.GREEN + "The appointment was cancelled.")
                     return "OPEN"
                 else:
                     print(Fore.YELLOW + "Aborting...")
@@ -514,7 +517,8 @@ def handle_appointment_action(appointment_details):
                 # Ask for confirmation
                 confirmed = get_confirmation()
                 if confirmed:
-                    print(Fore.GREEN + "The slot was unblocked and is now OPEN.")
+                    print(Fore.YELLOW + "Processing request...")
+                    print(Fore.GREEN + "The slot was unblocked.")
                     return "OPEN"
                 else:
                     print(Fore.YELLOW + "Aborting...")
