@@ -152,8 +152,6 @@ def update_cell_dates():
                 target_data = target_worksheet.get('B2:Q6')
                 worksheet.update('B2:Q6', target_data)
                 set_cell_dates(worksheet, current_datetime)
-
-                print(f"{worksheet_title} updated from {target_worksheet_title}")
             else:
                 # If the target week number is not within the valid range, update cells B2:Q6 with 'OPEN'
                 cell_list = worksheet.range('B2:Q6')
@@ -369,6 +367,7 @@ def display_appointment_slots(selected_date, selected_week):
     # Iterate through the dictionary and format the slots
     formatted_slots = " ".join([f"{time_slot} {color_codes[status]}{status} {Fore.RESET}" for time_slot, status in all_slots.items()])
     print(formatted_slots)
+    print()
 
     select_appointment_slots(all_slots, selected_date, selected_week)
 
@@ -376,6 +375,7 @@ def select_appointment_slots(all_slots, selected_date, selected_week):
     """
     Prompt the user to select a single time slot or a time range.
     """
+    print(Fore.BLUE + "Booked slots cannot be blocked and blocked slots cannot be booked.")
 
     while True:
         try:
@@ -404,7 +404,6 @@ def select_appointment_slots(all_slots, selected_date, selected_week):
             else:
                 # Check if the single choice is valid
                 if choice in all_slots:
-                    print(Fore.GREEN + f"You selected: {choice}")
                     update_appointment_slots(selected_date, selected_week, choice)
                     break
                 else:
