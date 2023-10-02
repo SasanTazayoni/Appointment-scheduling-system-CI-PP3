@@ -621,7 +621,7 @@ def handle_multislot_action(appointment_details_list):
 
 def get_confirmation():
     """
-    Ask the user for confirmation when changing a slot.
+    Ask the user for confirmation when changing a slot or multiple slots.
     """
     while True:
         confirm = input("Do you wish to confirm this change? (yes/no): \n").lower()
