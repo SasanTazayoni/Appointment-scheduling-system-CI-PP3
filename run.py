@@ -295,7 +295,6 @@ def pick_day(dates, selected_week):
             # Check if the user selected a valid date
             elif 1 <= choice <= len(dates):
                 selected_date = dates[choice - 1]
-                print(Fore.GREEN + f"You selected: {selected_date}")
                 display_appointment_slots(selected_date, selected_week)
                 break
             else:
@@ -396,18 +395,32 @@ def select_appointment_slots(all_slots, selected_date, selected_week):
 
                 # Check if both start_time and end_time are valid
                 if start_time in all_slots and end_time in all_slots:
-                    selected_time_range = f"{start_time}-{end_time}"
-                    print(Fore.GREEN + f"You selected: {selected_time_range}")
+                    # Generate time slots between start_time and end_time
+                    start_time_parts = start_time.split(':')
+                    end_time_parts = end_time.split(':')
+                    start_hour, start_minute = int(start_time_parts[0]), int(start_time_parts[1])
+                    end_hour, end_minute = int(end_time_parts[0]), int(end_time_parts[1])
+
+                    # Create a list of time slots between start_time and end_time
+                    selected_time_range = []
+                    while start_hour < end_hour or (start_hour == end_hour and start_minute <= end_minute):
+                        selected_time_range.append(f"{start_hour:02}:{start_minute:02}")
+                        start_minute += 30
+                        if start_minute == 60:
+                            start_hour += 1
+                            start_minute = 0
+                    update_appointment_slots(selected_date, selected_week, selected_time_range)
                     break
                 else:
-                    print(Fore.RED + "Invalid time range. Please ensure you entire times in the correct format (e.g. 15:00) and between 09:00 and 16:30")
+                    print(Fore.RED + "Invalid time range input. Please ensure you entire times in the correct format (e.g. 15:00) and between 09:00 and 16:30")
             else:
                 # Check if the single choice is valid
                 if choice in all_slots:
-                    update_appointment_slots(selected_date, selected_week, choice)
+                    selected_time = [choice]
+                    update_appointment_slots(selected_date, selected_week, selected_time)
                     break
                 else:
-                    print(Fore.RED + "Invalid time range. Please ensure you entire times in the correct format (e.g. 15:00) and between 09:00 and 16:30")
+                    print(Fore.RED + "Invalid time input. Please ensure you entire times in the correct format (e.g. 15:00) and between 09:00 and 16:30")
         except ValueError:
             print(Fore.RED + "Invalid input. Please enter a valid appointment time or range.")
 
@@ -422,14 +435,28 @@ def update_appointment_slots(selected_date, selected_week, selected_time):
     date_cells = worksheet.range("A2:A6")
     date_cell = next((cell for cell in date_cells if cell.value == selected_date), None)
 
-    # Find the cell corresponding to the selected_time in row 1 (B1:Q1)
+    # Access the range B1:Q1 containing time slots
     time_cells = worksheet.range("B1:Q1")
-    time_cell = next((cell for cell in time_cells if cell.value == selected_time), None)
 
-    # Access coordinates of the cell for editing
-    appointment_details = worksheet.cell(date_cell.row, time_cell.col).value
+    # Initialize a list to store the cell objects corresponding to selected times
+    selected_time_cells = []
 
-    slot_update = handle_appointment_action(appointment_details)
+    # Iterate through selected times and find the corresponding cells in time_cells
+    for selected_time_slot in selected_time:
+        time_cell = next((cell for cell in time_cells if cell.value == selected_time_slot), None)
+        if time_cell:
+            selected_time_cells.append(time_cell)
+
+    # Initialize a list to store appointment details
+    appointment_details_list = []
+
+    # Access coordinates of the cell for editing and print the appointment details
+    for time_cell in selected_time_cells:
+        appointment_details = worksheet.cell(date_cell.row, time_cell.col).value
+        appointment_details_list.append(appointment_details)
+
+    # Access first item in list which is a string value
+    slot_update = handle_slot_action(appointment_details_list[0])
 
     # Update the slot based on user input
     if slot_update == "":
@@ -463,7 +490,7 @@ def update_appointment_slots(selected_date, selected_week, selected_time):
         # Trigger the function to display appointment slots again
         display_appointment_slots(selected_date, selected_week)
 
-def handle_appointment_action(appointment_details):
+def handle_slot_action(appointment_details):
     """
     Handle user actions based on appointment details.
     """
@@ -562,4 +589,5 @@ def schedule_appointments():
         else:
             print(Fore.RED + "Invalid choice. Please enter 'yes' or 'no'.")
 
-login_prompt()
+# login_prompt()
+pick_week()
