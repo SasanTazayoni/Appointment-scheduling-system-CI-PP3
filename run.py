@@ -463,7 +463,7 @@ def access_appointment_slots(selected_date, selected_week, selected_time):
         update_appointment_slot(selected_date, selected_week, slot_update, worksheet, date_cell, time_cell)
     else:
         # If there's more than one item in the list, trigger a separate function
-        print('Will fix soon')
+        multislot_update = handle_multislot_action(appointment_details_list)
         return
 
 def handle_slot_action(appointment_details):
@@ -592,6 +592,32 @@ def update_appointment_slot(selected_date, selected_week, slot_update, worksheet
     if prompt_scheduling():
         # Trigger the function to display appointment slots again
         display_appointment_slots(selected_date, selected_week)
+
+def handle_multislot_action(appointment_details_list):
+    """
+    Handle action for multiple appointment slot changes.
+    """
+    # Create sets to store unique slot states
+    slot_states = set(appointment_details_list)
+
+    # Determine the combinations of slot states
+    combinations = ", ".join(sorted(slot_states))
+   
+    # Print the combinations
+    if combinations == "BLOCKED, BOOKED, OPEN":
+        print(Fore.BLUE + f"You have selected a mixture of {Fore.RED}BLOCKED, {Fore.GREEN}OPEN {Fore.BLUE}and BOOKED slots.")
+    elif combinations == "BLOCKED, BOOKED":
+        print(Fore.BLUE + f"You have selected a mixture of {Fore.RED}BLOCKED {Fore.BLUE}and BOOKED slots.")
+    elif combinations == "BLOCKED, OPEN":
+        print(Fore.BLUE + f"You have selected a mixture of {Fore.GREEN}OPEN {Fore.BLUE}and {Fore.RED}BLOCKED {Fore.BLUE}slots.")
+    elif combinations == "BOOKED, OPEN":
+        print(Fore.BLUE + f"You have selected a mixture of {Fore.GREEN}OPEN {Fore.BLUE}and BOOKED slots.")
+    elif "BLOCKED" in slot_states:
+        print(Fore.BLUE + f"You have selected multiple {Fore.RED}BLOCKED {Fore.BLUE}slots.")
+    elif "BOOKED" in slot_states:
+        print(Fore.BLUE + "You have selected multiple BOOKED slots.")
+    elif "OPEN" in slot_states:
+        print(Fore.BLUE + f"You have selected multiple {Fore.GREEN}OPEN {Fore.BLUE}slots.")
 
 def get_confirmation():
     """
