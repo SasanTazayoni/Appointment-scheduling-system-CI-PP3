@@ -409,7 +409,7 @@ def select_appointment_slots(all_slots, selected_date, selected_week):
                         if start_minute == 60:
                             start_hour += 1
                             start_minute = 0
-                    update_appointment_slots(selected_date, selected_week, selected_time_range)
+                    access_appointment_slots(selected_date, selected_week, selected_time_range)
                     break
                 else:
                     print(Fore.RED + "Invalid time range input. Please ensure you entire times in the correct format (e.g. 15:00) and between 09:00 and 16:30")
@@ -417,16 +417,16 @@ def select_appointment_slots(all_slots, selected_date, selected_week):
                 # Check if the single choice is valid
                 if choice in all_slots:
                     selected_time = [choice]
-                    update_appointment_slots(selected_date, selected_week, selected_time)
+                    access_appointment_slots(selected_date, selected_week, selected_time)
                     break
                 else:
                     print(Fore.RED + "Invalid time input. Please ensure you entire times in the correct format (e.g. 15:00) and between 09:00 and 16:30")
         except ValueError:
             print(Fore.RED + "Invalid input. Please enter a valid appointment time or range.")
 
-def update_appointment_slots(selected_date, selected_week, selected_time):
+def access_appointment_slots(selected_date, selected_week, selected_time):
     """
-    Update the slot and then ask if the user would like to schedule more appointments or exit.
+    This function accesses the values of the appointment slots so that they are ready for editing.
     """
     # Access the worksheet for the selected week
     worksheet = SHEET.worksheet(selected_week)
@@ -455,9 +455,21 @@ def update_appointment_slots(selected_date, selected_week, selected_time):
         appointment_details = worksheet.cell(date_cell.row, time_cell.col).value
         appointment_details_list.append(appointment_details)
 
-    # Access first item in list which is a string value
-    slot_update = handle_slot_action(appointment_details_list[0])
+    # Check the size of appointment_details_list
+    if len(appointment_details_list) == 1:
+        # If there's only one item in the list, pass it to handle_slot_action
+        slot_update = handle_slot_action(appointment_details_list[0])
+        # Update single appointment slot
+        update_appointment_slot(selected_date, selected_week, slot_update, worksheet, date_cell, time_cell)
+    else:
+        # If there's more than one item in the list, trigger a separate function
+        print("Will fix soon")
+        return
 
+def update_appointment_slot(selected_date, selected_week, slot_update, worksheet, date_cell, time_cell):
+    """
+    Update the slot and then ask if the user would like to schedule more appointments or exit.
+    """
     # Update the slot based on user input
     if slot_update == "":
         # Trigger the function again if slot_update is an empty string
@@ -522,6 +534,7 @@ def handle_slot_action(appointment_details):
                 return ''
             else:
                 print(Fore.RED + "Invalid input. Please enter a valid value.")
+                
         # If selected appointment slot was BOOKED
         elif appointment_details == "BOOKED":
             print(Fore.BLUE + "This is a BOOKED appointment slot.")
@@ -541,6 +554,7 @@ def handle_slot_action(appointment_details):
                 return ''
             else:
                 print(Fore.RED + "Invalid input. Please enter a valid value.")
+
         # If selected appointment slot was BLOCKED
         elif appointment_details == "BLOCKED":
             print(Fore.BLUE + f"This is a {Fore.RED}BLOCKED {Fore.BLUE}slot.")
