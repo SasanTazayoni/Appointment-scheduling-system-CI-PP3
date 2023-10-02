@@ -498,7 +498,7 @@ def update_appointment_slot(selected_date, selected_week, slot_update, worksheet
             # Update the cell after to "BLOCKED"
             worksheet.update_cell(date_cell.row, next_time_col, 'BLOCKED')
 
-    if schedule_appointments():
+    if prompt_scheduling():
         # Trigger the function to display appointment slots again
         display_appointment_slots(selected_date, selected_week)
 
@@ -534,7 +534,7 @@ def handle_slot_action(appointment_details):
                 return ''
             else:
                 print(Fore.RED + "Invalid input. Please enter a valid value.")
-                
+
         # If selected appointment slot was BOOKED
         elif appointment_details == "BOOKED":
             print(Fore.BLUE + "This is a BOOKED appointment slot.")
@@ -588,7 +588,7 @@ def get_confirmation():
         else:
             print(Fore.RED + "Invalid input. Please enter 'yes' or 'no'.")
 
-def schedule_appointments():
+def prompt_scheduling():
     """
     Ask the user if they want to schedule more appointments.
     Returns True if the user wants to schedule more appointments, False otherwise.
