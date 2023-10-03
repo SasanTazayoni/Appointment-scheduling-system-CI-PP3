@@ -258,7 +258,7 @@ def pick_week():
                     get_dates_from_worksheet(selected_week)  # Call the function with the selected week to find the days of the week
                     break
                 else:
-                    print(Fore.RED + "Appointments in the past and appointments beyond 12 weeks in the future are not accessible. Please enter a number between '0' and '12'.")
+                    print(Fore.RED + "Appointments in the past and appointments beyond 12 weeks in the future are not accessible.\nPlease enter a number between '0' and '12'.")
         except ValueError:
             print(Fore.RED + "Invalid input. Please enter a number between '0' and '12'.")
 
