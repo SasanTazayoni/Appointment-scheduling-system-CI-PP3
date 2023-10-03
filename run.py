@@ -885,5 +885,4 @@ def prompt_scheduling():
         else:
             print(Fore.RED + "Invalid choice. Please enter 'y' or 'n'.")
 
-# login_prompt()
-pick_week()
+login_prompt()
