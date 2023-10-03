@@ -460,12 +460,12 @@ def access_appointment_slots(selected_date, selected_week, selected_time):
         # If there's only one item in the list, pass it to handle_slot_action
         slot_update = handle_slot_action(appointment_details_list[0])
         # Update single appointment slot
-        update_appointment_slot(selected_date, selected_week, slot_update, worksheet, date_cell, time_cell)
+        update_appointment_slot(selected_date, selected_week, slot_update, worksheet, date_cell, selected_time_cells)
     else:
         # If there's more than one item in the list, trigger a separate function
         multislot_update = handle_multislot_action(appointment_details_list)
         # Update 2 or more appointment slots
-        update_multi_appointment_slot(selected_date, selected_week, multislot_update, worksheet, date_cell, time_cell)
+        # update_multi_appointment_slot(selected_date, selected_week, multislot_update, worksheet, date_cell, time_cell)
 
 def handle_slot_action(appointment_details):
     """
@@ -558,10 +558,12 @@ def handle_blocked_slot():
         else:
             print(Fore.RED + "Invalid input. Please enter a valid value.")
 
-def update_appointment_slot(selected_date, selected_week, slot_update, worksheet, date_cell, time_cell):
+def update_appointment_slot(selected_date, selected_week, slot_update, worksheet, date_cell, selected_time_cells):
     """
     Update the slot and then ask if the user would like to schedule more appointments or exit.
     """
+    # Extract time cell from list
+    time_cell = selected_time_cells[0]
     # Update the slot based on user input
     if slot_update == "":
         # Trigger the function again if slot_update is an empty string
