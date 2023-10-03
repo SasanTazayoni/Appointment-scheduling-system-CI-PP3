@@ -673,14 +673,30 @@ def handle_multiple_blocked():
             print(Fore.YELLOW + "Returning to the previous menu...")
             return ''
         else:
-            print(Fore.RED + "Invalid input. Please enter a valid value.")
+            print(Fore.RED + "Invalid input. Please enter a valid value - '1' to unblock the slots or '2' to return to the previous menu.")
 
 def handle_multiple_booked():
     """
     Provide the user with the option to cancel multiple slots or to cancel the action.
     """
-    print(Fore.BLUE + "You have selected multiple BOOKED slots.")
-    # Add your code to handle this case here
+    while True:
+        print(Fore.BLUE + "You have selected multiple BOOKED slots.")
+        action = input("Enter '1' to cancel the slots or '2' to return to the previous menu: \n")
+        if action == "1":
+            # Ask for confirmation
+            confirmed = get_confirmation()
+            if confirmed:
+                print(Fore.YELLOW + "Processing request...")
+                print(Fore.GREEN + "The bookings were cancelled.")
+                return "OPEN"
+            else:
+                print(Fore.YELLOW + "Aborting...")
+                continue
+        elif action == "2":
+            print(Fore.YELLOW + "Returning to the previous menu...")
+            return ''
+        else:
+            print(Fore.RED + "Invalid input. Please enter a valid value - '1' to cancel bookings or '2' to return to the previous menu.")
 
 def handle_multiple_open():
     """
