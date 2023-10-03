@@ -646,7 +646,32 @@ def handle_mixture_of_blocked_open():
     Provide the user with the option to unblock or block multiple slots or to cancel the action.
     """
     print(Fore.BLUE + f"You have selected a mixture of {Fore.GREEN}OPEN {Fore.BLUE}and {Fore.RED}BLOCKED {Fore.BLUE}slots.")
-    # Add your code to handle this case here
+    
+    while True:
+        action = input("Enter '1' to unblock and open all the slots, '2' to block all the slots or '3' to return to the previous menu: \n")
+        if action == "1":
+            # Ask for confirmation
+            confirmed = get_confirmation()
+            if confirmed:
+                print(Fore.YELLOW + "Processing request...")
+                return "OPEN"
+            else:
+                print(Fore.YELLOW + "Aborting...")
+                continue
+        elif action == "2":
+            # Ask for confirmation
+            confirmed = get_confirmation()
+            if confirmed:
+                print(Fore.YELLOW + "Processing request...")
+                return "BLOCKED"
+            else:
+                print(Fore.YELLOW + "Aborting...")
+                continue
+        elif action == "3":
+            print(Fore.YELLOW + "Returning to the previous menu...")
+            return ''
+        else:
+            print(Fore.RED + "Invalid input. Please enter a valid value - '1' to unblock and open all the slots, '2' to block all the slots or '3' to return to the previous menu")
 
 def handle_mixture_of_booked_open():
     """
