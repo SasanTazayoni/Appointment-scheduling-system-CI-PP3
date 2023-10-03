@@ -654,6 +654,31 @@ def handle_mixture_of_booked_open():
     """
     print(Fore.BLUE + f"You have selected a mixture of {Fore.GREEN}OPEN {Fore.BLUE}and BOOKED slots.")
     
+    while True:
+        action = input("Enter '1' to book all the slots, '2' cancel all appointments and open the slots or '3' to return to the previous menu: \n")
+        if action == "1":
+            # Ask for confirmation
+            confirmed = get_confirmation()
+            if confirmed:
+                print(Fore.YELLOW + "Processing request...")
+                return "BOOKED"
+            else:
+                print(Fore.YELLOW + "Aborting...")
+                continue
+        elif action == "2":
+            # Ask for confirmation
+            confirmed = get_confirmation()
+            if confirmed:
+                print(Fore.YELLOW + "Processing request...")
+                return "OPEN"
+            else:
+                print(Fore.YELLOW + "Aborting...")
+                continue
+        elif action == "3":
+            print(Fore.YELLOW + "Returning to the previous menu...")
+            return ''
+        else:
+            print(Fore.RED + "Invalid input. Please enter a valid value - '1' to book all the slots, '2' cancel all appointments and open the slots or '3' to return to the previous menu")
 
 def handle_multiple_blocked():
     """
