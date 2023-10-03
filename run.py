@@ -300,7 +300,7 @@ def pick_day(dates, selected_week):
             else:
                 print(Fore.RED + "Invalid choice. Please enter a valid number.")
         except ValueError:
-            print(Fore.RED + "Invalid input. Please enter a number between '1-5' or '0' to repick the day.")
+            print(Fore.RED + "Invalid input. Please enter a number between '1-5' or '0' to repick the week.")
 
 def retrieve_appointment_slots(selected_date, selected_week):
     """
@@ -653,7 +653,7 @@ def handle_mixture_of_booked_open():
     Provide the user with the option to cancel or book multiple slots or to cancel the action.
     """
     print(Fore.BLUE + f"You have selected a mixture of {Fore.GREEN}OPEN {Fore.BLUE}and BOOKED slots.")
-    # Add your code to handle this case here
+    
 
 def handle_multiple_blocked():
     """
