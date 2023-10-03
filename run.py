@@ -465,7 +465,7 @@ def access_appointment_slots(selected_date, selected_week, selected_time):
         # If there's more than one item in the list, trigger a separate function
         multislot_update = handle_multislot_action(appointment_details_list)
         # Update 2 or more appointment slots
-        # update_multi_appointment_slot(selected_date, selected_week, multislot_update, worksheet, date_cell, time_cell)
+        update_multi_appointment_slots(selected_date, selected_week, multislot_update, worksheet, date_cell, selected_time_cells)
 
 def handle_slot_action(appointment_details):
     """
@@ -688,6 +688,44 @@ def handle_multiple_open():
     """
     print(Fore.BLUE + f"You have selected multiple {Fore.GREEN}OPEN {Fore.BLUE}slots.")
     # Add your code to handle this case here
+
+def update_multi_appointment_slots(selected_date, selected_week, multislot_update, worksheet, date_cell, selected_time_cells):
+    """
+    Update multiple slots and then ask if the user would like to schedule more appointments or exit.
+    """
+    for time_cell in selected_time_cells:
+        # Update the slot based on user input for each selected time cell
+        if multislot_update == "":
+            # Trigger the function again if multislot_update is an empty string
+            display_appointment_slots(selected_date, selected_week)
+        elif multislot_update == "BLOCKED":
+            worksheet.update_cell(date_cell.row, time_cell.col, 'BLOCKED')
+        elif multislot_update == "OPEN":
+            worksheet.update_cell(date_cell.row, time_cell.col, 'OPEN')
+        elif multislot_update == "BOOKED":
+            worksheet.update_cell(date_cell.row, time_cell.col, 'BOOKED')
+            prev_time_col = time_cell.col - 1
+            next_time_col = time_cell.col + 1
+
+            prev_slot = worksheet.cell(date_cell.row, prev_time_col).value
+            next_slot = worksheet.cell(date_cell.row, next_time_col).value
+
+            if prev_slot == "OPEN":
+                worksheet.update_cell(date_cell.row, prev_time_col, 'BLOCKED')
+            if next_slot == "OPEN":
+                worksheet.update_cell(date_cell.row, next_time_col, 'BLOCKED')
+
+    # Print the message outside of the loop (only once)
+    if multislot_update == "BLOCKED":
+        print(Fore.GREEN + f"The slots are now {Fore.RED}BLOCKED.")
+    elif multislot_update == "OPEN":
+        print(Fore.GREEN + "The slots are now OPEN.")
+    elif multislot_update == "BOOKED":
+        print(Fore.GREEN + f"The appointment slots are now {Fore.BLUE}BOOKED.")
+
+    if prompt_scheduling():
+        # Trigger the function to display appointment slots again
+        display_appointment_slots(selected_date, selected_week)
 
 def get_confirmation():
     """
