@@ -708,7 +708,32 @@ def handle_multiple_open():
     Provide the user with the option to either block or book multiple slots with an option to cancel the action.
     """
     print(Fore.BLUE + f"You have selected multiple {Fore.GREEN}OPEN {Fore.BLUE}slots.")
-    
+
+    while True:
+        action = input("Enter '1' to book all the slots, '2' to block all the slots or '3' to return to the previous menu: \n")
+        if action == "1":
+            # Ask for confirmation
+            confirmed = get_confirmation()
+            if confirmed:
+                print(Fore.YELLOW + "Processing request...")
+                return "BOOKED"
+            else:
+                print(Fore.YELLOW + "Aborting...")
+                continue
+        elif action == "2":
+            # Ask for confirmation
+            confirmed = get_confirmation()
+            if confirmed:
+                print(Fore.YELLOW + "Processing request...")
+                return "BLOCKED"
+            else:
+                print(Fore.YELLOW + "Aborting...")
+                continue
+        elif action == "3":
+            print(Fore.YELLOW + "Returning to the previous menu...")
+            return ''
+        else:
+            print(Fore.RED + "Invalid input. Please enter a valid value - '1' to book the slots, '2' to block the slots or '3' to return to the previous menu.")
 
 def update_multi_appointment_slots(selected_date, selected_week, multislot_update, worksheet, date_cell, selected_time_cells):
     """
