@@ -464,7 +464,8 @@ def access_appointment_slots(selected_date, selected_week, selected_time):
     else:
         # If there's more than one item in the list, trigger a separate function
         multislot_update = handle_multislot_action(appointment_details_list)
-        return
+        # Update 2 or more appointment slots
+        update_multi_appointment_slot(selected_date, selected_week, multislot_update, worksheet, date_cell, time_cell)
 
 def handle_slot_action(appointment_details):
     """
@@ -605,19 +606,86 @@ def handle_multislot_action(appointment_details_list):
    
     # Print the combinations
     if combinations == "BLOCKED, BOOKED, OPEN":
-        print(Fore.BLUE + f"You have selected a mixture of {Fore.RED}BLOCKED, {Fore.GREEN}OPEN {Fore.BLUE}and BOOKED slots.")
+        multislot_update = handle_mixture_of_blocked_booked_open()
     elif combinations == "BLOCKED, BOOKED":
-        print(Fore.BLUE + f"You have selected a mixture of {Fore.RED}BLOCKED {Fore.BLUE}and BOOKED slots.")
+        multislot_update = handle_mixture_of_blocked_booked()
     elif combinations == "BLOCKED, OPEN":
-        print(Fore.BLUE + f"You have selected a mixture of {Fore.GREEN}OPEN {Fore.BLUE}and {Fore.RED}BLOCKED {Fore.BLUE}slots.")
+        multislot_update = handle_mixture_of_blocked_open()
     elif combinations == "BOOKED, OPEN":
-        print(Fore.BLUE + f"You have selected a mixture of {Fore.GREEN}OPEN {Fore.BLUE}and BOOKED slots.")
+        multislot_update = handle_mixture_of_booked_open()
     elif "BLOCKED" in slot_states:
-        print(Fore.BLUE + f"You have selected multiple {Fore.RED}BLOCKED {Fore.BLUE}slots.")
+        multislot_update = handle_multiple_blocked()
     elif "BOOKED" in slot_states:
-        print(Fore.BLUE + "You have selected multiple BOOKED slots.")
+        multislot_update = handle_multiple_booked()
     elif "OPEN" in slot_states:
-        print(Fore.BLUE + f"You have selected multiple {Fore.GREEN}OPEN {Fore.BLUE}slots.")
+        multislot_update = handle_multiple_open()
+
+    return multislot_update
+
+def handle_mixture_of_blocked_booked_open():
+    """
+    Provide the user with the option to open multiple slots (which cancels all appointments and unblocks all blocked slots) or to cancel the action.
+    """
+    print(Fore.BLUE + f"You have selected a mixture of {Fore.RED}BLOCKED, {Fore.GREEN}OPEN {Fore.BLUE}and BOOKED slots.")
+    # Add your code to handle this case here
+
+def handle_mixture_of_blocked_booked():
+    """
+    Provide the user with the option to open multiple slots (which cancels all appointments and unblocks all blocked slots) or to cancel the action.
+    """
+    print(Fore.BLUE + f"You have selected a mixture of {Fore.RED}BLOCKED {Fore.BLUE}and BOOKED slots.")
+    # Add your code to handle this case here
+
+def handle_mixture_of_blocked_open():
+    """
+    Provide the user with the option to unblock or block multiple slots or to cancel the action.
+    """
+    print(Fore.BLUE + f"You have selected a mixture of {Fore.GREEN}OPEN {Fore.BLUE}and {Fore.RED}BLOCKED {Fore.BLUE}slots.")
+    # Add your code to handle this case here
+
+def handle_mixture_of_booked_open():
+    """
+    Provide the user with the option to cancel or book multiple slots or to cancel the action.
+    """
+    print(Fore.BLUE + f"You have selected a mixture of {Fore.GREEN}OPEN {Fore.BLUE}and BOOKED slots.")
+    # Add your code to handle this case here
+
+def handle_multiple_blocked():
+    """
+    Provide the user with the option to unblock multiple slots or to cancel the action.
+    """
+    while True:
+        print(Fore.BLUE + f"You have selected multiple {Fore.RED}BLOCKED {Fore.BLUE}slots.")
+        action = input("Enter '1' to unblock the slots or '2' to return to the previous menu: \n")
+        if action == "1":
+            # Ask for confirmation
+            confirmed = get_confirmation()
+            if confirmed:
+                print(Fore.YELLOW + "Processing request...")
+                print(Fore.GREEN + "The slots were unblocked.")
+                return "OPEN"
+            else:
+                print(Fore.YELLOW + "Aborting...")
+                continue
+        elif action == "2":
+            print(Fore.YELLOW + "Returning to the previous menu...")
+            return ''
+        else:
+            print(Fore.RED + "Invalid input. Please enter a valid value.")
+
+def handle_multiple_booked():
+    """
+    Provide the user with the option to cancel multiple slots or to cancel the action.
+    """
+    print(Fore.BLUE + "You have selected multiple BOOKED slots.")
+    # Add your code to handle this case here
+
+def handle_multiple_open():
+    """
+    Provide the user with the option to either block or book multiple slots with an option to cancel the action.
+    """
+    print(Fore.BLUE + f"You have selected multiple {Fore.GREEN}OPEN {Fore.BLUE}slots.")
+    # Add your code to handle this case here
 
 def get_confirmation():
     """
