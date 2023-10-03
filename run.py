@@ -258,9 +258,9 @@ def pick_week():
                     get_dates_from_worksheet(selected_week)  # Call the function with the selected week to find the days of the week
                     break
                 else:
-                    print(Fore.RED + "Appointments in the past and appointments beyond 12 weeks in the future are not accessible. Please enter a number between 0 and 12.")
+                    print(Fore.RED + "Appointments in the past and appointments beyond 12 weeks in the future are not accessible. Please enter a number between '0' and '12'.")
         except ValueError:
-            print(Fore.RED + "Invalid input. Please enter a number between 0 and 12.")
+            print(Fore.RED + "Invalid input. Please enter a number between '0' and '12'.")
 
 def get_dates_from_worksheet(selected_week):
     """
@@ -510,7 +510,7 @@ def handle_open_slot():
             print(Fore.YELLOW + "Returning to the previous menu...")
             return ''
         else:
-            print(Fore.RED + "Invalid input. Please enter a valid value.")
+            print(Fore.RED + "Invalid input. Please enter a valid value - '1' to book the slot, '2' to block the slot or '3' to return to the previous menu.")
 
 def handle_booked_slot():
     """
@@ -533,7 +533,7 @@ def handle_booked_slot():
             print(Fore.YELLOW + "Returning to the previous menu...")
             return ''
         else:
-            print(Fore.RED + "Invalid input. Please enter a valid value.")
+            print(Fore.RED + "Invalid input. Please enter a valid value - '1' to cancel the slot or '2' to return to the previous menu.")
 
 def handle_blocked_slot():
     """
@@ -556,7 +556,7 @@ def handle_blocked_slot():
             print(Fore.YELLOW + "Returning to the previous menu...")
             return ''
         else:
-            print(Fore.RED + "Invalid input. Please enter a valid value.")
+            print(Fore.RED + "Invalid input. Please enter a valid value - '1' to unblock the slot or '2' to return to the previous menu.")
 
 def update_appointment_slot(selected_date, selected_week, slot_update, worksheet, date_cell, selected_time_cells):
     """
