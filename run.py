@@ -54,19 +54,19 @@ def login_prompt():
     print(Fore.BLUE + 'Appointment Booking System\n')
 
     while True:
-        choice = input('Would you like to log in? (yes/no): \n').strip().lower()
+        choice = input('Would you like to log in? (y/n): \n').strip().lower()
 
-        if choice == 'yes':
+        if choice == 'y':
             login()
             break
-        elif choice == 'no':
+        elif choice == 'n':
             print()
             print(Fore.YELLOW + "Exiting the program...")
             exit()
         elif not choice:
-            print(Fore.RED + "The input cannot be empty. Please enter 'yes' or 'no'.\n")
+            print(Fore.RED + "The input cannot be empty. Please enter 'y' or 'n'.\n")
         else:
-            print(Fore.RED + "Invalid choice. Please enter 'yes' or 'no'.\n")
+            print(Fore.RED + "Invalid choice. Please enter 'y' or 'n'.\n")
 
 def login():
     """
@@ -694,13 +694,13 @@ def get_confirmation():
     Ask the user for confirmation when changing a slot or multiple slots.
     """
     while True:
-        confirm = input("Do you wish to confirm this change? (yes/no): \n").lower()
-        if confirm == "yes":
+        confirm = input("Do you wish to confirm this change? (y/n): \n").lower()
+        if confirm == "y":
             return True
-        elif confirm == "no":
+        elif confirm == "n":
             return False
         else:
-            print(Fore.RED + "Invalid input. Please enter 'yes' or 'no'.")
+            print(Fore.RED + "Invalid input. Please enter 'y' or 'n'.")
 
 def prompt_scheduling():
     """
@@ -708,14 +708,14 @@ def prompt_scheduling():
     Returns True if the user wants to schedule more appointments, False otherwise.
     """
     while True:
-        choice = input("Do you want to schedule more appointments? (yes/no): \n").strip().lower()
-        if choice == 'yes':
+        choice = input("Do you want to schedule more appointments? (y/n): \n").strip().lower()
+        if choice == 'y':
             return True
-        elif choice == 'no':
+        elif choice == 'n':
             print(Fore.YELLOW + "Exiting the program...")
             exit()  # Exit the program
         else:
-            print(Fore.RED + "Invalid choice. Please enter 'yes' or 'no'.")
+            print(Fore.RED + "Invalid choice. Please enter 'y' or 'n'.")
 
 # login_prompt()
 pick_week()
