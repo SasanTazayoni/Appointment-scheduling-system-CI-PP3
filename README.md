@@ -18,5 +18,5 @@ In these upcoming iterations, the application aims to integrate a multitude of f
 
 These planned enhancements will transform the application into a comprehensive, end-to-end solution that not only addresses the consultant's current challenges but also takes their business to the next level of efficiency and customer service. By providing a seamless, integrated platform for appointment management, billing, communication, and client engagement, the consultant can focus more on delivering top-notch IT support while leaving the administrative tasks to the application.
 
-You can access the application [here](https://appointment-booking-system-987e0f827702.herokuapp.com/).
+You can access the application [here](https://appointment-booking-system-987e0f827702.herokuapp.com/). <br>
 You can also access the associated spreadsheet [here](https://docs.google.com/spreadsheets/d/1uBX51j8qVqieYV65oMwpC26L3HZVyuoybPL4kNRlyxY/edit?usp=sharing).
