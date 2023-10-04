@@ -20,3 +20,5 @@ These planned enhancements will transform the application into a comprehensive, 
 
 You can access the application [here](https://appointment-booking-system-987e0f827702.herokuapp.com/). <br>
 You can also access the associated spreadsheet [here](https://docs.google.com/spreadsheets/d/1uBX51j8qVqieYV65oMwpC26L3HZVyuoybPL4kNRlyxY/edit?usp=sharing).
+
+***IMPORTANT NOTE: The login credentials are 'admin' for the username and 'password' for the password.***
