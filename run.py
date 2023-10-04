@@ -51,6 +51,7 @@ def login_prompt():
     Ask whether the user would like to log in and present the name of the application. Incorrect login details causes the login to fail.
     Failing a login 3 times causes the user to be locked out temporarily as a security measure.
     """
+    print()
     print(Fore.BLUE + 'Appointment Booking System\n')
 
     # Login
