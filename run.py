@@ -28,7 +28,7 @@ LOCKOUT_DURATION = 10
 
 def handle_lockout():
     """
-    Handle the lockout behavior.
+    When triggered, this function prevents the user from taking any action. This is to prevent spam and is a security measure.
     """
     locked_out = True
     
@@ -48,11 +48,12 @@ def handle_lockout():
 
 def login_prompt():
     """
-    Ask whether the user would like to log in and present the name of the application
+    Ask whether the user would like to log in and present the name of the application. Incorrect login details causes the login to fail.
+    Failing a login 3 times causes the user to be locked out temporarily as a security measure.
     """
-    print()
     print(Fore.BLUE + 'Appointment Booking System\n')
 
+    # Login
     while True:
         choice = input('Would you like to log in? (y/n): \n').strip().lower()
 
@@ -73,9 +74,11 @@ def login():
     Ask the user for a login and a password
     """
 
+    # Initialize login attempts and locked out status
     login_attempts = 0
     locked_out = False
 
+    # Check if the user is locked out and handle the lockout if necessary
     if locked_out:
         locked_out = handle_lockout()
 
@@ -85,17 +88,21 @@ def login():
     while login_attempts < MAX_LOGIN_ATTEMPTS and not locked_out:
         login = input("Username: \n")
         
+        # Check if the entered username is empty
         if not login.strip():
             print(Fore.RED + "Username cannot be empty.\n")
             continue
         
+        # Loop for login attempts
         while True:
             password = input("Password: \n")
 
+            # Check if the entered password is empty
             if not password.strip():
                 print(Fore.RED + "Password cannot be empty.\n")
                 continue
             
+            # Check if the entered login and password match the expected values
             if login == USERNAME and password == PASSWORD:
                 print()
                 print(Fore.GREEN + "Login successful!")
@@ -104,6 +111,7 @@ def login():
                 return
             else:
                 login_attempts += 1
+                # Check if maximum login attempts reached
                 if login_attempts == MAX_LOGIN_ATTEMPTS:
                     print(Fore.RED + "Login failed.\n")
                     locked_out = handle_lockout()
@@ -121,16 +129,18 @@ def update_cell_dates():
     # Get Monday's date for the first week on the spreadsheet
     w1_worksheet_cell_value = SHEET.worksheet("week1").acell("A2").value
 
+    # Calculate the difference in weeks between the current date and the date in 'week1'
     difference_in_weeks = get_week_difference(monday_date, w1_worksheet_cell_value)
     print(Fore.YELLOW + "Checking worksheets...")
 
-    # Update worksheets based on the difference in weeks
+    # Check if the worksheets need updating based on the difference in weeks
     if difference_in_weeks == 0:
         print(Fore.BLUE + "Worksheets are up to date")
     elif difference_in_weeks > 12:
         print(Fore.BLUE + "It seems that you have been away for a long time.")
         print(Fore.YELLOW + "Renewing worksheets...")
 
+        # Refresh and update all worksheets if the difference is more than 12 weeks
         for worksheet in SHEET.worksheets():
             refresh_cells(worksheet)
             set_cell_dates(worksheet, current_datetime)
@@ -139,6 +149,7 @@ def update_cell_dates():
     elif difference_in_weeks > 0:
         print(Fore.YELLOW + "Updating worksheets...")
 
+        # Loop through each week, update data from a target week if valid
         for i in range(1, 13):
             worksheet_title = f"week{i}"
             worksheet = SHEET.worksheet(worksheet_title)
@@ -352,6 +363,7 @@ def display_appointment_slots(selected_date, selected_week):
     """
     print(Fore.YELLOW + f"Retrieving appointment slots...")
     
+    # Retrieve appointment slots for the selected date and week
     all_slots = retrieve_appointment_slots(selected_date, selected_week)
 
     # Present visual display for time slots
@@ -401,7 +413,7 @@ def select_appointment_slots(all_slots, selected_date, selected_week):
                     start_hour, start_minute = int(start_time_parts[0]), int(start_time_parts[1])
                     end_hour, end_minute = int(end_time_parts[0]), int(end_time_parts[1])
 
-                    # Create a list of time slots between start_time and end_time
+                    # Create a list of time slots between start_time and end_time inclusively
                     selected_time_range = []
                     while start_hour < end_hour or (start_hour == end_hour and start_minute <= end_minute):
                         selected_time_range.append(f"{start_hour:02}:{start_minute:02}")
@@ -567,6 +579,7 @@ def update_appointment_slot(selected_date, selected_week, slot_update, worksheet
     """
     # Extract time cell from list
     time_cell = selected_time_cells[0]
+
     # Update the slot based on user input
     if slot_update == "":
         # Trigger the function again if slot_update is an empty string
@@ -588,15 +601,16 @@ def update_appointment_slot(selected_date, selected_week, slot_update, worksheet
         prev_slot = worksheet.cell(date_cell.row, prev_time_col).value
         next_slot = worksheet.cell(date_cell.row, next_time_col).value
 
+        # If the slot before is "OPEN," update it to "BLOCKED"
         if prev_slot == "OPEN":
-            # Update the cell before to "BLOCKED"
             worksheet.update_cell(date_cell.row, prev_time_col, 'BLOCKED')
+        # If the slot after is "OPEN," update it to "BLOCKED"    
         if next_slot == "OPEN":
-            # Update the cell after to "BLOCKED"
             worksheet.update_cell(date_cell.row, next_time_col, 'BLOCKED')
 
+    # Check if the user wants to schedule more appointments
     if prompt_scheduling():
-        # Trigger the function to display appointment slots again
+        # Trigger the function to display appointment slots again if yes otherwise exit the program
         display_appointment_slots(selected_date, selected_week)
 
 def handle_multislot_action(appointment_details_list):
@@ -609,7 +623,7 @@ def handle_multislot_action(appointment_details_list):
     # Determine the combinations of slot states
     combinations = ", ".join(sorted(slot_states))
    
-    # Print the combinations
+    # Select the appropriate action based on the combination of slots selected by the user
     if combinations == "BLOCKED, BOOKED, OPEN":
         multislot_update = handle_mixture_of_blocked_booked_open()
     elif combinations == "BLOCKED, BOOKED":
@@ -837,15 +851,18 @@ def update_multi_appointment_slots(selected_date, selected_week, multislot_updat
             prev_time_col = time_cell.col - 1
             next_time_col = time_cell.col + 1
 
+            # Check and update slots before and after the booked slot
             prev_slot = worksheet.cell(date_cell.row, prev_time_col).value
             next_slot = worksheet.cell(date_cell.row, next_time_col).value
 
+            # If the slot before is "OPEN," update it to "BLOCKED"
             if prev_slot == "OPEN":
                 worksheet.update_cell(date_cell.row, prev_time_col, 'BLOCKED')
+            # If the slot after is "OPEN," update it to "BLOCKED"
             if next_slot == "OPEN":
                 worksheet.update_cell(date_cell.row, next_time_col, 'BLOCKED')
 
-    # Print the message outside of the loop (only once)
+    # Print the update result message based on the multislot_update action
     if multislot_update == "BLOCKED":
         print(Fore.GREEN + f"The slots are now {Fore.RED}BLOCKED.")
     elif multislot_update == "OPEN":
@@ -853,6 +870,7 @@ def update_multi_appointment_slots(selected_date, selected_week, multislot_updat
     elif multislot_update == "BOOKED":
         print(Fore.GREEN + f"The appointment slots are now {Fore.BLUE}BOOKED.")
 
+    # Check if the user wants to schedule more appointments
     if prompt_scheduling():
         # Trigger the function to display appointment slots again
         display_appointment_slots(selected_date, selected_week)
