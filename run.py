@@ -259,7 +259,7 @@ def pick_week():
         print()
         
         try:
-            choice = input("Enter the number of the week you want to select: ")
+            choice = input("Enter the number of the week you want to select: \n")
             if choice == '0':
                 print(Fore.YELLOW + "Exiting the program...")
                 exit()  # Exit the program
