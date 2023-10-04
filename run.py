@@ -1,12 +1,16 @@
 import gspread
 from google.oauth2.service_account import Credentials
-from config import USERNAME, PASSWORD
 import colorama
 from colorama import Fore, Back
 colorama.init(autoreset=True)
 import datetime
 import time
 import os
+if os.path.exists("env.py"):
+    import env
+
+USERNAME = os.environ.get('USERNAME')
+PASSWORD = os.environ.get('PASSWORD')
 
 # Define the scope for Google Sheets API
 SCOPE = [
