@@ -43,3 +43,17 @@ You can also access the associated spreadsheet [here](https://docs.google.com/sp
 * When a slot has been changed, the user is prompted as to whether they would like to schedule more appointments. If yes, the program loops to the day select again. If no, the program exits.
 
 **Please note: Although these instructions might appear complex, the application is actually straightforward and user-friendly.**
+
+## User stories
+
+As a user I want to:
+
+* Have a secure system which only I can access so that I can manage my weekly work schedule.
+* View my current schedule for any specific day.
+* Select a week, day and time to book an appointment.
+* Ensure that my bookings are not booked back-to-back so that I have time to plan my journey and travel to my next customer.
+* Block slots for times on days where I am busy with other endeavours and unblock slots when necessary.
+* Cancel appointments that are no longer required.
+* Manage multiple slots to book long sessions, block entire days or cancel multiple appointments and slots.
+* Navigate the system with ease and have feedback for every decision that I make.
+* Cancel my decision if I make any mistakes at any point while I am using the application.
