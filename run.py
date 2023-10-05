@@ -61,7 +61,7 @@ def login_prompt():
 
     # Login
     while True:
-        choice = input(f"Would you like to log in? (y/n): \n").strip().lower()
+        choice = input(f"Would you like to log in? {Fore.BLUE}(y/n){Fore.RESET}: \n").strip().lower()
 
         if choice == 'y':
             login()
@@ -302,7 +302,7 @@ def pick_day(dates, selected_week):
     # Ask the user to pick a date or enter '0' to repick week
     while True:
         try:
-            choice = input("Enter a number from '1-5' for the date you want to select or '0' to repick the week:\n")
+            choice = input(f"Enter a number from {Fore.BLUE}'1-5'{Fore.RESET} for the date you want to select or {Fore.BLUE}'0'{Fore.RESET} to repick the week:\n")
             choice = int(choice)
 
             # Check if the user wants to return to week selection
@@ -382,7 +382,7 @@ def display_appointment_slots(selected_date, selected_week):
     }
     
     # Iterate through the dictionary and format the slots
-    formatted_slots = " ".join([f"{time_slot} {color_codes[status]}{status} {Fore.RESET}" for time_slot, status in all_slots.items()])
+    formatted_slots = " ".join([f"{time_slot} {color_codes[status]}{status}{Fore.RESET}" for time_slot, status in all_slots.items()])
     print(formatted_slots)
     print()
 
@@ -396,7 +396,7 @@ def select_appointment_slots(all_slots, selected_date, selected_week):
 
     while True:
         try:
-            choice = input("Enter the desired appointment time or range (e.g. '09:00' or '10:30-11:30'),'cancel' to return to date selection or 'exit' to exit: \n")
+            choice = input(f"Enter the desired appointment time or range (e.g. {Fore.BLUE}'09:00'{Fore.RESET} or {Fore.BLUE}'10:30-11:30'{Fore.RESET}),{Fore.BLUE}'cancel'{Fore.RESET} to return to date selection or {Fore.BLUE}'exit'{Fore.RESET} to exit: \n")
 
             if choice.lower() == 'cancel':
                 print(Fore.YELLOW + 'Returning to previous menu...')
@@ -430,7 +430,7 @@ def select_appointment_slots(all_slots, selected_date, selected_week):
                     access_appointment_slots(selected_date, selected_week, selected_time_range)
                     break
                 else:
-                    print(Fore.RED + "Invalid time range input. Please ensure you entire times in the correct format (e.g. 15:00) and between 09:00 and 16:30")
+                    print(Fore.RED + "Invalid time range input. Please ensure you entire times in the correct format and between 09:00 and 16:30")
             else:
                 # Check if the single choice is valid
                 if choice in all_slots:
@@ -506,7 +506,7 @@ def handle_open_slot():
     print(Fore.BLUE + f"This is an {Fore.GREEN}OPEN {Fore.BLUE}slot.")
 
     while True:
-        action = input("Enter '1' to book the slot, '2' to block the slot or '3' to return to the previous menu: \n")
+        action = input(f"Enter {Fore.BLUE}'1'{Fore.RESET} to book the slot, {Fore.BLUE}'2'{Fore.RESET} to block the slot or {Fore.BLUE}'3'{Fore.RESET} to return to the previous menu: \n")
         if action == "1":
             # Ask for confirmation
             confirmed = get_confirmation()
@@ -538,7 +538,7 @@ def handle_booked_slot():
     print(Fore.BLUE + "This is a BOOKED appointment slot.")
 
     while True:
-        action = input("Enter '1' to cancel the slot or '2' to return to the previous menu: \n")
+        action = input(f"Enter {Fore.BLUE}'1'{Fore.RESET} to cancel the slot or {Fore.BLUE}'2'{Fore.RESET} to return to the previous menu: \n")
         if action == "1":
             # Ask for confirmation
             confirmed = get_confirmation()
@@ -562,7 +562,7 @@ def handle_blocked_slot():
     print(Fore.BLUE + f"This is an {Fore.RED}BLOCKED {Fore.BLUE}slot.")
 
     while True:
-        action = input("Enter '1' to unblock the slot or '2' to return to the previous menu: \n")
+        action = input(f"Enter {Fore.BLUE}'1'{Fore.RESET} to unblock the slot or {Fore.BLUE}'2'{Fore.RESET} to return to the previous menu: \n")
         if action == "1":
             # Ask for confirmation
             confirmed = get_confirmation()
@@ -654,7 +654,7 @@ def handle_mixture_of_blocked_booked_open():
     print(Fore.BLUE + f"You have selected a mixture of {Fore.RED}BLOCKED, {Fore.GREEN}OPEN {Fore.BLUE}and BOOKED slots.")
     
     while True:
-        action = input("Enter '1' to open all the slots (all appointments will be cancelled and all blocked slots will be unblocked) or '2' to return to the previous menu: \n")
+        action = input(f"Enter {Fore.BLUE}'1'{Fore.RESET} to open all the slots (all appointments will be cancelled and all blocked slots will be unblocked) or {Fore.BLUE}'2'{Fore.RESET} to return to the previous menu: \n")
         if action == "1":
             # Ask for confirmation
             confirmed = get_confirmation()
@@ -678,7 +678,7 @@ def handle_mixture_of_blocked_booked():
     print(Fore.BLUE + f"You have selected a mixture of {Fore.RED}BLOCKED {Fore.BLUE}and BOOKED slots.")
     
     while True:
-        action = input("Enter '1' to open all the slots (all appointments will be cancelled and all blocked slots will be unblocked) or '2' to return to the previous menu: \n")
+        action = input(f"Enter {Fore.BLUE}'1'{Fore.RESET} to open all the slots (all appointments will be cancelled and all blocked slots will be unblocked) or {Fore.BLUE}'2'{Fore.RESET} to return to the previous menu: \n")
         if action == "1":
             # Ask for confirmation
             confirmed = get_confirmation()
@@ -702,7 +702,7 @@ def handle_mixture_of_blocked_open():
     print(Fore.BLUE + f"You have selected a mixture of {Fore.GREEN}OPEN {Fore.BLUE}and {Fore.RED}BLOCKED {Fore.BLUE}slots.")
     
     while True:
-        action = input("Enter '1' to unblock and open all the slots, '2' to block all the slots or '3' to return to the previous menu: \n")
+        action = input(f"Enter {Fore.BLUE}'1'{Fore.RESET} to unblock and open all the slots, {Fore.BLUE}'2'{Fore.RESET} to block all the slots or {Fore.BLUE}'3'{Fore.RESET} to return to the previous menu: \n")
         if action == "1":
             # Ask for confirmation
             confirmed = get_confirmation()
@@ -734,7 +734,7 @@ def handle_mixture_of_booked_open():
     print(Fore.BLUE + f"You have selected a mixture of {Fore.GREEN}OPEN {Fore.BLUE}and BOOKED slots.")
     
     while True:
-        action = input("Enter '1' to book all the slots, '2' cancel all appointments and open the slots or '3' to return to the previous menu: \n")
+        action = input(f"Enter {Fore.BLUE}'1'{Fore.RESET} to book all the slots, {Fore.BLUE}'2'{Fore.RESET} cancel all appointments and open the slots or {Fore.BLUE}'3'{Fore.RESET} to return to the previous menu: \n")
         if action == "1":
             # Ask for confirmation
             confirmed = get_confirmation()
@@ -766,7 +766,7 @@ def handle_multiple_blocked():
     print(Fore.BLUE + f"You have selected multiple {Fore.RED}BLOCKED {Fore.BLUE}slots.")
 
     while True:
-        action = input("Enter '1' to unblock the slots or '2' to return to the previous menu: \n")
+        action = input(f"Enter {Fore.BLUE}'1'{Fore.RESET} to unblock the slots or {Fore.BLUE}'2'{Fore.RESET} to return to the previous menu: \n")
         if action == "1":
             # Ask for confirmation
             confirmed = get_confirmation()
@@ -790,7 +790,7 @@ def handle_multiple_booked():
     print(Fore.BLUE + "You have selected multiple BOOKED slots.")
     
     while True:
-        action = input("Enter '1' to cancel the slots or '2' to return to the previous menu: \n")
+        action = input(f"Enter {Fore.BLUE}'1'{Fore.RESET} to cancel the slots or {Fore.BLUE}'2'{Fore.RESET} to return to the previous menu: \n")
         if action == "1":
             # Ask for confirmation
             confirmed = get_confirmation()
@@ -814,7 +814,7 @@ def handle_multiple_open():
     print(Fore.BLUE + f"You have selected multiple {Fore.GREEN}OPEN {Fore.BLUE}slots.")
 
     while True:
-        action = input("Enter '1' to book all the slots, '2' to block all the slots or '3' to return to the previous menu: \n")
+        action = input(f"Enter {Fore.BLUE}'1'{Fore.RESET} to book all the slots, {Fore.BLUE}'2'{Fore.RESET} to block all the slots or {Fore.BLUE}'3'{Fore.RESET} to return to the previous menu: \n")
         if action == "1":
             # Ask for confirmation
             confirmed = get_confirmation()
@@ -886,7 +886,7 @@ def get_confirmation():
     Ask the user for confirmation when changing a slot or multiple slots.
     """
     while True:
-        confirm = input("Do you wish to confirm this change? (y/n): \n").lower()
+        confirm = input(f"Do you wish to confirm this change? {Fore.BLUE}(y/n){Fore.RESET}: \n").lower()
         if confirm == "y":
             return True
         elif confirm == "n":
@@ -900,7 +900,7 @@ def prompt_scheduling():
     Returns True if the user wants to schedule more appointments, False otherwise.
     """
     while True:
-        choice = input("Do you want to schedule more appointments? (y/n): \n").strip().lower()
+        choice = input(f"Do you want to schedule more appointments? {Fore.BLUE}(y/n){Fore.RESET}: \n").strip().lower()
         if choice == 'y':
             return True
         elif choice == 'n':
