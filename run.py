@@ -1,5 +1,6 @@
 import gspread
 from google.oauth2.service_account import Credentials
+import getpass
 import colorama
 from colorama import Fore, Back
 colorama.init(autoreset=True)
@@ -56,11 +57,11 @@ def login_prompt():
     Failing a login 3 times causes the user to be locked out temporarily as a security measure.
     """
     print()
-    print(Fore.BLUE + 'Appointment Booking System - A system designed to manage weekly bookings\n')
+    print(Fore.BLUE + "Appointment Booking System - A system designed to manage weekly bookings\n")
 
     # Login
     while True:
-        choice = input('Would you like to log in? (y/n): \n').strip().lower()
+        choice = input(f"Would you like to log in? (y/n): \n").strip().lower()
 
         if choice == 'y':
             login()
@@ -91,7 +92,7 @@ def login():
     print(Fore.BLUE + 'Please enter the correct login details\n')
 
     while login_attempts < MAX_LOGIN_ATTEMPTS and not locked_out:
-        login = input("Username: \n")
+        login = getpass.getpass("Username: ")
         
         # Check if the entered username is empty
         if not login.strip():
@@ -100,7 +101,7 @@ def login():
         
         # Loop for login attempts
         while True:
-            password = input("Password: \n")
+            password = getpass.getpass("Password: ")
 
             # Check if the entered password is empty
             if not password.strip():
