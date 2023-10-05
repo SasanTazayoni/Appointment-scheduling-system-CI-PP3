@@ -41,4 +41,5 @@ You can also access the associated spreadsheet [here](https://docs.google.com/sp
 * For each change of slot, there is a confirmation which if not confirmed, does not change the slot and reprompts the user for the appropriate action.
 * If the user confirms, the program then adjusts the spreadsheet accordingly.
 * When a slot has been changed, the user is prompted as to whether they would like to schedule more appointments. If yes, the program loops to the day select again. If no, the program exits.
-* Although these instructions might appear complex, the application is actually straightforward and user-friendly.
+
+**Please note: Although these instructions might appear complex, the application is actually straightforward and user-friendly.**
