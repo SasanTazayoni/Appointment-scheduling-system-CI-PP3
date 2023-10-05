@@ -1,4 +1,4 @@
-# Appointment Scheduling System
+# Appointment Scheduling System (Prototype)
 
 ## Introduction
 
@@ -22,3 +22,23 @@ You can access the application [here](https://appointment-booking-system-987e0f8
 You can also access the associated spreadsheet [here](https://docs.google.com/spreadsheets/d/1uBX51j8qVqieYV65oMwpC26L3HZVyuoybPL4kNRlyxY/edit?usp=sharing).
 
 ***IMPORTANT NOTE: The login credentials are 'admin' for the username and 'password' for the password.***
+
+## How to use the application
+
+* The user is asked whether they would like to login (typing 'n' exits the application)
+* A login consists of a username and password and these need to be typed correctly in order to log in (details provided above).
+* After logging in, the program detects the time and date of log in, where each week starts on a Monday at 12:00 AM, and automatically updates the spreadsheet for week1 to match the current week and all the following weeks are shifted along accordingly. Previous weeks are deleted because they are no longer relevant and new weeks with open slots are appended to the end of the spreadsheet. If the user logs in within the current week, no update takes place. In a future iteration of this application, the deleted weeks will be archived in a database for reference.
+* After this, the user is presented with a set of weeks from 1-12 with numbers allocated to each ("week1" represents the current week) and an option to exit the application.
+* After selecting an appropriate week, the user is then presented with the days of that week with numbers allocated to each day. There is also an option to return to the week selection in case of a mistake.
+* After selecting a day, the user is then presented the time slots for the selected day and whether the time slots are booked, blocked or open according to the spreadsheet. The user now has the option to either exit the program altogether, to cancel the choice which allows the user to reselect a day, to select a specific time slot or to select a range of time slots. Selecting a single time slot allows the alteration that single slot only, whereas selecting multiple slots allows multiple slots to be changed.
+* If the user selects an open slot, or multiple open slots, they have the choice to book these slots, block these slots or to cancel their choice and return to the previous menu to select different slots. Booking a time slot or range, automatically puts a block at the start and end of the bookings so that appointments are not booked back to back and the consultant has time to travel to the appointment destination.
+* If the user selects a booked slot or multiple booked slots, they have the option of either cancelling them all or returning to the previous menu.
+* If the user selects a blocked slot or multiple blocked slots, they have the option of either unblocking them all or returning to the previous menu.
+* If the user selects a mixture of open and blocked slots, they have the option of either blocking all the open slots, unblocking the blocked slots or returning to the previous menu.
+* If the user selects a mixture of open and booked slots, they have the option of either booking all the open slots, cancelling the booked slots or returning to the previous menu.
+* If the user selects a mixture of blocked and booked slots, since booked appointments cannot be blocked and blocked slots cannot be booked the user has only 2 options: cancel all appointments and unblock all slots or return to the previous menu.
+* If the user selects a mixture of blocked, booked and open slots, the same logic as above applies where the user has only 2 options: cancel all appointments and unblock all slots or return to the previous menu.
+* For each change of slot, there is a confirmation which if not confirmed, does not change the slot and reprompts the user for the appropriate action.
+* If the user confirms, the program then adjusts the spreadsheet accordingly.
+* When a slot has been changed, the user is prompted as to whether they would like to schedule more appointments. If yes, the program loops to the day select again. If no, the program exits.
+* Although these instructions might appear complex, the application is actually straightforward and user-friendly.
