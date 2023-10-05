@@ -56,7 +56,7 @@ def login_prompt():
     Failing a login 3 times causes the user to be locked out temporarily as a security measure.
     """
     print()
-    print(Fore.BLUE + 'Appointment Booking System\n')
+    print(Fore.BLUE + 'Appointment Booking System - A system designed to manage weekly bookings\n')
 
     # Login
     while True:
