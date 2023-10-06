@@ -54,6 +54,7 @@ As a user I want to:
 * View my current schedule for any specific day.
 * Select a week, day and time to book an appointment.
 * Ensure that my bookings are not booked back-to-back so that I have time to plan my journey and travel to my next customer.
+* There to be safety measures so that I do not accidentally book slots where I am unavailable and similarly do not block slots where there are booked appointments
 * Block slots for times on days where I am busy with other endeavours and unblock slots when necessary.
 * Cancel appointments that are no longer required.
 * Manage multiple slots to book long sessions, block entire days or cancel multiple appointments and slots.
@@ -151,7 +152,7 @@ The initial flow chart was developed before the project's actual implementation,
   
   ![Single booked slot](documentation/singlebookedslot.png) <br>
   
-  * If a single 'OPEN' slot is selected the user can book an appointment, block the slot or return to the previous menu (for any booking to prevent back-to-back bookings, the slot immediately before and after the booked slot will be blocked): <br>
+  * If a single 'OPEN' slot is selected the user can book an appointment, block the slot or return to the previous menu: <br>
   
   ![Single open slot](documentation/singleopenslot.png) <br>
   
@@ -225,3 +226,93 @@ The initial flow chart was developed before the project's actual implementation,
 * time: A Python library for time-related functions.
 * os: A Python library for interacting with the operating system.
 * env.py: Used to store configuration or secret information. This is a common practice for keeping sensitive data separate from the code.
+
+## Testing
+
+### Validator testing
+
+[Python validator](https://extendsclass.com/python-tester.html)
+
+### Testing User Stories
+
+* As a user I want to have a secure system which only I can access so that I can manage my weekly work schedule.
+  * The system has a secure login which hides the input credentials when logging in and temporarily stops the user if 3 login attempts fail consecutively: <br>
+
+  ![Login attempt](documentation/loginattempt.png) <br>
+  
+* As a user I want to view my current schedule for any specific day.
+  * After logging in, the user is able to select a week and then a day. The daily schedule is then presented to the user: <br>
+
+  ![Daily schedule](documentation/chooseslot.png) <br>
+  
+* As a user I want to select a week, day and time to book an appointment.
+  * When a slot is selected, it can then be adjusted depending on the user input.
+* As a user I want to ensure that my bookings are not booked back-to-back so that I have time to plan my journey and travel to my next customer.
+  * Whenever an appointment is booked, in order to prevent back-to-back bookings the slots immediately before and after the booked slot will be blocked.
+  * This applies to ranged slot bookings too.
+* As a user I want there to be safety measures so that I do not accidentally book slots where I am unavailable and similarly do not block slots where there are booked appointments.
+  * Where there booked appointment slots, the slots cannot be blocked because of the booking (the appointment must be cancelled first). This is to prevent booked appointments from being accidentally removed.
+  * Where there are blocked slots, bookings cannot be made because of the block (the block must be removed first). This is to prevent blocked appointments from being booked since a block is supposed to represent unavailability of the consultant.
+* As a user I want to block slots for times on days where I am busy with other endeavours and unblock slots when necessary.
+  * Booked appointment slots must be cancelled first to make them open slots.
+  * With any open slots, the user can select as many as they would like in a selected day as long as the slots are consecutive, and block them all.
+* As a user I want to cancel appointments that are no longer required.
+  * Booked slots can be selected and changed to open slots.
+  * Multiple booked and blocked slots can be selected together to be opened.
+* As a user I want to manage multiple slots to book long sessions, block entire days or cancel multiple appointments and slots.
+  * A range of times can be selected for the desired operation between 09:00 and 16:30 in the day and changed as necessary.
+* As a user I want to navigate the system with ease and have feedback for every decision that I make.
+  * For every step of the way, there is information text in blue to give instructions of the options available.
+  * Whenever the system is processing information, there is feedback provided in yellow.
+  * When a process is successful, feedback is provided in green.
+  * When a process fails as a result of an invalid input, feedback is provided in red.
+* As a user I want to cancel my decision if I make any mistakes at any point while I am using the application.
+  * For every step, there is an option to return to the previous menu in a case a mistake is made.
+ 
+### Input testing
+
+All user inputs were tested thoroughly to ensure all input data is handled correctly and appropriate feedback is given to the user as follows:
+
+* The initial login prompt only accepts 'y' or 'n' as inputs where 'n' exits the program and 'y' initiates the next step. It has been tested with invalid inputs and correctly gives feedback to the user.
+* Both the username and password cannot be left blank and accept any values as inputs. The program correctly gives feedback if either of these fields are left empty.
+* Without the correct login details, the login fails and the correct feedback is provided to the user upon failing. 3 failed attempts locks out the user and also provides the correct feedback.
+* Upon successfully logging in, the user is provided with feedback and the dates are updated as required. To test this manually I created a function to manually set the dates:
+
+```python
+def fix_cell_dates():
+    """
+    This function is entirely for testing purposes. 
+    The dates of the spreadsheet can be set manually.
+    """
+    
+    print(Fore.YELLOW + 'Setting dates...')
+    worksheet_names = [ "week1", "week2", "week3", "week4", "week5", "week6", "week7", "week8", "week9", "week10", "week11", "week12" ]
+    current_datetime = datetime.datetime.now()
+    
+    for i, worksheet_name in enumerate(worksheet_names):
+        worksheet = SHEET.worksheet(worksheet_name)
+
+        days_since_monday = (current_datetime.weekday() - 0) % 7
+        start_date = current_datetime - datetime.timedelta(days=days_since_monday) - datetime.timedelta(weeks=2) + datetime.timedelta(weeks=i) # weeks can be changed to set the week difference
+
+        dates = [start_date + datetime.timedelta(days=j) for j in range(5)]
+
+        formatted_dates = [f"{date.strftime('%A')} ({date.strftime('%d-%m-%Y')})" for date in dates]
+
+        cell_values = worksheet.range("A2:A6")
+
+        for j, date in enumerate(formatted_dates):
+            cell_values[j].value = date
+
+        worksheet.update_cells(cell_values)
+
+fix_cell_dates()
+```
+
+* When selecting a week, the user must enter a correct value as provided by the list. If any invalid value is inserted an error is correctly displayed to the user. From here the user can exit the program here which works correctly.
+* When selecting a day, the user must enter a value from '0-6' where '0' returns to the previous menu. If any invalid value is entered here, the user gets an error message.
+* When selecting a time input the value must be in th correct format and within the correct time range otherwise the user gets an error message. From here the user can exit the program or return to the previous menu, both of which work given the appropriate input.
+* When altering a slot, the input must be a value from the menu presented or else the user will get an error message. This has been tested for every use case.
+* The confirmation for changing a slot only accepts a 'y' or 'n' value where 'n' returns to the previous menu and 'y' actions the change. Any other input values give the user an error message.
+* Confirming the change works correctly and has been tested in every use case.
+* Finally, the last option presents the user with an option to continue booking or to exit the program. This prompt only accepts 'y' or 'n' and any other input provides an error message to the user.
