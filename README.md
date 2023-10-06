@@ -201,4 +201,27 @@ The initial flow chart was developed before the project's actual implementation,
 
 * The user is then prompted as to whether they would like to schedule more slots ot not. If the user decides not to, then the programs exits. If the user agrees to schedule more then the user is presented with the time slots for the day that was initially selected and can therefore adjust more slots if required.
 
-*  Future features have been thoroughly discussed in the introduction.
+*  Future features have been thoroughly discussed in the introduction of this document.
+
+## Technologies used
+
+### Languages used
+
+* Python
+
+### Programs used
+
+* [Github](https://github.com/) used for version control.
+* [Lucidchart](https://www.lucidchart.com/) used for the flow diagram.
+* [Heroku](https://www.heroku.com/) used to deploy the application.
+
+### Python libraries
+
+* gspread: This is a Python library for interacting with Google Sheets API.
+* google.oauth2.service_account: This is part of the Google Auth library and is used for authenticating the application with Google services using a service account.
+* getpass: This is a Python library used for securely reading passwords and sensitive information from the command line.
+* colorama: A Python library that allows colored output to the console.
+* datetime: A Python library for working with dates and times.
+* time: A Python library for time-related functions.
+* os: A Python library for interacting with the operating system.
+* env.py: Used to store configuration or secret information. This is a common practice for keeping sensitive data separate from the code.
