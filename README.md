@@ -200,3 +200,5 @@ The initial flow chart was developed before the project's actual implementation,
 ![Confirmation of slot action](documentation/confirmslotaction.png) <br>
 
 * The user is then prompted as to whether they would like to schedule more slots ot not. If the user decides not to, then the programs exits. If the user agrees to schedule more then the user is presented with the time slots for the day that was initially selected and can therefore adjust more slots if required.
+
+*  Future features have been thoroughly discussed in the introduction.
