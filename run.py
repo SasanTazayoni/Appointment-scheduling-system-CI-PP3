@@ -96,7 +96,7 @@ def login():
         
         # Check if the entered username is empty
         if not login.strip():
-            print(Fore.RED + "Username cannot be empty.\n")
+            print(Fore.RED + "Username cannot be empty.")
             continue
         
         # Loop for login attempts
@@ -105,7 +105,7 @@ def login():
 
             # Check if the entered password is empty
             if not password.strip():
-                print(Fore.RED + "Password cannot be empty.\n")
+                print(Fore.RED + "Password cannot be empty.")
                 continue
             
             # Check if the entered login and password match the expected values
@@ -122,7 +122,7 @@ def login():
                     print(Fore.RED + "Login failed.\n")
                     locked_out = handle_lockout()
                 else:
-                    print(Fore.RED + "Login failed. Please try again.\n")
+                    print(Fore.RED + "Login failed. Please try again.")
                 break
                 
 def update_cell_dates():
@@ -529,7 +529,7 @@ def handle_open_slot():
             print(Fore.YELLOW + "Returning to the previous menu...")
             return ''
         else:
-            print(Fore.RED + "Invalid input. Please enter a valid value - '1' to book the slot, '2' to block the slot or '3' to return to the previous menu.")
+            print(Fore.RED + "Invalid input. Please enter a valid value.")
 
 def handle_booked_slot():
     """
@@ -553,7 +553,7 @@ def handle_booked_slot():
             print(Fore.YELLOW + "Returning to the previous menu...")
             return ''
         else:
-            print(Fore.RED + "Invalid input. Please enter a valid value - '1' to cancel the slot or '2' to return to the previous menu.")
+            print(Fore.RED + "Invalid input. Please enter a valid value.")
 
 def handle_blocked_slot():
     """
@@ -577,7 +577,7 @@ def handle_blocked_slot():
             print(Fore.YELLOW + "Returning to the previous menu...")
             return ''
         else:
-            print(Fore.RED + "Invalid input. Please enter a valid value - '1' to unblock the slot or '2' to return to the previous menu.")
+            print(Fore.RED + "Invalid input. Please enter a valid value.")
 
 def update_appointment_slot(selected_date, selected_week, slot_update, worksheet, date_cell, selected_time_cells):
     """
@@ -669,7 +669,7 @@ def handle_mixture_of_blocked_booked_open():
             print(Fore.YELLOW + "Returning to the previous menu...")
             return ''
         else:
-            print(Fore.RED + "Invalid input. Please enter a valid value - '1' to open all the slots or '2' to return to the previous menu.")
+            print(Fore.RED + "Invalid input. Please enter a valid value.")
 
 def handle_mixture_of_blocked_booked():
     """
@@ -693,7 +693,7 @@ def handle_mixture_of_blocked_booked():
             print(Fore.YELLOW + "Returning to the previous menu...")
             return ''
         else:
-            print(Fore.RED + "Invalid input. Please enter a valid value - '1' to open all the slots or '2' to return to the previous menu.")
+            print(Fore.RED + "Invalid input. Please enter a valid value.")
 
 def handle_mixture_of_blocked_open():
     """
@@ -725,7 +725,7 @@ def handle_mixture_of_blocked_open():
             print(Fore.YELLOW + "Returning to the previous menu...")
             return ''
         else:
-            print(Fore.RED + "Invalid input. Please enter a valid value - '1' to unblock and open all the slots, '2' to block all the slots or '3' to return to the previous menu")
+            print(Fore.RED + "Invalid input. Please enter a valid value.")
 
 def handle_mixture_of_booked_open():
     """
@@ -757,7 +757,7 @@ def handle_mixture_of_booked_open():
             print(Fore.YELLOW + "Returning to the previous menu...")
             return ''
         else:
-            print(Fore.RED + "Invalid input. Please enter a valid value - '1' to book all the slots, '2' cancel all appointments and open the slots or '3' to return to the previous menu")
+            print(Fore.RED + "Invalid input. Please enter a valid value.")
 
 def handle_multiple_blocked():
     """
@@ -781,7 +781,7 @@ def handle_multiple_blocked():
             print(Fore.YELLOW + "Returning to the previous menu...")
             return ''
         else:
-            print(Fore.RED + "Invalid input. Please enter a valid value - '1' to unblock the slots or '2' to return to the previous menu.")
+            print(Fore.RED + "Invalid input. Please enter a valid value.")
 
 def handle_multiple_booked():
     """
@@ -805,7 +805,7 @@ def handle_multiple_booked():
             print(Fore.YELLOW + "Returning to the previous menu...")
             return ''
         else:
-            print(Fore.RED + "Invalid input. Please enter a valid value - '1' to cancel bookings or '2' to return to the previous menu.")
+            print(Fore.RED + "Invalid input. Please enter a valid value.")
 
 def handle_multiple_open():
     """
@@ -837,7 +837,7 @@ def handle_multiple_open():
             print(Fore.YELLOW + "Returning to the previous menu...")
             return ''
         else:
-            print(Fore.RED + "Invalid input. Please enter a valid value - '1' to book the slots, '2' to block the slots or '3' to return to the previous menu.")
+            print(Fore.RED + "Invalid input. Please enter a valid value.")
 
 def update_multi_appointment_slots(selected_date, selected_week, multislot_update, worksheet, date_cell, selected_time_cells):
     """
