@@ -59,3 +59,11 @@ As a user I want to:
 * Manage multiple slots to book long sessions, block entire days or cancel multiple appointments and slots.
 * Navigate the system with ease and have feedback for every decision that I make.
 * Cancel my decision if I make any mistakes at any point while I am using the application.
+
+## Logic flow
+
+While booking appointments on various applications may appear straightforward, there are numerous user-customisable options that can significantly impact the overall user experience. To streamline the intricate logic behind the process, Lucidchart was used to create a comprehensive flow diagram. This diagram helps to visualise all available options within the application, define how different components should interact with each other, and provides a detailed understanding of the application mechanics.
+
+The initial flow chart was developed before the project's actual implementation, and consequently, it does not encompass all the elements that were eventually included in the final system. Many features that initially seemed practical in the flow chart were either removed or expanded upon during development. As a result, the final flow chart became significantly more complex, as it had to account for many more different user options when selecting a time slot. <br>
+
+![Flow chart](documentation/lucidchart.jpg) <br>
