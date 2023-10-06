@@ -316,3 +316,9 @@ fix_cell_dates()
 * The confirmation for changing a slot only accepts a 'y' or 'n' value where 'n' returns to the previous menu and 'y' actions the change. Any other input values give the user an error message.
 * Confirming the change works correctly and has been tested in every use case.
 * Finally, the last option presents the user with an option to continue booking or to exit the program. This prompt only accepts 'y' or 'n' and any other input provides an error message to the user.
+
+### Bugs
+
+* When the user is locked out after 3 failed login attempts, the backend still runs (i.e. the terminal still allows inputs to be made) therefore if the user continues typing, the inputted characters may appear over the lock out message. Furthermore the input is inserted into the next field that is prompted but the characters will appear hidden. This may cause input field to be an invalid entry regardless of what the user inputs.
+* On occasion, some of the inputted characters may appear temporarily when typing the username and password.
+
