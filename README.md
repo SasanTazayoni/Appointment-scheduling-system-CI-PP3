@@ -16,7 +16,7 @@ In these upcoming iterations, the application aims to integrate a multitude of f
 
 **A deposit System:** To mitigate last-minute cancellations and ensure commitment from clients, the application will introduce a deposit system. Clients may be required to make a deposit when booking appointments, which can be refunded or applied towards the service fee upon completion of the appointment.
 
-**Excel spreadsheets:** Used instead of Google Sheets due to the ease of adding appointment notes. Adding notes to booked appointments is crucial, and Excel allows me to achieve this seamlessly through Python scripting.
+**Excel spreadsheets:** Used instead of Google Sheets due to the ease of adding appointment notes. Adding notes to booked appointments is crucial, and Excel allows this to be achieved this seamlessly through Python scripting whereas gspread does not support this.
 
 These planned enhancements will transform the application into a comprehensive, end-to-end solution that not only addresses the consultant's current challenges but also takes their business to the next level of efficiency and customer service. By providing a seamless, integrated platform for appointment management, billing, communication, and client engagement, the consultant can focus more on delivering top-notch IT support while leaving the administrative tasks to the application.
 
