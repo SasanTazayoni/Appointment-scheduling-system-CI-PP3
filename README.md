@@ -309,7 +309,7 @@ def fix_cell_dates():
 fix_cell_dates()
 ```
 
-* When selecting a week, the user must enter a correct value as provided by the list. If any invalid value is inserted an error is correctly displayed to the user. From here the user can exit the program here which works correctly.
+* When selecting a week, the user must enter a correct value as provided by the list. If any invalid value is inserted an error message is correctly displayed to the user. From here the user can exit the program here which works correctly.
 * When selecting a day, the user must enter a value from '0-6' where '0' returns to the previous menu. If any invalid value is entered here, the user gets an error message.
 * When selecting a time input the value must be in th correct format and within the correct time range otherwise the user gets an error message. From here the user can exit the program or return to the previous menu, both of which work given the appropriate input.
 * When altering a slot, the input must be a value from the menu presented or else the user will get an error message. This has been tested for every use case.
