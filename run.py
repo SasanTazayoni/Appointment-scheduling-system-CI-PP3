@@ -314,8 +314,6 @@ def pick_day(dates, selected_week):
                 selected_date = dates[choice - 1]
                 display_appointment_slots(selected_date, selected_week)
                 break
-            else:
-                print(Fore.RED + "Invalid choice. Please enter a valid number.")
         except ValueError:
             print(Fore.RED + "Invalid input. Please enter a number between '1-5' or '0' to repick the week.")
 
