@@ -322,3 +322,37 @@ fix_cell_dates()
 * When the user is locked out after 3 failed login attempts, the backend still runs (i.e. the terminal still allows inputs to be made) therefore if the user continues typing, the inputted characters may appear over the lock out message. Furthermore the input is inserted into the next field that is prompted but the characters will appear hidden. This may cause input field to be an invalid entry regardless of what the user inputs.
 * On occasion, some of the inputted characters may appear temporarily when typing the username and password.
 
+## Deployment
+
+The site was deployed via [Heroku](https://www.heroku.com).
+
+Before deploying to Heroku "pip3 freeze > requirements.txt" was used in the terminal to add all the dependencies required to the requirements.txt file. This is required for the program to run on Heroku.
+
+The following steps were then taken:
+
+1. Log in to [Heroku](https://www.heroku.com).
+2. On the main page click the button labelled "New" in the top right corner and from the drop-down menu select "Create New App".
+3. Enter a unique and meaningful app name.
+4. Select your region.
+5. Click on the "Create App" button.
+6. Click on the "Settings" tab and scroll down to "Config Vars".
+7. Click "Reveal Config Vars".
+8. Input "CREDS" in the KEY field and the content of your Google Sheet API creds file in the VALUE field and click "Add".
+9. Input "PORT" into the KEY field and "8000" into the VALUE field and click the "Add" button.
+10. Input "USERNAME" into the KEY field and "admin" into the VALUE field then click "Add".
+11. Input "PASSWORD" into the KEY field and "password" into the VALUE field then click "Add".
+12. Scroll down to the "Buildpacks" section click "Add buildpack" selecting Python and then saving the changes.
+13. Once completed click "Add buildpack" again, this time selecting "Node.js".
+14. The order should have Python at the top, if it does not, you can drag it to the top (above node.js).
+15. Select the "Deploy" tab at the top of the page.
+16. Select Github as the deployment method and confirm.
+17. Search for the repository name of the repository that you want to link and click the connect button.
+18. Scroll to the bottom of the deploy page and click "Enable Automatic Deploys" to enable automatic deploys.
+19. Click "Deploy Branch" to deploy your project for the first time.
+20. Click "View" to view the deployed site.
+
+## Credits
+
+* Thanks to my mentor Antonio Rodriguez for the helpful tips with this project.
+* Thanks to [Tech with Tim](https://www.youtube.com/@TechWithTim) for helpful Python tips.
+* Thanks to Ed, Jason and Joanne for help with a few problems in the project.
