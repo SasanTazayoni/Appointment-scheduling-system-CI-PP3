@@ -67,3 +67,136 @@ While booking appointments on various applications may appear straightforward, t
 The initial flow chart was developed before the project's actual implementation, and consequently, it does not encompass all the elements that were eventually included in the final system. Many features that initially seemed practical in the flow chart were either removed or expanded upon during development. As a result, the final flow chart would be significantly more complex, as it has to account for many more different user options when selecting a time slot. <br>
 
 ![Flow chart](documentation/lucidchart.jpg) <br>
+
+## Features
+
+* Throughout this application:
+		* Blue text represents key information and is also used for 'BOOKED' slots.
+		* Yellow text represents a process taking place.
+		* Green text represents a successful process and is also used for 'OPEN' slots.
+		* Red text represents a failed process and is also used for 'BLOCKED' slots.
+* When the application is run, the user is presented with a simple introduction and asked whether they would like to log in: <br>
+		
+![App introduction](documentation/apptitle.png) <br>
+
+* Whenever the user exits the application they will see a message: <br>
+		
+![Exiting the application](documentation/exit.png) <br>
+		
+* If the user types 'y' then they are presented with a login menu where the user would need to enter the correct details in order to log in. The input fields purposely do not display the user input as a security measure: <br>
+		
+![Login menu](documentation/login.png) <br>
+		
+* Neither the username nor the password fields can be left empty: <br>
+		
+![Empty username error](documentation/emptyusername.png) <br>
+![Empty password error](documentation/emptypassword.png) <br>
+		
+* If the credentials are incorrect the login fails: <br>
+		
+![Login fail](documentation/loginfail.png) <br>
+		
+* The user is asked to try again after a failed login but has a maximum of 3 attempts. When the login fails 3 times the user is temporarily locked out: <br>
+		
+![Lockout after 3 failed login attempts](documentation/lockout.png) <br>
+		
+* If the user enters the correct details, a login will be successful. The system will then check the date and time of login and then access the worksheet, select the "week1" tab select the cell "A2" (which is Monday). These 2 values will be compared and the difference in days will be calculated as follows: <br>
+
+
+  * If the number of days is less than 7, no updates are made to the spreadsheets: <br>
+
+  ![Up-to-date spreadsheet](documentation/updatespreadsheet.png) <br>
+
+  * When the number of days exceeds 7, the system updates the spreadsheets based on the formula: difference_in_weeks = (monday_date - cell_date).days // 7. Using the difference_in_weeks variable, the spreadsheets are updated as follows: for example, if difference_in_weeks is 3, 'week4' will overwrite 'week1,' 'week5' will overwrite 'week2,' and so on. This process affects all tabs on the spreadsheet. For the last 3 weeks, dates are generated and inserted into cells (A2:A6), and all appointment slots are overwritten with 'OPEN' to indicate newly available slots. The system maintains consistency by ensuring that the 'week1' tab on the spreadsheet represents the current week at the time of login, following Python's convention where weeks start on Mondays at 12:00 AM.
+
+  * If the 'difference_in_weeks' variable is 12 or greater, all tabs are updated to reflect the correct dates, and all appointment slots are set to 'OPEN'.
+ 
+* After this process, the user is immediately presented with a set of weeks to choose from: <br>
+
+![Set of weeks](documentation/setofweeks.png) <br>
+
+* If the user enters an invalid value, the user gets an error message: <br>
+
+![Invalid week input](documentation/invalidweekinput.png) <br>
+
+* If the user enters a value that is out of range of the menu they receive a different error message: <br>
+
+![Out-of-range input number](documentation/largeweeknumber.png) <br>
+
+* At this stage the user also has the option of exiting the program by typing '0'.
+* If the user enters a valid input then they will be presented with the days of that particular week: <br>
+
+![Days of the week](documentation/daysoftheweek.png) <br>
+
+* If the user inputs an invalid entry they get an error message: <br>
+
+![Invalid day input](documentation/invaliddayinput.png) <br>
+
+* If the user inputs a vale that is not in range they get an error message: <br>
+
+![Out-of-range day input](documentation/outofrangeday.png) <br>
+
+* At this stage, the user is able to return to the previous menu to reselect a week by typing '0' in case a mistake is made.
+* If a valid number is entered the user is then presented with a menu to choose either a single slot or a range of slots: <br>
+
+![Choose a slot](documentation/chooseslot.png) <br>
+
+* The time input must be in the correct format and within the given range. If it is not, the user gets an error message: <br>
+
+![Incorrect time format entry](documentation/incorrecttimeformat.png) <br>
+
+* At this stage the user can exit the program by typing 'exit' or can return to the previous menu to select a different day by typing 'cancel'.
+* If the user inputs a valid value then another menu is presented to the user depending on the state of the selected slot or range of slots:
+  * If a single 'BOOKED' slot is selected the user can cancel the appointment or return to the previous menu: <br>
+  
+  ![Single booked slot](documentation/singlebookedslot.png) <br>
+  
+  * If a single 'OPEN' slot is selected the user can book an appointment, block the slot or return to the previous menu (for any booking to prevent back-to-back bookings, the slot immediately before and after the booked slot will be blocked): <br>
+  
+  ![Single open slot](documentation/singleopenslot.png) <br>
+  
+  * If a single 'BLOCKED' slot is selected the user can unblock the slot or return to the previous menu: <br>
+
+  ![Single blocked slot](documentation/singleblockedslot.png) <br>
+  
+  * If a multiple 'BOOKED' slots are selected the user can cancel all appointments or return to the previous menu: <br>
+  
+  ![Multiple booked slots](documentation/multiplebookedslots.png) <br>
+  
+  * If a multiple 'OPEN' slots are selected the user can book all slots, block all slots or return to the previous menu: <br>
+  
+  ![Multiple open slots](documentation/multipleopenslots.png) <br>
+  
+  * If a multiple 'BLOCKED' slots are selected the user can unblock all slots or return to the previous menu: <br>
+  
+  ![Multiple blocked slots](documentation/multipleblockedslots.png) <br>
+  
+  * If a mixture of 'BOOKED' and 'OPEN' slots are selected the user can book all the open slots, cancel all the booked slots or return to the previous menu: <br>
+  
+  ![Mixture of open and booked slots](documentation/mixtureopenbooked.png) <br>
+  
+  * If a mixture of 'BLOCKED' and 'OPEN' slots are selected the user can block all the open slots, unblock all the blocked slots or return to the previous menu: <br>
+  
+  ![Mixture of open and blocked slots](documentation/mixtureopenblocked.png) <br>
+  
+  * If a mixture of 'BOOKED' and 'BLOCKED' slots are selected the user can open all the remaining slots (cancels all appointments and unblocks all blocked slots) or return to the previous menu: <br>
+  
+  ![Mixture of blocked and booked slots](documentation/mixturebookedblocked.png) <br>
+  
+  * If a mixture of 'OPEN', 'BOOKED' and 'BLOCKED' slots are selected the user can open all the remaining slots (cancels all appointments and unblocks all blocked slots) or return to the previous menu: <br>
+  
+  ![Mixture of open, blocked and booked slots](documentation/mixtureopenbookedblocked.png) <br>
+  
+* In the next menu after selecting a slot or range of slots, any invalid inputs give an error message to the user: <br>
+
+![Invalid slot action](documentation/invalidslotaction.png) <br>
+
+* Returning to the previous menu will allow the user to pick a different slot or range of slots in case a mistake is made: <br>
+
+![Return to time slots](documentation/reselectslot.png) <br>
+
+* If the user selects an option which involves altering a slot they will receive a message to confirm the change in case the user makes a mistake. If the user does not confirm the action then no change takes place and they are returned to the slot action menu for the slots that they have selected. However, if the user confirms the change then the system alters the slot or slots and notifies the user: <br>
+
+![Confirmation of slot action](documentation/confirmslotaction.png) <br>
+
+* The user is then prompted as to whether they would like to schedule more slots ot not. If the user decides not to, then the programs exits. If the user agrees to schedule more then the user is presented with the time slots for the day that was initially selected and can therefore adjust more slots if required.
