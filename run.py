@@ -179,7 +179,7 @@ def update_cell_dates():
         print(Fore.GREEN + "Worksheets have been updated.")
 
     # Prompt the user to select a week
-    pick_week()
+    select_week()
 
 def get_monday_date(current_datetime):
     """
@@ -244,9 +244,9 @@ def refresh_cells(worksheet):
     # Update the cells in the worksheet
     worksheet.update_cells(cell_list)
 
-def pick_week():
+def select_week():
     """
-    Ask the user to pick a week from the spreadsheet or exit.
+    Ask the user to select a week from the spreadsheet or exit.
     """
     # Generate week titles from Week1 to Week12
     week_titles = [f"week{i}" for i in range(1, 13)]
@@ -287,11 +287,11 @@ def get_dates_from_worksheet(selected_week):
     worksheet = SHEET.worksheet(selected_week)
     date_values = worksheet.range("A2:A6")
     dates = [date.value for date in date_values]
-    pick_day(dates, selected_week)
+    select_day(dates, selected_week)
 
-def pick_day(dates, selected_week):
+def select_day(dates, selected_week):
     """
-    Ask the user to pick a day of the week from the selected week in the spreadsheet.
+    Ask the user to select a day of the week from the selected week in the spreadsheet.
     """
     # Print the dates and options
     start_date = dates[0]
@@ -299,15 +299,15 @@ def pick_day(dates, selected_week):
     for i, date in enumerate(dates, start=1):
         print(f"{Fore.BLUE}[{i}] {Fore.WHITE}{date}")
 
-    # Ask the user to pick a date or enter '0' to repick week
+    # Ask the user to select a date or enter '0' to reselect week
     while True:
         try:
-            choice = input(f"Enter a number from {Fore.BLUE}'1-5'{Fore.RESET} for the date you want to select or {Fore.BLUE}'0'{Fore.RESET} to repick the week:\n")
+            choice = input(f"Enter a number from {Fore.BLUE}'1-5'{Fore.RESET} for the date you want to select or {Fore.BLUE}'0'{Fore.RESET} to reselect the week:\n")
             choice = int(choice)
 
             # Check if the user wants to return to week selection
             if choice == 0:
-                pick_week()  # Return to week selection
+                select_week()  # Return to week selection
                 break
             # Check if the user selected a valid date
             elif 1 <= choice <= len(dates):
@@ -315,7 +315,7 @@ def pick_day(dates, selected_week):
                 display_appointment_slots(selected_date, selected_week)
                 break
         except ValueError:
-            print(Fore.RED + "Invalid input. Please enter a number between '1-5' or '0' to repick the week.")
+            print(Fore.RED + "Invalid input. Please enter a number between '1-5' or '0' to reselect the week.")
 
 def retrieve_appointment_slots(selected_date, selected_week):
     """
