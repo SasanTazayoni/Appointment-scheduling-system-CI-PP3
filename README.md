@@ -207,7 +207,15 @@ The initial flow chart was developed before the project's actual implementation,
 
 ![Confirmation of slot action](documentation/confirmslotaction.png) <br>
 
+* If the user does not enter a valid input, they will get an error message: <br>
+
+![Confirmation of slot action with invalid input](documentation/slotactionvalidation.png) <br>
+
 * The user is then prompted as to whether they would like to schedule more slots ot not. If the user decides not to, then the programs exits. If the user agrees to schedule more then the user is presented with the time slots for the day that was initially selected and can therefore adjust more slots if required.
+
+* If the user does not enter a valid input, they will get an error message: <br>
+
+![Confirmation of new schedule with invalid input](documentation/schedulemorevalidation.png) <br>
 
 *  Future features have been thoroughly discussed in the introduction of this document.
 
