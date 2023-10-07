@@ -218,13 +218,13 @@ The initial flow chart was developed before the project's actual implementation,
 
 ### Python libraries
 
-* gspread: This is a Python library for interacting with Google Sheets API.
-* google.oauth2.service_account: This is part of the Google Auth library and is used for authenticating the application with Google services using a service account.
-* getpass: This is a Python library used for securely reading passwords and sensitive information from the command line.
-* colorama: A Python library that allows colored output to the console.
-* datetime: A Python library for working with dates and times.
-* time: A Python library for time-related functions.
-* os: A Python library for interacting with the operating system.
+* gspread: This is a Python library for interacting with Google Sheets API. It provides a convenient way to read and update spreadsheet data. This library allows us to easily integrate our application with Google Sheets, where we store our appointment data.
+* google.oauth2.service_account: This is part of the Google Auth library and is used for authenticating the application with Google services using a service account. This ensures secure access to the Google Sheets API.
+* getpass: This is a Python library used for securely reading passwords and sensitive information from the command line. This enhances the security of user credentials.
+* colorama: A Python library that allows colored output to the console. Colorama is employed to provide colored output to the console, improving the user interface's visual clarity and providing feedback in a more engaging manner.
+* datetime: A Python library for working with dates and times. This library is fundamental for managing the scheduling and logic behind appointments in the application.
+* time: A Python library for time-related functions. In this application it is specificlly used for the lockout mechanism when a user fails multiple logins.
+* os: A Python library for interacting with the operating system, facilitating file operations and other system-related tasks.
 * env.py: Used to store configuration or secret information. This is a common practice for keeping sensitive data separate from the code.
 
 ## Testing
