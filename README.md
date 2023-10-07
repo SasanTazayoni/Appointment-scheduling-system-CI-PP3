@@ -230,6 +230,9 @@ The initial flow chart was developed before the project's actual implementation,
 * [Github](https://github.com/) used for version control.
 * [Lucidchart](https://www.lucidchart.com/) used for the flow diagram.
 * [Heroku](https://www.heroku.com/) used to deploy the application.
+* [Gitpod](https://www.gitpod.io/) used to develop project and organise version control.
+* [ChatGPT](https://chat.openai.com/) used to verify code.
+* [StackOverflow](https://stackoverflow.com/) used to problem solve and deal with queries.
 
 ### Python libraries
 
