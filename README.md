@@ -231,7 +231,7 @@ The initial flow chart was developed before the project's actual implementation,
 
 ### Validator testing
 
-[Python validator](https://extendsclass.com/python-tester.html)
+[Python validator](https://pep8ci.herokuapp.com/#)
 
 ### Testing User Stories
 
