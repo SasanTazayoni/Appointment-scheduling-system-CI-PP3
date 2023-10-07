@@ -246,7 +246,10 @@ def set_cell_dates(worksheet, current_datetime):
     dates = [start_date + datetime.timedelta(days=j) for j in range(5)]
 
     # Format dates as strings
-    formatted_dates = [f"{date.strftime('%A')} ({date.strftime('%d-%m-%Y')})" for date in dates]
+    formatted_dates = [
+        f"{date.strftime('%A')} ({date.strftime('%d-%m-%Y')})" 
+        for date in dates
+        ]
 
     # Update the A2:A6 cells with the formatted dates
     cell_values = worksheet.range("A2:A6")
@@ -306,7 +309,10 @@ def select_week():
                 get_dates_from_worksheet(selected_week)
                 break
             else:
-                print(Fore.RED + "Appointments beyond 12 weeks are not accessible.\nPlease enter a number between '0' and '12'.")
+                print(
+                    f"{Fore.RED}Appointments beyond 12 weeks are not accessible. "
+                    "\nPlease enter a number between '0' and '12'."
+                )
         except ValueError:
             print(Fore.RED + "Invalid input. Please enter a valid number between '0-12'.")
 
@@ -968,7 +974,10 @@ def prompt_scheduling():
     Ask the user if they want to schedule more appointments.
     """
     while True:
-        choice = input(f"Do you want to schedule more appointments? {Fore.BLUE}(y/n){Fore.RESET}: \n").strip().lower()
+        choice = input(
+            "Do you want to schedule more appointments? "
+            f"{Fore.BLUE}(y/n){Fore.RESET}: \n"
+        ).strip().lower()
         if choice == 'y':
             return True
         elif choice == 'n':
