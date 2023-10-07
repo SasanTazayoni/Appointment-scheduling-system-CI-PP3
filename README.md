@@ -321,6 +321,7 @@ fix_cell_dates()
 
 * When the user is locked out after 3 failed login attempts, the backend still runs (i.e. the terminal still allows inputs to be made) therefore if the user continues typing, the inputted characters may appear over the lock out message. Furthermore the input is inserted into the next field that is prompted but the characters will appear hidden. This may cause input field to be an invalid entry regardless of what the user inputs.
 * On occasion, some of the inputted characters may appear temporarily when typing the username and password.
+* There are some linting errors with this application in the CI Python Linter which suggest that some lines are too long. I opted not to change these lines because it would unnecessarily clutter the code with extra lines making it harder to read.
 
 ## Deployment
 
