@@ -240,14 +240,16 @@ def set_cell_dates(worksheet, current_datetime):
 
     # Calculate the start date for the worksheet
     days_since_monday = (current_datetime.weekday() - 0) % 7
-    start_date = current_datetime - datetime.timedelta(days=days_since_monday) - datetime.timedelta(weeks=0) + datetime.timedelta(weeks=worksheet_index)
-
+    start_date = (current_datetime -
+                  datetime.timedelta(days=days_since_monday) -
+                  datetime.timedelta(weeks=0) +
+                  datetime.timedelta(weeks=worksheet_index))
     # Generate dates for the worksheet
     dates = [start_date + datetime.timedelta(days=j) for j in range(5)]
 
     # Format dates as strings
     formatted_dates = [
-        f"{date.strftime('%A')} ({date.strftime('%d-%m-%Y')})" 
+        f"{date.strftime('%A')} ({date.strftime('%d-%m-%Y')})"
         for date in dates
         ]
 
@@ -289,18 +291,20 @@ def select_week():
     while True:
         # Display week options
         for i, title in enumerate(week_titles, start=1):
-            print(f"{Fore.BLUE}[{i}] {Fore.WHITE}{title}", end=f"{Fore.WHITE} ")
+            print(
+                f"{Fore.BLUE}[{i}] {Fore.WHITE}{title}", end=f"{Fore.WHITE} "
+            )
 
         # Display the exit option
         print(f"{Fore.BLUE}[0] {Fore.WHITE}Exit")
         print()
 
         choice = input("Please Enter your choice here: \n")
-        
+
         if choice == '0':
             print(Fore.YELLOW + "Exiting the program...")
             exit()  # Exit the program
-        
+
         try:
             choice = int(choice)
             if 1 <= choice <= len(week_titles):
@@ -310,11 +314,11 @@ def select_week():
                 break
             else:
                 print(
-                    f"{Fore.RED}Appointments beyond 12 weeks are not accessible. "
+                    f"{Fore.RED}Appointments > 12 weeks are not accessible. "
                     "\nPlease enter a number between '0' and '12'."
                 )
         except ValueError:
-            print(Fore.RED + "Invalid input. Please enter a valid number between '0-12'.")
+            print(Fore.RED + "Invalid input. Please enter a valid number.")
 
 
 def get_dates_from_worksheet(selected_week):
@@ -342,7 +346,10 @@ def select_day(dates, selected_week):
     # Ask the user to select a date or enter '0' to reselect week
     while True:
         try:
-            choice = input(f"Enter a number from {Fore.BLUE}'1-5'{Fore.RESET} for the date you want to select or {Fore.BLUE}'0'{Fore.RESET} to reselect the week:\n")
+            choice = input(
+                f"Enter a number from {Fore.BLUE}'1-5'{Fore.RESET} to select "
+                f"a date or {Fore.BLUE}'0'{Fore.RESET} to reselect the week:\n"
+                )
             choice = int(choice)
 
             # Check if the user wants to return to week selection
@@ -355,7 +362,10 @@ def select_day(dates, selected_week):
                 display_appointment_slots(selected_date, selected_week)
                 break
             else:
-                print(Fore.RED + "Invalid number. Please enter a number within the specified range.")
+                print(
+                    f"{Fore.RED}Invalid number. Please enter a number "
+                    "within the specified range."
+                    )
         except ValueError:
             print(Fore.RED + "Invalid input. Please enter a number.")
 
@@ -415,7 +425,10 @@ def display_appointment_slots(selected_date, selected_week):
     all_slots = retrieve_appointment_slots(selected_date, selected_week)
 
     # Present visual display for time slots
-    print(Fore.GREEN + f"Retrieved appointment slots for {Fore.BLUE}{selected_date}:\n")
+    print(
+        f"{Fore.GREEN}Retrieved appointment slots for "
+        f"{Fore.BLUE}{selected_date}:\n"
+        )
 
     color_codes = {
         "BLOCKED": Fore.RED,
@@ -424,7 +437,10 @@ def display_appointment_slots(selected_date, selected_week):
     }
 
     # Iterate through the dictionary and format the slots
-    formatted_slots = " ".join([f"{time_slot} {color_codes[status]}{status}{Fore.RESET}" for time_slot, status in all_slots.items()])
+    formatted_slots = " ".join(
+        [f"{time_slot} {color_codes[status]}{status}{Fore.RESET}"
+            for time_slot, status in all_slots.items()]
+    )
     print(formatted_slots)
     print()
 
@@ -435,11 +451,20 @@ def select_appointment_slots(all_slots, selected_date, selected_week):
     """
     Prompt the user to select a single time slot or a time range.
     """
-    print(Fore.BLUE + "Booked slots cannot be blocked and blocked slots cannot be booked.")
+    print(
+        f"{Fore.BLUE}Booked slots cannot be blocked and blocked slots "
+        "cannot be booked."
+    )
 
     while True:
         try:
-            choice = input(f"Enter the desired appointment time or range (e.g. {Fore.BLUE}'09:00'{Fore.RESET} or {Fore.BLUE}'10:30-11:30'{Fore.RESET}),{Fore.BLUE}'cancel'{Fore.RESET} to return to date selection or {Fore.BLUE}'exit'{Fore.RESET} to exit: \n")
+            choice = input(
+                "Enter the desired appointment time or range (e.g. "
+                f"{Fore.BLUE}'09:00'{Fore.RESET} or "
+                f"{Fore.BLUE}'10:30-11:30'{Fore.RESET}), "
+                f"{Fore.BLUE}'cancel'{Fore.RESET} to return to date selection "
+                f"or {Fore.BLUE}'exit'{Fore.RESET} to exit: \n"
+            )
 
             if choice.lower() == 'cancel':
                 print(Fore.YELLOW + 'Returning to previous menu...')
@@ -460,21 +485,36 @@ def select_appointment_slots(all_slots, selected_date, selected_week):
                     # Generate time slots between start_time and end_time
                     start_time_parts = start_time.split(':')
                     end_time_parts = end_time.split(':')
-                    start_hour, start_minute = int(start_time_parts[0]), int(start_time_parts[1])
-                    end_hour, end_minute = int(end_time_parts[0]), int(end_time_parts[1])
+                    start_hour, start_minute = (
+                        int(start_time_parts[0]),
+                        int(start_time_parts[1])
+                    )
+                    end_hour, end_minute = (
+                        int(end_time_parts[0]),
+                        int(end_time_parts[1])
+                    )
 
                     # Create a list of time slots
                     selected_time_range = []
-                    while start_hour < end_hour or (start_hour == end_hour and start_minute <= end_minute):
-                        selected_time_range.append(f"{start_hour:02}:{start_minute:02}")
+                    while (start_hour < end_hour or
+                            (start_hour == end_hour and start_minute <= end_minute)):
+                        selected_time_range.append(
+                            f"{start_hour:02}:{start_minute:02}"
+                        )
                         start_minute += 30
                         if start_minute == 60:
                             start_hour += 1
                             start_minute = 0
-                    access_appointment_slots(selected_date, selected_week, selected_time_range)
+                    access_appointment_slots(
+                        selected_date, selected_week, selected_time_range
+                        )
                     break
                 else:
-                    print(Fore.RED + "Invalid time range input. Please ensure you entire times in the correct format and between 09:00 and 16:30")
+                    print(
+                        f"{Fore.RED}Invalid time range input. Please ensure "
+                        "you enter times in the correct format and between "
+                        "09:00 and 16:30"
+                    )
             else:
                 # Check if the single choice is valid
                 if choice in all_slots:
@@ -483,11 +523,15 @@ def select_appointment_slots(all_slots, selected_date, selected_week):
                     break
                 else:
                     print(
-                        f"{Fore.RED}Invalid time input. Please ensure you enter "
-                        "times in the correct format and between 09:00 and 16:30."
+                        f"{Fore.RED}Invalid time input. Please ensure you "
+                        "enter times in the correct format and between 09:00 "
+                        "and 16:30."
                     )
         except ValueError:
-            print(Fore.RED + "Invalid input. Please enter a valid appointment time or range.")
+            print(
+                f"{Fore.RED}Invalid input. Please enter a valid appointment "
+                "time or range."
+            )
 
 
 def access_appointment_slots(selected_date, selected_week, selected_time):
@@ -527,12 +571,18 @@ def access_appointment_slots(selected_date, selected_week, selected_time):
         # If there's only one item in the list, pass it to handle_slot_action
         slot_update = handle_slot_action(appointment_details_list[0])
         # Update single appointment slot
-        update_appointment_slot(selected_date, selected_week, slot_update, worksheet, date_cell, selected_time_cells)
+        update_appointment_slot(
+            selected_date, selected_week, slot_update, worksheet, date_cell,
+            selected_time_cells
+        )
     else:
         # If list items > 1, trigger a separate function
         multislot_update = handle_multislot_action(appointment_details_list)
         # Update 2 or more appointment slots
-        update_multi_appointment_slots(selected_date, selected_week, multislot_update, worksheet, date_cell, selected_time_cells)
+        update_multi_appointment_slots(
+            selected_date, selected_week, multislot_update, worksheet,
+            date_cell, selected_time_cells
+        )
 
 
 def handle_slot_action(appointment_details):
@@ -557,7 +607,11 @@ def handle_open_slot():
     print(Fore.BLUE + f"This is an {Fore.GREEN}OPEN {Fore.BLUE}slot.")
 
     while True:
-        action = input(f"Enter {Fore.BLUE}'1'{Fore.RESET} to book the slot, {Fore.BLUE}'2'{Fore.RESET} to block the slot or {Fore.BLUE}'3'{Fore.RESET} to return to the previous menu: \n")
+        action = input(
+            f"Enter {Fore.BLUE}'1'{Fore.RESET} to book the slot, "
+            f"{Fore.BLUE}'2'{Fore.RESET} to block the slot or "
+            f"{Fore.BLUE}'3'{Fore.RESET} to return to the previous menu: \n"
+        )
         if action == "1":
             # Ask for confirmation
             confirmed = get_confirmation()
@@ -590,7 +644,10 @@ def handle_booked_slot():
     print(Fore.BLUE + "This is a BOOKED appointment slot.")
 
     while True:
-        action = input(f"Enter {Fore.BLUE}'1'{Fore.RESET} to cancel the slot or {Fore.BLUE}'2'{Fore.RESET} to return to the previous menu: \n")
+        action = input(
+            f"Enter {Fore.BLUE}'1'{Fore.RESET} to cancel the slot or "
+            f"{Fore.BLUE}'2'{Fore.RESET} to return to the previous menu: \n"
+        )
         if action == "1":
             # Ask for confirmation
             confirmed = get_confirmation()
@@ -615,7 +672,10 @@ def handle_blocked_slot():
     print(Fore.BLUE + f"This is an {Fore.RED}BLOCKED {Fore.BLUE}slot.")
 
     while True:
-        action = input(f"Enter {Fore.BLUE}'1'{Fore.RESET} to unblock the slot or {Fore.BLUE}'2'{Fore.RESET} to return to the previous menu: \n")
+        action = input(
+            f"Enter {Fore.BLUE}'1'{Fore.RESET} to unblock the slot or "
+            f"{Fore.BLUE}'2'{Fore.RESET} to return to the previous menu: \n"
+        )
         if action == "1":
             # Ask for confirmation
             confirmed = get_confirmation()
@@ -633,7 +693,9 @@ def handle_blocked_slot():
             print(Fore.RED + "Invalid input. Please enter a valid value.")
 
 
-def update_appointment_slot(selected_date, selected_week, slot_update, worksheet, date_cell, selected_time_cells):
+def update_appointment_slot(
+            selected_date, selected_week, slot_update, worksheet,
+            date_cell, selected_time_cells):
     """
     Update the slot and then ask if the user would like to schedule more
     appointments or exit.
@@ -710,16 +772,27 @@ def handle_mixture_of_blocked_booked_open():
     (which cancels all appointments and unblocks all blocked slots) or to
     cancel the action.
     """
-    print(Fore.BLUE + f"You have selected a mixture of {Fore.RED}BLOCKED, {Fore.GREEN}OPEN {Fore.BLUE}and BOOKED slots.")
+    print(
+        f"{Fore.BLUE}You have selected a mixture of {Fore.RED}BLOCKED, "
+        f"{Fore.GREEN}OPEN {Fore.BLUE}and BOOKED slots."
+    )
 
     while True:
-        action = input(f"Enter {Fore.BLUE}'1'{Fore.RESET} to open all the slots (all appointments will be cancelled and all blocked slots will be unblocked) or {Fore.BLUE}'2'{Fore.RESET} to return to the previous menu: \n")
+        action = input(
+            f"Enter {Fore.BLUE}'1'{Fore.RESET} to open all the slots "
+            "(all appointments will be cancelled and all blocked slots will "
+            f"be unblocked) or {Fore.BLUE}'2'{Fore.RESET} to return to the "
+            "previous menu: \n"
+        )
         if action == "1":
             # Ask for confirmation
             confirmed = get_confirmation()
             if confirmed:
                 print(Fore.YELLOW + "Processing request...")
-                print(Fore.GREEN + "All appointments were cancelled and slots were unblocked.")
+                print(
+                    f"{Fore.GREEN}All appointments were cancelled and slots "
+                    "were unblocked."
+                )
                 return "OPEN"
             else:
                 print(Fore.YELLOW + "Aborting...")
@@ -737,16 +810,27 @@ def handle_mixture_of_blocked_booked():
     (which cancels all appointments and unblocks all blocked slots) or to
     cancel the action.
     """
-    print(Fore.BLUE + f"You have selected a mixture of {Fore.RED}BLOCKED {Fore.BLUE}and BOOKED slots.")
+    print(
+        f"{Fore.BLUE}You have selected a mixture of "
+        f"{Fore.RED}BLOCKED {Fore.BLUE}and BOOKED slots."
+    )
 
     while True:
-        action = input(f"Enter {Fore.BLUE}'1'{Fore.RESET} to open all the slots (all appointments will be cancelled and all blocked slots will be unblocked) or {Fore.BLUE}'2'{Fore.RESET} to return to the previous menu: \n")
+        action = input(
+            f"Enter {Fore.BLUE}'1'{Fore.RESET} to open all the slots (all "
+            "appointments will be cancelled and all blocked slots will be "
+            f"unblocked) or {Fore.BLUE}'2'{Fore.RESET} to return to the "
+            "previous menu: \n"
+        )
         if action == "1":
             # Ask for confirmation
             confirmed = get_confirmation()
             if confirmed:
                 print(Fore.YELLOW + "Processing request...")
-                print(Fore.GREEN + "All appointments were cancelled and slots were unblocked.")
+                print(
+                    f"{Fore.GREEN}All appointments were cancelled and slots "
+                    "were unblocked."
+                )
                 return "OPEN"
             else:
                 print(Fore.YELLOW + "Aborting...")
@@ -763,13 +847,16 @@ def handle_mixture_of_blocked_open():
     Provide the user with the option to unblock or block multiple slots or to
     cancel the action.
     """
-    print(Fore.BLUE + f"You have selected a mixture of {Fore.GREEN}OPEN {Fore.BLUE}and {Fore.RED}BLOCKED {Fore.BLUE}slots.")
+    print(
+        f"{Fore.BLUE}You have selected a mixture of "
+        f"{Fore.GREEN}OPEN {Fore.BLUE}and {Fore.RED}BLOCKED {Fore.BLUE}slots."
+    )
 
     while True:
         action = input(
-            f"Enter {Fore.BLUE}'1'{Fore.RESET} to unblock and open all the slots, "
-            f"{Fore.BLUE}'2'{Fore.RESET} to block all the slots or {Fore.BLUE}'3'{Fore.RESET} "
-            "to return to the previous menu: \n"
+            f"Enter {Fore.BLUE}'1'{Fore.RESET} to unblock and open all the "
+            f"slots, {Fore.BLUE}'2'{Fore.RESET} to block all the slots or "
+            f"{Fore.BLUE}'3'{Fore.RESET} to return to the previous menu: \n"
         )
         if action == "1":
             # Ask for confirmation
@@ -801,10 +888,18 @@ def handle_mixture_of_booked_open():
     Provide the user with the option to cancel or book multiple slots or to
     cancel the action.
     """
-    print(Fore.BLUE + f"You have selected a mixture of {Fore.GREEN}OPEN {Fore.BLUE}and BOOKED slots.")
+    print(
+        f"{Fore.BLUE}You have selected a mixture of "
+        f"{Fore.GREEN}OPEN {Fore.BLUE}and BOOKED slots."
+    )
 
     while True:
-        action = input(f"Enter {Fore.BLUE}'1'{Fore.RESET} to book all the slots, {Fore.BLUE}'2'{Fore.RESET} cancel all appointments and open the slots or {Fore.BLUE}'3'{Fore.RESET} to return to the previous menu: \n")
+        action = input(
+            f"Enter {Fore.BLUE}'1'{Fore.RESET} to book all the slots, "
+            f"{Fore.BLUE}'2'{Fore.RESET} cancel all appointments and open the "
+            f"slots or {Fore.BLUE}'3'{Fore.RESET} to return to the previous "
+            "menu: \n"
+        )
         if action == "1":
             # Ask for confirmation
             confirmed = get_confirmation()
@@ -835,10 +930,16 @@ def handle_multiple_blocked():
     Provide the user with the option to unblock multiple slots or to cancel
     the action.
     """
-    print(Fore.BLUE + f"You have selected multiple {Fore.RED}BLOCKED {Fore.BLUE}slots.")
+    print(
+        f"{Fore.BLUE}You have selected multiple "
+        f"{Fore.RED}BLOCKED {Fore.BLUE}slots."
+    )
 
     while True:
-        action = input(f"Enter {Fore.BLUE}'1'{Fore.RESET} to unblock the slots or {Fore.BLUE}'2'{Fore.RESET} to return to the previous menu: \n")
+        action = input(
+            f"Enter {Fore.BLUE}'1'{Fore.RESET} to unblock the slots or "
+            f"{Fore.BLUE}'2'{Fore.RESET} to return to the previous menu: \n"
+        )
         if action == "1":
             # Ask for confirmation
             confirmed = get_confirmation()
@@ -864,7 +965,10 @@ def handle_multiple_booked():
     print(Fore.BLUE + "You have selected multiple BOOKED slots.")
 
     while True:
-        action = input(f"Enter {Fore.BLUE}'1'{Fore.RESET} to cancel the slots or {Fore.BLUE}'2'{Fore.RESET} to return to the previous menu: \n")
+        action = input(
+            f"Enter {Fore.BLUE}'1'{Fore.RESET} to cancel the slots or "
+            f"{Fore.BLUE}'2'{Fore.RESET} to return to the previous menu: \n"
+        )
         if action == "1":
             # Ask for confirmation
             confirmed = get_confirmation()
@@ -887,10 +991,17 @@ def handle_multiple_open():
     Provide the user with the option to either block or book multiple slots
     with an option to cancel the action.
     """
-    print(Fore.BLUE + f"You have selected multiple {Fore.GREEN}OPEN {Fore.BLUE}slots.")
+    print(
+        f"{Fore.BLUE}You have selected multiple "
+        f"{Fore.GREEN}OPEN {Fore.BLUE}slots."
+    )
 
     while True:
-        action = input(f"Enter {Fore.BLUE}'1'{Fore.RESET} to book all the slots, {Fore.BLUE}'2'{Fore.RESET} to block all the slots or {Fore.BLUE}'3'{Fore.RESET} to return to the previous menu: \n")
+        action = input(
+            f"Enter {Fore.BLUE}'1'{Fore.RESET} to book all the slots, "
+            f"{Fore.BLUE}'2'{Fore.RESET} to block all the slots or "
+            f"{Fore.BLUE}'3'{Fore.RESET} to return to the previous menu: \n"
+        )
         if action == "1":
             # Ask for confirmation
             confirmed = get_confirmation()
@@ -916,7 +1027,9 @@ def handle_multiple_open():
             print(Fore.RED + "Invalid input. Please enter a valid value.")
 
 
-def update_multi_appointment_slots(selected_date, selected_week, multislot_update, worksheet, date_cell, selected_time_cells):
+def update_multi_appointment_slots(
+            selected_date, selected_week, multislot_update, worksheet,
+            date_cell, selected_time_cells):
     """
     Update multiple slots and then ask if the user would like to schedule more
     appointments or exit.
@@ -965,7 +1078,10 @@ def get_confirmation():
     Ask the user for confirmation when changing a slot or multiple slots.
     """
     while True:
-        confirm = input(f"Do you wish to confirm this change? {Fore.BLUE}(y/n){Fore.RESET}: \n").lower()
+        confirm = input(
+            "Do you wish to confirm this change? "
+            f"{Fore.BLUE}(y/n){Fore.RESET}: \n"
+        ).lower()
         if confirm == "y":
             return True
         elif confirm == "n":
