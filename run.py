@@ -3,10 +3,10 @@ from google.oauth2.service_account import Credentials
 import getpass
 import colorama
 from colorama import Fore, Back
-colorama.init(autoreset=True)
 import datetime
 import time
 import os
+colorama.init(autoreset=True)
 if os.path.exists("env.py"):
     import env
 
@@ -26,42 +26,55 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('appointment_scheduling_system')
 
-
 # Define maximum login attempts and lockout duration
 MAX_LOGIN_ATTEMPTS = 3
 LOCKOUT_DURATION = 10
 
+
 def handle_lockout():
     """
-    When triggered, this function prevents the user from taking any action. This is to prevent spam and is a security measure.
+    When triggered, this function prevents the user from taking any action.
+    This is a security measure.
     """
     locked_out = True
-    
+
     # Disable keyboard input
     os.system('stty -echo')
-    
+
     try:
         for remaining_lockout_time in range(LOCKOUT_DURATION, 0, -1):
             # Print lockout message
-            print(Fore.RED + f"Maximum login attempts reached. You are now locked out for {remaining_lockout_time} second(s).", end="\r")
+            print(
+                f"{Fore.RED}Maximum login attempts reached. "
+                "You are now locked out for "
+                f"{remaining_lockout_time} second(s).", end="\r"
+            )
             time.sleep(1)
     finally:
         # Enable keyboard input after lockout
         os.system('stty echo')
-    
+
     login_prompt()
+
 
 def login_prompt():
     """
-    Ask whether the user would like to log in and present the name of the application. Incorrect login details causes the login to fail.
-    Failing a login 3 times causes the user to be locked out temporarily as a security measure.
+    Ask whether the user would like to log in and present the name of the
+    application. Incorrect login details causes the login to fail.
+    Failing a login 3 times causes the user to be locked out temporarily as a
+    security measure.
     """
     print()
-    print(Fore.BLUE + "Appointment Booking System - A system designed to manage weekly bookings\n")
+    print(
+        Fore.BLUE +
+        "Appointment Booking System - designed to manage weekly bookings\n"
+    )
 
     # Login
     while True:
-        choice = input(f"Would you like to log in? {Fore.BLUE}(y/n){Fore.RESET}: \n").strip().lower()
+        choice = input(
+            f"Would you like to log in? {Fore.BLUE}(y/n){Fore.RESET}: \n"
+        ).strip().lower()
 
         if choice == 'y':
             login()
@@ -71,13 +84,17 @@ def login_prompt():
             print(Fore.YELLOW + "Exiting the program...")
             exit()
         elif not choice:
-            print(Fore.RED + "The input cannot be empty. Please enter 'y' or 'n'.\n")
+            print(
+                f"{Fore.RED}The input cannot be empty. "
+                "Please enter 'y' or 'n'.\n"
+            )
         else:
             print(Fore.RED + "Invalid choice. Please enter 'y' or 'n'.\n")
 
+
 def login():
     """
-    Ask the user for a login and a password
+    Ask the user for a login and a password.
     """
 
     # Initialize login attempts and locked out status
@@ -93,12 +110,12 @@ def login():
 
     while login_attempts < MAX_LOGIN_ATTEMPTS and not locked_out:
         login = getpass.getpass("Username: ")
-        
+
         # Check if the entered username is empty
         if not login.strip():
             print(Fore.RED + "Username cannot be empty.")
             continue
-        
+
         # Loop for login attempts
         while True:
             password = getpass.getpass("Password: ")
@@ -107,7 +124,7 @@ def login():
             if not password.strip():
                 print(Fore.RED + "Password cannot be empty.")
                 continue
-            
+
             # Check if the entered login and password match the expected values
             if login == USERNAME and password == PASSWORD:
                 print()
@@ -124,7 +141,8 @@ def login():
                 else:
                     print(Fore.RED + "Login failed. Please try again.")
                 break
-                
+
+
 def update_cell_dates():
     """
     Update worksheet based on login date and time.
@@ -135,8 +153,10 @@ def update_cell_dates():
     # Get Monday's date for the first week on the spreadsheet
     w1_worksheet_cell_value = SHEET.worksheet("week1").acell("A2").value
 
-    # Calculate the difference in weeks between the current date and the date in 'week1'
-    difference_in_weeks = get_week_difference(monday_date, w1_worksheet_cell_value)
+    # Calculate the difference in weeks between the current date and 'week1'
+    difference_in_weeks = get_week_difference(
+        monday_date, w1_worksheet_cell_value
+    )
     print(Fore.YELLOW + "Checking worksheets...")
 
     # Check if the worksheets need updating based on the difference in weeks
@@ -146,7 +166,7 @@ def update_cell_dates():
         print(Fore.BLUE + "It seems that you have been away for a long time.")
         print(Fore.YELLOW + "Renewing worksheets...")
 
-        # Refresh and update all worksheets if the difference is more than 12 weeks
+        # Refresh and update all worksheets if the difference is > 12 weeks
         for worksheet in SHEET.worksheets():
             refresh_cells(worksheet)
             set_cell_dates(worksheet, current_datetime)
@@ -162,7 +182,7 @@ def update_cell_dates():
             week_number = int(worksheet_title.lstrip("week"))
             target_week_number = week_number + difference_in_weeks
 
-            # Check if the target week number is within the valid range (1 to 12)
+            # Check if the target week number is within the valid range (1-12)
             if 1 <= target_week_number <= 12:
                 target_worksheet_title = f"week{target_week_number}"
                 target_worksheet = SHEET.worksheet(target_worksheet_title)
@@ -170,7 +190,7 @@ def update_cell_dates():
                 worksheet.update('B2:Q6', target_data)
                 set_cell_dates(worksheet, current_datetime)
             else:
-                # If the target week number is not within the valid range, update cells B2:Q6 with 'OPEN'
+                # Update cells B2:Q6 with 'OPEN'
                 cell_list = worksheet.range('B2:Q6')
                 for cell in cell_list:
                     cell.value = 'OPEN'
@@ -181,6 +201,7 @@ def update_cell_dates():
     # Prompt the user to select a week
     select_week()
 
+
 def get_monday_date(current_datetime):
     """
     Get Monday's date of the current week.
@@ -189,9 +210,11 @@ def get_monday_date(current_datetime):
     monday_date = current_datetime - datetime.timedelta(days=days_since_monday)
     return monday_date
 
+
 def get_week_difference(monday_date, w1_worksheet_cell_value):
     """
-    Determine the difference in weeks between the current week and the spreadsheet's first week.
+    Determine the difference in weeks between the current week and the
+    spreadsheet's first week.
     """
     # Extract the date part from the cell value
     date_part = w1_worksheet_cell_value.split("(")[1].split(")")[0].strip()
@@ -200,6 +223,7 @@ def get_week_difference(monday_date, w1_worksheet_cell_value):
     # Calculate the difference in weeks
     difference_in_weeks = (monday_date - cell_date).days // 7
     return difference_in_weeks
+
 
 def set_cell_dates(worksheet, current_datetime):
     """
@@ -210,7 +234,7 @@ def set_cell_dates(worksheet, current_datetime):
         "week5", "week6", "week7", "week8",
         "week9", "week10", "week11", "week12"
     ]
-    
+
     # Get the index of the worksheet in the list
     worksheet_index = worksheet_names.index(worksheet.title)
 
@@ -232,6 +256,7 @@ def set_cell_dates(worksheet, current_datetime):
     # Update the cells in the worksheet
     worksheet.update_cells(cell_values)
 
+
 def refresh_cells(worksheet):
     """
     Clear all appointment bookings from old dates.
@@ -244,27 +269,49 @@ def refresh_cells(worksheet):
     # Update the cells in the worksheet
     worksheet.update_cells(cell_list)
 
+
 def select_week():
     """
     Ask the user to select a week from the spreadsheet or exit.
     """
-    # Generate week titles from Week1 to Week12
+    # Generate week titles from week1 to week12
     week_titles = [f"week{i}" for i in range(1, 13)]
 
+    print()
+    print(
+        f"{Fore.BLUE}Select a number between '0-12'. "
+        f"{Fore.BLUE}'week1' represents the current week.\n"
+    )
+
     while True:
-        print()
-        print(Fore.BLUE + "Please select a number between '1-12' where week1 represents the current week or enter '0' to exit:\n")
-    
         # Display week options
         for i, title in enumerate(week_titles, start=1):
-            print(f"{Fore.BLUE}[{i}] {Fore.WHITE}{title}", end=f"{Fore.WHITE}, ")
+            print(f"{Fore.BLUE}[{i}] {Fore.WHITE}{title}", end=f"{Fore.WHITE} ")
 
-        # Display the exit option 
+        # Display the exit option
         print(f"{Fore.BLUE}[0] {Fore.WHITE}Exit")
         print()
+
+        choice = input("Please Enter your choice here: \n")
+        
+        if choice == '0':
+            print(Fore.YELLOW + "Exiting the program...")
+            exit()  # Exit the program
         
         try:
-            choice = input("Enter the number of the week you want to select: \n")
+            choice = int(choice)
+            if 1 <= choice <= len(week_titles):
+                selected_week = week_titles[choice - 1]
+                # Find the days of the week with selected week
+                get_dates_from_worksheet(selected_week)
+                break
+            else:
+                print(Fore.RED + "Appointments beyond 12 weeks are not accessible.\nPlease enter a number between '0' and '12'.")
+        except ValueError:
+            print(Fore.RED + "Invalid input. Please enter a valid number between '0-12'.")
+
+        try:
+            choice = input("Please Enter your choice here: \n")
             if choice == '0':
                 print(Fore.YELLOW + "Exiting the program...")
                 exit()  # Exit the program
@@ -272,12 +319,14 @@ def select_week():
                 choice = int(choice)
                 if 1 <= choice <= len(week_titles):
                     selected_week = week_titles[choice - 1]
-                    get_dates_from_worksheet(selected_week)  # Call the function with the selected week to find the days of the week
+                    # Find the days of the week with selected week
+                    get_dates_from_worksheet(selected_week)
                     break
                 else:
                     print(Fore.RED + "Appointments in the past and appointments beyond 12 weeks in the future are not accessible.\nPlease enter a number between '0' and '12'.")
         except ValueError:
             print(Fore.RED + "Invalid input. Please enter a number between '0' and '12'.")
+
 
 def get_dates_from_worksheet(selected_week):
     """
@@ -289,9 +338,11 @@ def get_dates_from_worksheet(selected_week):
     dates = [date.value for date in date_values]
     select_day(dates, selected_week)
 
+
 def select_day(dates, selected_week):
     """
-    Ask the user to select a day of the week from the selected week in the spreadsheet.
+    Ask the user to select a day of the week from the selected week in the
+    spreadsheet.
     """
     # Print the dates and options
     start_date = dates[0]
@@ -317,14 +368,15 @@ def select_day(dates, selected_week):
         except ValueError:
             print(Fore.RED + "Invalid input. Please enter a number between '1-5' or '0' to reselect the week.")
 
+
 def retrieve_appointment_slots(selected_date, selected_week):
     """
     Retrieve appointment slots for the selected day in the selected week.
     """
     # Extract the day name from the selected_date
     selected_day = selected_date.split(" ")[0]
-    
-    # Map day names to row indices (Monday: 2, Tuesday: 3, Wednesday: 4, Thursday: 5, Friday: 6)
+
+    # Map day names to row indices
     day_to_row = {
         "Monday": 2,
         "Tuesday": 3,
@@ -361,12 +413,13 @@ def retrieve_appointment_slots(selected_date, selected_week):
 
     return time_slot_status
 
+
 def display_appointment_slots(selected_date, selected_week):
     """
     Display appointment slots for the selected day in the selected week.
     """
     print(Fore.YELLOW + f"Retrieving appointment slots...")
-    
+
     # Retrieve appointment slots for the selected date and week
     all_slots = retrieve_appointment_slots(selected_date, selected_week)
 
@@ -378,13 +431,14 @@ def display_appointment_slots(selected_date, selected_week):
         "BOOKED": Fore.BLUE,
         "OPEN": Fore.GREEN
     }
-    
+
     # Iterate through the dictionary and format the slots
     formatted_slots = " ".join([f"{time_slot} {color_codes[status]}{status}{Fore.RESET}" for time_slot, status in all_slots.items()])
     print(formatted_slots)
     print()
 
     select_appointment_slots(all_slots, selected_date, selected_week)
+
 
 def select_appointment_slots(all_slots, selected_date, selected_week):
     """
@@ -398,7 +452,8 @@ def select_appointment_slots(all_slots, selected_date, selected_week):
 
             if choice.lower() == 'cancel':
                 print(Fore.YELLOW + 'Returning to previous menu...')
-                get_dates_from_worksheet(selected_week)  # Return to date selection
+                # Return to date selection
+                get_dates_from_worksheet(selected_week)
                 return
             elif choice.lower() == 'exit':
                 print(Fore.YELLOW + "Exiting the program...")
@@ -417,7 +472,7 @@ def select_appointment_slots(all_slots, selected_date, selected_week):
                     start_hour, start_minute = int(start_time_parts[0]), int(start_time_parts[1])
                     end_hour, end_minute = int(end_time_parts[0]), int(end_time_parts[1])
 
-                    # Create a list of time slots between start_time and end_time inclusively
+                    # Create a list of time slots
                     selected_time_range = []
                     while start_hour < end_hour or (start_hour == end_hour and start_minute <= end_minute):
                         selected_time_range.append(f"{start_hour:02}:{start_minute:02}")
@@ -440,9 +495,11 @@ def select_appointment_slots(all_slots, selected_date, selected_week):
         except ValueError:
             print(Fore.RED + "Invalid input. Please enter a valid appointment time or range.")
 
+
 def access_appointment_slots(selected_date, selected_week, selected_time):
     """
-    This function accesses the values of the appointment slots so that they are ready for editing.
+    This function accesses the values of the appointment slots so that they
+    are ready for editing.
     """
     # Access the worksheet for the selected week
     worksheet = SHEET.worksheet(selected_week)
@@ -454,19 +511,19 @@ def access_appointment_slots(selected_date, selected_week, selected_time):
     # Access the range B1:Q1 containing time slots
     time_cells = worksheet.range("B1:Q1")
 
-    # Initialize a list to store the cell objects corresponding to selected times
+    # Initialise a list to store the cell objects matching the selected times
     selected_time_cells = []
 
-    # Iterate through selected times and find the corresponding cells in time_cells
+    # Iterate through selected times and match cells to time_cells
     for selected_time_slot in selected_time:
         time_cell = next((cell for cell in time_cells if cell.value == selected_time_slot), None)
         if time_cell:
             selected_time_cells.append(time_cell)
 
-    # Initialize a list to store appointment details
+    # Initialise a list to store appointment details
     appointment_details_list = []
 
-    # Access coordinates of the cell for editing and print the appointment details
+    # Access coordinates of the cell
     for time_cell in selected_time_cells:
         appointment_details = worksheet.cell(date_cell.row, time_cell.col).value
         appointment_details_list.append(appointment_details)
@@ -478,10 +535,11 @@ def access_appointment_slots(selected_date, selected_week, selected_time):
         # Update single appointment slot
         update_appointment_slot(selected_date, selected_week, slot_update, worksheet, date_cell, selected_time_cells)
     else:
-        # If there's more than one item in the list, trigger a separate function
+        # If list items > 1, trigger a separate function
         multislot_update = handle_multislot_action(appointment_details_list)
         # Update 2 or more appointment slots
         update_multi_appointment_slots(selected_date, selected_week, multislot_update, worksheet, date_cell, selected_time_cells)
+
 
 def handle_slot_action(appointment_details):
     """
@@ -496,6 +554,7 @@ def handle_slot_action(appointment_details):
             slot_update = handle_blocked_slot()
 
         return slot_update
+
 
 def handle_open_slot():
     """
@@ -529,6 +588,7 @@ def handle_open_slot():
         else:
             print(Fore.RED + "Invalid input. Please enter a valid value.")
 
+
 def handle_booked_slot():
     """
     Handle actions for a BOOKED appointment slot.
@@ -552,6 +612,7 @@ def handle_booked_slot():
             return ''
         else:
             print(Fore.RED + "Invalid input. Please enter a valid value.")
+
 
 def handle_blocked_slot():
     """
@@ -577,9 +638,11 @@ def handle_blocked_slot():
         else:
             print(Fore.RED + "Invalid input. Please enter a valid value.")
 
+
 def update_appointment_slot(selected_date, selected_week, slot_update, worksheet, date_cell, selected_time_cells):
     """
-    Update the slot and then ask if the user would like to schedule more appointments or exit.
+    Update the slot and then ask if the user would like to schedule more
+    appointments or exit.
     """
     # Extract time cell from list
     time_cell = selected_time_cells[0]
@@ -598,7 +661,7 @@ def update_appointment_slot(selected_date, selected_week, slot_update, worksheet
         worksheet.update_cell(date_cell.row, time_cell.col, 'BOOKED')
         print(Fore.GREEN + f"The appointment slot is now {Fore.BLUE}BOOKED.")
 
-        # Check the cell before and after to see if they are "OPEN" and update individually
+        # Check the cell before and after to see if they are "OPEN" and update
         prev_time_col = time_cell.col - 1
         next_time_col = time_cell.col + 1
 
@@ -608,14 +671,15 @@ def update_appointment_slot(selected_date, selected_week, slot_update, worksheet
         # If the slot before is "OPEN," update it to "BLOCKED"
         if prev_slot == "OPEN":
             worksheet.update_cell(date_cell.row, prev_time_col, 'BLOCKED')
-        # If the slot after is "OPEN," update it to "BLOCKED"    
+        # If the slot after is "OPEN," update it to "BLOCKED"
         if next_slot == "OPEN":
             worksheet.update_cell(date_cell.row, next_time_col, 'BLOCKED')
 
     # Check if the user wants to schedule more appointments
     if prompt_scheduling():
-        # Trigger the function to display appointment slots again if yes otherwise exit the program
+        # Trigger the function to display appointment slots again
         display_appointment_slots(selected_date, selected_week)
+
 
 def handle_multislot_action(appointment_details_list):
     """
@@ -626,8 +690,8 @@ def handle_multislot_action(appointment_details_list):
 
     # Determine the combinations of slot states
     combinations = ", ".join(sorted(slot_states))
-   
-    # Select the appropriate action based on the combination of slots selected by the user
+
+    # Select the appropriate action based on the slots selected by the user
     if combinations == "BLOCKED, BOOKED, OPEN":
         multislot_update = handle_mixture_of_blocked_booked_open()
     elif combinations == "BLOCKED, BOOKED":
@@ -645,12 +709,15 @@ def handle_multislot_action(appointment_details_list):
 
     return multislot_update
 
+
 def handle_mixture_of_blocked_booked_open():
     """
-    Provide the user with the option to open multiple slots (which cancels all appointments and unblocks all blocked slots) or to cancel the action.
+    Provide the user with the option to open multiple slots
+    (which cancels all appointments and unblocks all blocked slots) or to
+    cancel the action.
     """
     print(Fore.BLUE + f"You have selected a mixture of {Fore.RED}BLOCKED, {Fore.GREEN}OPEN {Fore.BLUE}and BOOKED slots.")
-    
+
     while True:
         action = input(f"Enter {Fore.BLUE}'1'{Fore.RESET} to open all the slots (all appointments will be cancelled and all blocked slots will be unblocked) or {Fore.BLUE}'2'{Fore.RESET} to return to the previous menu: \n")
         if action == "1":
@@ -668,13 +735,16 @@ def handle_mixture_of_blocked_booked_open():
             return ''
         else:
             print(Fore.RED + "Invalid input. Please enter a valid value.")
+
 
 def handle_mixture_of_blocked_booked():
     """
-    Provide the user with the option to open multiple slots (which cancels all appointments and unblocks all blocked slots) or to cancel the action.
+    Provide the user with the option to open multiple slots
+    (which cancels all appointments and unblocks all blocked slots) or to
+    cancel the action.
     """
     print(Fore.BLUE + f"You have selected a mixture of {Fore.RED}BLOCKED {Fore.BLUE}and BOOKED slots.")
-    
+
     while True:
         action = input(f"Enter {Fore.BLUE}'1'{Fore.RESET} to open all the slots (all appointments will be cancelled and all blocked slots will be unblocked) or {Fore.BLUE}'2'{Fore.RESET} to return to the previous menu: \n")
         if action == "1":
@@ -693,14 +763,20 @@ def handle_mixture_of_blocked_booked():
         else:
             print(Fore.RED + "Invalid input. Please enter a valid value.")
 
+
 def handle_mixture_of_blocked_open():
     """
-    Provide the user with the option to unblock or block multiple slots or to cancel the action.
+    Provide the user with the option to unblock or block multiple slots or to
+    cancel the action.
     """
     print(Fore.BLUE + f"You have selected a mixture of {Fore.GREEN}OPEN {Fore.BLUE}and {Fore.RED}BLOCKED {Fore.BLUE}slots.")
-    
+
     while True:
-        action = input(f"Enter {Fore.BLUE}'1'{Fore.RESET} to unblock and open all the slots, {Fore.BLUE}'2'{Fore.RESET} to block all the slots or {Fore.BLUE}'3'{Fore.RESET} to return to the previous menu: \n")
+        action = input(
+            f"Enter {Fore.BLUE}'1'{Fore.RESET} to unblock and open all the slots, "
+            f"{Fore.BLUE}'2'{Fore.RESET} to block all the slots or {Fore.BLUE}'3'{Fore.RESET} "
+            "to return to the previous menu: \n"
+        )
         if action == "1":
             # Ask for confirmation
             confirmed = get_confirmation()
@@ -725,12 +801,14 @@ def handle_mixture_of_blocked_open():
         else:
             print(Fore.RED + "Invalid input. Please enter a valid value.")
 
+
 def handle_mixture_of_booked_open():
     """
-    Provide the user with the option to cancel or book multiple slots or to cancel the action.
+    Provide the user with the option to cancel or book multiple slots or to
+    cancel the action.
     """
     print(Fore.BLUE + f"You have selected a mixture of {Fore.GREEN}OPEN {Fore.BLUE}and BOOKED slots.")
-    
+
     while True:
         action = input(f"Enter {Fore.BLUE}'1'{Fore.RESET} to book all the slots, {Fore.BLUE}'2'{Fore.RESET} cancel all appointments and open the slots or {Fore.BLUE}'3'{Fore.RESET} to return to the previous menu: \n")
         if action == "1":
@@ -757,9 +835,11 @@ def handle_mixture_of_booked_open():
         else:
             print(Fore.RED + "Invalid input. Please enter a valid value.")
 
+
 def handle_multiple_blocked():
     """
-    Provide the user with the option to unblock multiple slots or to cancel the action.
+    Provide the user with the option to unblock multiple slots or to cancel
+    the action.
     """
     print(Fore.BLUE + f"You have selected multiple {Fore.RED}BLOCKED {Fore.BLUE}slots.")
 
@@ -781,12 +861,14 @@ def handle_multiple_blocked():
         else:
             print(Fore.RED + "Invalid input. Please enter a valid value.")
 
+
 def handle_multiple_booked():
     """
-    Provide the user with the option to cancel multiple slots or to cancel the action.
+    Provide the user with the option to cancel multiple slots or to cancel
+    the action.
     """
     print(Fore.BLUE + "You have selected multiple BOOKED slots.")
-    
+
     while True:
         action = input(f"Enter {Fore.BLUE}'1'{Fore.RESET} to cancel the slots or {Fore.BLUE}'2'{Fore.RESET} to return to the previous menu: \n")
         if action == "1":
@@ -805,9 +887,11 @@ def handle_multiple_booked():
         else:
             print(Fore.RED + "Invalid input. Please enter a valid value.")
 
+
 def handle_multiple_open():
     """
-    Provide the user with the option to either block or book multiple slots with an option to cancel the action.
+    Provide the user with the option to either block or book multiple slots
+    with an option to cancel the action.
     """
     print(Fore.BLUE + f"You have selected multiple {Fore.GREEN}OPEN {Fore.BLUE}slots.")
 
@@ -837,9 +921,11 @@ def handle_multiple_open():
         else:
             print(Fore.RED + "Invalid input. Please enter a valid value.")
 
+
 def update_multi_appointment_slots(selected_date, selected_week, multislot_update, worksheet, date_cell, selected_time_cells):
     """
-    Update multiple slots and then ask if the user would like to schedule more appointments or exit.
+    Update multiple slots and then ask if the user would like to schedule more
+    appointments or exit.
     """
     for time_cell in selected_time_cells:
         # Update the slot based on user input for each selected time cell
@@ -879,6 +965,7 @@ def update_multi_appointment_slots(selected_date, selected_week, multislot_updat
         # Trigger the function to display appointment slots again
         display_appointment_slots(selected_date, selected_week)
 
+
 def get_confirmation():
     """
     Ask the user for confirmation when changing a slot or multiple slots.
@@ -892,10 +979,10 @@ def get_confirmation():
         else:
             print(Fore.RED + "Invalid input. Please enter 'y' or 'n'.")
 
+
 def prompt_scheduling():
     """
     Ask the user if they want to schedule more appointments.
-    Returns True if the user wants to schedule more appointments, False otherwise.
     """
     while True:
         choice = input(f"Do you want to schedule more appointments? {Fore.BLUE}(y/n){Fore.RESET}: \n").strip().lower()
@@ -906,5 +993,6 @@ def prompt_scheduling():
             exit()  # Exit the program
         else:
             print(Fore.RED + "Invalid choice. Please enter 'y' or 'n'.")
+
 
 login_prompt()
