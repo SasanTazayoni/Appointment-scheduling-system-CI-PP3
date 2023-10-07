@@ -310,23 +310,6 @@ def select_week():
         except ValueError:
             print(Fore.RED + "Invalid input. Please enter a valid number between '0-12'.")
 
-        try:
-            choice = input("Please Enter your choice here: \n")
-            if choice == '0':
-                print(Fore.YELLOW + "Exiting the program...")
-                exit()  # Exit the program
-            else:
-                choice = int(choice)
-                if 1 <= choice <= len(week_titles):
-                    selected_week = week_titles[choice - 1]
-                    # Find the days of the week with selected week
-                    get_dates_from_worksheet(selected_week)
-                    break
-                else:
-                    print(Fore.RED + "Appointments in the past and appointments beyond 12 weeks in the future are not accessible.\nPlease enter a number between '0' and '12'.")
-        except ValueError:
-            print(Fore.RED + "Invalid input. Please enter a number between '0' and '12'.")
-
 
 def get_dates_from_worksheet(selected_week):
     """
