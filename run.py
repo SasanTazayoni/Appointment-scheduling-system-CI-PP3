@@ -44,7 +44,11 @@ def handle_lockout():
     try:
         for remaining_lockout_time in range(LOCKOUT_DURATION, 0, -1):
             # Print lockout message
-            print(Fore.RED + f"Maximum login attempts reached. You are now locked out for {remaining_lockout_time} second(s).", end="\r")
+            print(
+                f"{Fore.RED}Maximum login attempts reached. "
+                "You are now locked out for "
+                f"{remaining_lockout_time} second(s).", end="\r"
+            )
             time.sleep(1)
     finally:
         # Enable keyboard input after lockout
@@ -61,11 +65,16 @@ def login_prompt():
     security measure.
     """
     print()
-    print(Fore.BLUE + "Appointment Booking System - designed to manage weekly bookings\n")
+    print(
+        Fore.BLUE +
+        "Appointment Booking System - designed to manage weekly bookings\n"
+    )
 
     # Login
     while True:
-        choice = input(f"Would you like to log in? {Fore.BLUE}(y/n){Fore.RESET}: \n").strip().lower()
+        choice = input(
+            f"Would you like to log in? {Fore.BLUE}(y/n){Fore.RESET}: \n"
+        ).strip().lower()
 
         if choice == 'y':
             login()
@@ -75,7 +84,10 @@ def login_prompt():
             print(Fore.YELLOW + "Exiting the program...")
             exit()
         elif not choice:
-            print(Fore.RED + "The input cannot be empty. Please enter 'y' or 'n'.\n")
+            print(
+                f"{Fore.RED}The input cannot be empty."
+                "Please enter 'y' or 'n'.\n"
+            )
         else:
             print(Fore.RED + "Invalid choice. Please enter 'y' or 'n'.\n")
 
@@ -142,7 +154,9 @@ def update_cell_dates():
     w1_worksheet_cell_value = SHEET.worksheet("week1").acell("A2").value
 
     # Calculate the difference in weeks between the current date and 'week1'
-    difference_in_weeks = get_week_difference(monday_date, w1_worksheet_cell_value)
+    difference_in_weeks = get_week_difference(
+        monday_date, w1_worksheet_cell_value
+    )
     print(Fore.YELLOW + "Checking worksheets...")
 
     # Check if the worksheets need updating based on the difference in weeks
@@ -738,7 +752,11 @@ def handle_mixture_of_blocked_open():
     print(Fore.BLUE + f"You have selected a mixture of {Fore.GREEN}OPEN {Fore.BLUE}and {Fore.RED}BLOCKED {Fore.BLUE}slots.")
 
     while True:
-        action = input(f"Enter {Fore.BLUE}'1'{Fore.RESET} to unblock and open all the slots, {Fore.BLUE}'2'{Fore.RESET} to block all the slots or {Fore.BLUE}'3'{Fore.RESET} to return to the previous menu: \n")
+        action = input(
+            f"Enter {Fore.BLUE}'1'{Fore.RESET} to unblock and open all the slots, "
+            f"{Fore.BLUE}'2'{Fore.RESET} to block all the slots or {Fore.BLUE}'3'{Fore.RESET} "
+            "to return to the previous menu: \n"
+        )
         if action == "1":
             # Ask for confirmation
             confirmed = get_confirmation()
