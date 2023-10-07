@@ -335,7 +335,7 @@ def select_day(dates, selected_week):
     """
     # Print the dates and options
     start_date = dates[0]
-    print(Fore.GREEN + f"Retrieved dates for week beginning on '{start_date}':")
+    print(f"{Fore.GREEN}Retrieved dates for week beginning on '{start_date}':")
     for i, date in enumerate(dates, start=1):
         print(f"{Fore.BLUE}[{i}] {Fore.WHITE}{date}")
 
@@ -354,8 +354,10 @@ def select_day(dates, selected_week):
                 selected_date = dates[choice - 1]
                 display_appointment_slots(selected_date, selected_week)
                 break
+            else:
+                print(Fore.RED + "Invalid number. Please enter a number within the specified range.")
         except ValueError:
-            print(Fore.RED + "Invalid input. Please enter a number between '1-5' or '0' to reselect the week.")
+            print(Fore.RED + "Invalid input. Please enter a number.")
 
 
 def retrieve_appointment_slots(selected_date, selected_week):
