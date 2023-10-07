@@ -482,7 +482,10 @@ def select_appointment_slots(all_slots, selected_date, selected_week):
                     access_appointment_slots(selected_date, selected_week, selected_time)
                     break
                 else:
-                    print(Fore.RED + "Invalid time input. Please ensure you entire times in the correct format (e.g. 15:00) and between 09:00 and 16:30")
+                    print(
+                        f"{Fore.RED}Invalid time input. Please ensure you enter "
+                        "times in the correct format and between 09:00 and 16:30."
+                    )
         except ValueError:
             print(Fore.RED + "Invalid input. Please enter a valid appointment time or range.")
 
