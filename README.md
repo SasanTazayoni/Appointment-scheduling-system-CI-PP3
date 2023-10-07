@@ -80,6 +80,10 @@ The initial flow chart was developed before the project's actual implementation,
 		
 ![App introduction](documentation/apptitle.png) <br>
 
+* If the user enters an invalid entry, they will get an error message: <br>
+
+![Invalid entry](documentation/firstprompt.png) <br>
+
 * Whenever the user exits the application they will see a message: <br>
 		
 ![Exiting the application](documentation/exit.png) <br>
@@ -124,7 +128,10 @@ The initial flow chart was developed before the project's actual implementation,
 
 ![Out-of-range input number](documentation/largeweeknumber.png) <br>
 
-* At this stage the user also has the option of exiting the program by typing '0'.
+* At this stage the user also has the option of exiting the program by typing '0': <br>
+
+![Exit from week select](documentation/exitfromweekselect.png) <br>
+
 * If the user enters a valid input then they will be presented with the days of that particular week: <br>
 
 ![Days of the week](documentation/daysoftheweek.png) <br>
