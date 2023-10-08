@@ -304,14 +304,33 @@ def fix_cell_dates():
     """
     
     print(Fore.YELLOW + 'Setting dates...')
-    worksheet_names = [ "week1", "week2", "week3", "week4", "week5", "week6", "week7", "week8", "week9", "week10", "week11", "week12" ]
+    worksheet_names = [
+	"week1",
+	"week2",
+	"week3",
+	"week4",
+	"week5",
+	"week6",
+	"week7",
+	"week8",
+	"week9",
+	"week10",
+	"week11",
+	"week12"
+    ]
     current_datetime = datetime.datetime.now()
     
     for i, worksheet_name in enumerate(worksheet_names):
         worksheet = SHEET.worksheet(worksheet_name)
 
         days_since_monday = (current_datetime.weekday() - 0) % 7
-        start_date = current_datetime - datetime.timedelta(days=days_since_monday) - datetime.timedelta(weeks=2) + datetime.timedelta(weeks=i) # weeks can be changed to set the week difference
+	# weeks can be changed to set the week difference
+        start_date = (
+		current_datetime -
+		datetime.timedelta(days=days_since_monday) -
+		datetime.timedelta(weeks=2) +
+		datetime.timedelta(weeks=i)
+	)
 
         dates = [start_date + datetime.timedelta(days=j) for j in range(5)]
 
