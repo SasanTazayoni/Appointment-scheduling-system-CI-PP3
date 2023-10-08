@@ -223,7 +223,7 @@ The initial flow chart was developed before the project's actual implementation,
 
 The project primarily uses a spreadsheet-based data model. The appointment scheduling system manages and stores appointment data in a Google Sheets spreadsheet. Each cell in the spreadsheet represents a time slot for a specific date, and the data in the cells determine whether a slot is open, booked, or blocked. The data model includes the following key components:
 
-1. Google Sheets Spreadsheet: The spreadsheet serves as the central data repository, where each worksheet (e.g., "week1," "week2") represents a specific week's schedule. Columns represent days of the week, and rows represent time slots within those days.
+1. Google Sheets Spreadsheet: The spreadsheet serves as the central data repository, where each worksheet (e.g. "week1," "week2") represents a specific week's schedule. Columns represent days of the week, and rows represent time slots within those days.
 
 2. Cells: Individual cells within the spreadsheet represent specific time slots. The data in these cells are used to determine the availability status (open, booked, or blocked) for each time slot.
 
@@ -235,7 +235,7 @@ The project primarily uses a spreadsheet-based data model. The appointment sched
 
 4. User Inputs: The system interacts with users who can select and modify time slots. Users can perform actions like booking appointments, cancelling bookings, unblocking slots and blocking slots using user inputs.
 
-Overall, the data model is relatively simple, relying on the structure of a spreadsheet to organize and manage appointment data efficiently. This spreadsheet-based model allows for easy visualisation and manipulation of scheduling information, making it user-friendly for the consultant. However, it's important to note that while this model is suitable for a basic prototype, a more scalable and robust solution will require a database-backed data model for enhanced functionality and data management.
+Overall, the data model is relatively simple, relying on the structure of a spreadsheet to organise and manage appointment data efficiently. This spreadsheet-based model allows for easy visualisation and manipulation of scheduling information, making it user-friendly for the consultant. However, it's important to note that while this model is suitable for a basic prototype, a more scalable and robust solution will require a database-backed data model for enhanced functionality and data management.
 
 ## Technologies used
 
