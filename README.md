@@ -2,6 +2,8 @@
 
 ## Introduction
 
+![HTML](tech/python.png) ![CSS](tech/heroku.png)
+
 This application is part of a future full-stack solution designed for a real IT support consultant. The consultant currently manages bookings through emails and phone calls, which leads to various issues, such as last-minute cancellations and difficulty in keeping track of booking times due to frequent changes.
 
 The purpose of this application is to enable the client to efficiently handle and plan their bookings in advance. While the current version lacks detailed information for each booking, a future iteration envisions a robust full-stack solution that will revolutionise the way the IT support consultant manages their business operations.
@@ -23,26 +25,26 @@ These planned enhancements will transform the application into a comprehensive, 
 You can access the application [here](https://appointment-booking-system-987e0f827702.herokuapp.com/). <br>
 You can also access the associated spreadsheet [here](https://docs.google.com/spreadsheets/d/1uBX51j8qVqieYV65oMwpC26L3HZVyuoybPL4kNRlyxY/edit?usp=sharing).
 
-***IMPORTANT NOTE: The login credentials are 'admin' for the username and 'password' for the password.***
+**_IMPORTANT NOTE: The login credentials are 'admin' for the username and 'password' for the password._**
 
 ## How to use the application
 
-* The user is asked whether they would like to login (typing 'n' exits the application)
-* A login consists of a username and password and these need to be typed correctly in order to log in (details provided above).
-* After logging in, the program detects the time and date of log in, where each week starts on a Monday at 12:00 AM, and automatically updates the spreadsheet for week1 to match the current week and all the following weeks are shifted along accordingly. Previous weeks are deleted because they are no longer relevant and new weeks with open slots are appended to the end of the spreadsheet. If the user logs in within the current week, no update takes place. In a future iteration of this application, the deleted weeks will be archived in a database for reference.
-* After this, the user is presented with a set of weeks from 1-12 with numbers allocated to each ("week1" represents the current week) and an option to exit the application.
-* After selecting an appropriate week, the user is then presented with the days of that week with numbers allocated to each day. There is also an option to return to the week selection in case of a mistake.
-* After selecting a day, the user is then presented the time slots for the selected day and whether the time slots are booked, blocked or open according to the spreadsheet. The user now has the option to either exit the program altogether, to cancel the choice which allows the user to reselect a day, to select a specific time slot or to select a range of time slots. Selecting a single time slot allows the alteration that single slot only, whereas selecting multiple slots allows multiple slots to be changed.
-* If the user selects an open slot, or multiple open slots, they have the choice to book these slots, block these slots or to cancel their choice and return to the previous menu to select different slots. Booking a time slot or range, automatically puts a block at the start and end of the bookings so that appointments are not booked back to back and the consultant has time to travel to the appointment destination.
-* If the user selects a booked slot or multiple booked slots, they have the option of either cancelling them all or returning to the previous menu.
-* If the user selects a blocked slot or multiple blocked slots, they have the option of either unblocking them all or returning to the previous menu.
-* If the user selects a mixture of open and blocked slots, they have the option of either blocking all the open slots, unblocking the blocked slots or returning to the previous menu.
-* If the user selects a mixture of open and booked slots, they have the option of either booking all the open slots, cancelling the booked slots or returning to the previous menu.
-* If the user selects a mixture of blocked and booked slots, since booked appointments cannot be blocked and blocked slots cannot be booked the user has only 2 options: cancel all appointments and unblock all slots or return to the previous menu.
-* If the user selects a mixture of blocked, booked and open slots, the same logic as above applies where the user has only 2 options: cancel all appointments and unblock all slots or return to the previous menu.
-* For each change of slot, there is a confirmation which if not confirmed, does not change the slot and reprompts the user for the appropriate action.
-* If the user confirms, the program then adjusts the spreadsheet accordingly.
-* When a slot has been changed, the user is prompted as to whether they would like to schedule more appointments. If yes, the program loops to the day select again. If no, the program exits.
+-   The user is asked whether they would like to login (typing 'n' exits the application)
+-   A login consists of a username and password and these need to be typed correctly in order to log in (details provided above).
+-   After logging in, the program detects the time and date of log in, where each week starts on a Monday at 12:00 AM, and automatically updates the spreadsheet for week1 to match the current week and all the following weeks are shifted along accordingly. Previous weeks are deleted because they are no longer relevant and new weeks with open slots are appended to the end of the spreadsheet. If the user logs in within the current week, no update takes place. In a future iteration of this application, the deleted weeks will be archived in a database for reference.
+-   After this, the user is presented with a set of weeks from 1-12 with numbers allocated to each ("week1" represents the current week) and an option to exit the application.
+-   After selecting an appropriate week, the user is then presented with the days of that week with numbers allocated to each day. There is also an option to return to the week selection in case of a mistake.
+-   After selecting a day, the user is then presented the time slots for the selected day and whether the time slots are booked, blocked or open according to the spreadsheet. The user now has the option to either exit the program altogether, to cancel the choice which allows the user to reselect a day, to select a specific time slot or to select a range of time slots. Selecting a single time slot allows the alteration that single slot only, whereas selecting multiple slots allows multiple slots to be changed.
+-   If the user selects an open slot, or multiple open slots, they have the choice to book these slots, block these slots or to cancel their choice and return to the previous menu to select different slots. Booking a time slot or range, automatically puts a block at the start and end of the bookings so that appointments are not booked back to back and the consultant has time to travel to the appointment destination.
+-   If the user selects a booked slot or multiple booked slots, they have the option of either cancelling them all or returning to the previous menu.
+-   If the user selects a blocked slot or multiple blocked slots, they have the option of either unblocking them all or returning to the previous menu.
+-   If the user selects a mixture of open and blocked slots, they have the option of either blocking all the open slots, unblocking the blocked slots or returning to the previous menu.
+-   If the user selects a mixture of open and booked slots, they have the option of either booking all the open slots, cancelling the booked slots or returning to the previous menu.
+-   If the user selects a mixture of blocked and booked slots, since booked appointments cannot be blocked and blocked slots cannot be booked the user has only 2 options: cancel all appointments and unblock all slots or return to the previous menu.
+-   If the user selects a mixture of blocked, booked and open slots, the same logic as above applies where the user has only 2 options: cancel all appointments and unblock all slots or return to the previous menu.
+-   For each change of slot, there is a confirmation which if not confirmed, does not change the slot and reprompts the user for the appropriate action.
+-   If the user confirms, the program then adjusts the spreadsheet accordingly.
+-   When a slot has been changed, the user is prompted as to whether they would like to schedule more appointments. If yes, the program loops to the day select again. If no, the program exits.
 
 **Please note: Although these instructions might appear complex, the application is actually straightforward and user-friendly.**
 
@@ -50,16 +52,16 @@ You can also access the associated spreadsheet [here](https://docs.google.com/sp
 
 As a user I want to:
 
-* Have a secure system which only I can access so that I can manage my weekly work schedule.
-* View my current schedule for any specific day.
-* Select a week, day and time to book an appointment.
-* Ensure that my bookings are not booked back-to-back so that I have time to plan my journey and travel to my next customer.
-* There to be safety measures so that I do not accidentally book slots where I am unavailable and similarly do not block slots where there are booked appointments
-* Block slots for times on days where I am busy with other endeavours and unblock slots when necessary.
-* Cancel appointments that are no longer required.
-* Manage multiple slots to book long sessions, block entire days or cancel multiple appointments and slots.
-* Navigate the system with ease and have feedback for every decision that I make.
-* Cancel my decision if I make any mistakes at any point while I am using the application.
+-   Have a secure system which only I can access so that I can manage my weekly work schedule.
+-   View my current schedule for any specific day.
+-   Select a week, day and time to book an appointment.
+-   Ensure that my bookings are not booked back-to-back so that I have time to plan my journey and travel to my next customer.
+-   There to be safety measures so that I do not accidentally book slots where I am unavailable and similarly do not block slots where there are booked appointments
+-   Block slots for times on days where I am busy with other endeavours and unblock slots when necessary.
+-   Cancel appointments that are no longer required.
+-   Manage multiple slots to book long sessions, block entire days or cancel multiple appointments and slots.
+-   Navigate the system with ease and have feedback for every decision that I make.
+-   Cancel my decision if I make any mistakes at any point while I am using the application.
 
 ## Logic flow
 
@@ -71,153 +73,153 @@ The initial flow chart was developed before the project's actual implementation,
 
 ## Features
 
-* Throughout this application:
-		* Blue text represents key information and is also used for 'BOOKED' slots.
-		* Yellow text represents a process taking place.
-		* Green text represents a successful process and is also used for 'OPEN' slots.
-		* Red text represents a failed process and is also used for 'BLOCKED' slots.
-* When the application is run, the user is presented with a simple introduction and asked whether they would like to log in: <br>
-		
+-   Throughout this application:
+    _ Blue text represents key information and is also used for 'BOOKED' slots.
+    _ Yellow text represents a process taking place.
+    _ Green text represents a successful process and is also used for 'OPEN' slots.
+    _ Red text represents a failed process and is also used for 'BLOCKED' slots.
+-   When the application is run, the user is presented with a simple introduction and asked whether they would like to log in: <br>
+
 ![App introduction](documentation/apptitle.png) <br>
 
-* If the user enters an invalid entry, they will get an error message: <br>
+-   If the user enters an invalid entry, they will get an error message: <br>
 
 ![Invalid entry](documentation/firstprompt.png) <br>
 
-* Whenever the user exits the application they will see a message: <br>
-		
+-   Whenever the user exits the application they will see a message: <br>
+
 ![Exiting the application](documentation/exit.png) <br>
-		
-* If the user types 'y' then they are presented with a login menu where the user would need to enter the correct details in order to log in. The input fields purposely do not display the user input as a security measure: <br>
-		
+
+-   If the user types 'y' then they are presented with a login menu where the user would need to enter the correct details in order to log in. The input fields purposely do not display the user input as a security measure: <br>
+
 ![Login menu](documentation/login.png) <br>
-		
-* Neither the username nor the password fields can be left empty: <br>
-		
+
+-   Neither the username nor the password fields can be left empty: <br>
+
 ![Empty username error](documentation/emptyusername.png) <br>
 ![Empty password error](documentation/emptypassword.png) <br>
-		
-* If the credentials are incorrect the login fails: <br>
-		
+
+-   If the credentials are incorrect the login fails: <br>
+
 ![Login fail](documentation/loginfail.png) <br>
-		
-* The user is asked to try again after a failed login but has a maximum of 3 attempts. When the login fails 3 times the user is temporarily locked out: <br>
-		
+
+-   The user is asked to try again after a failed login but has a maximum of 3 attempts. When the login fails 3 times the user is temporarily locked out: <br>
+
 ![Lockout after 3 failed login attempts](documentation/lockout.png) <br>
-		
-* If the user enters the correct details, a login will be successful. The system will then check the date and time of login and then access the worksheet, select the "week1" tab select the cell "A2" (which is Monday). These 2 values will be compared and the difference in days will be calculated as follows: <br>
 
+-   If the user enters the correct details, a login will be successful. The system will then check the date and time of login and then access the worksheet, select the "week1" tab select the cell "A2" (which is Monday). These 2 values will be compared and the difference in days will be calculated as follows: <br>
 
-  * If the number of days is less than 7, no updates are made to the spreadsheets: <br>
+    -   If the number of days is less than 7, no updates are made to the spreadsheets: <br>
 
-  ![Up-to-date spreadsheet](documentation/updatespreadsheet.png) <br>
+    ![Up-to-date spreadsheet](documentation/updatespreadsheet.png) <br>
 
-  * When the number of days exceeds 7, the system updates the spreadsheets based on the formula: difference_in_weeks = (monday_date - cell_date).days // 7. Using the difference_in_weeks variable, the spreadsheets are updated as follows: for example, if difference_in_weeks is 3, 'week4' will overwrite 'week1,' 'week5' will overwrite 'week2,' and so on. This process affects all tabs on the spreadsheet. For the last 3 weeks, dates are generated and inserted into cells (A2:A6), and all appointment slots are overwritten with 'OPEN' to indicate newly available slots. The system maintains consistency by ensuring that the 'week1' tab on the spreadsheet represents the current week at the time of login, following Python's convention where weeks start on Mondays at 12:00 AM.
+    -   When the number of days exceeds 7, the system updates the spreadsheets based on the formula: difference_in_weeks = (monday_date - cell_date).days // 7. Using the difference_in_weeks variable, the spreadsheets are updated as follows: for example, if difference_in_weeks is 3, 'week4' will overwrite 'week1,' 'week5' will overwrite 'week2,' and so on. This process affects all tabs on the spreadsheet. For the last 3 weeks, dates are generated and inserted into cells (A2:A6), and all appointment slots are overwritten with 'OPEN' to indicate newly available slots. The system maintains consistency by ensuring that the 'week1' tab on the spreadsheet represents the current week at the time of login, following Python's convention where weeks start on Mondays at 12:00 AM.
 
-  * If the 'difference_in_weeks' variable is 12 or greater, all tabs are updated to reflect the correct dates, and all appointment slots are set to 'OPEN'.
- 
-* After this process, the user is immediately presented with a set of weeks to choose from: <br>
+    -   If the 'difference_in_weeks' variable is 12 or greater, all tabs are updated to reflect the correct dates, and all appointment slots are set to 'OPEN'.
+
+-   After this process, the user is immediately presented with a set of weeks to choose from: <br>
 
 ![Set of weeks](documentation/setofweeks.png) <br>
 
-* If the user enters an invalid value, the user gets an error message: <br>
+-   If the user enters an invalid value, the user gets an error message: <br>
 
 ![Invalid week input](documentation/invalidweekinput.png) <br>
 
-* If the user enters a value that is out of range of the menu they receive a different error message: <br>
+-   If the user enters a value that is out of range of the menu they receive a different error message: <br>
 
 ![Out-of-range input number](documentation/largeweeknumber.png) <br>
 
-* At this stage the user also has the option of exiting the program by typing '0': <br>
+-   At this stage the user also has the option of exiting the program by typing '0': <br>
 
 ![Exit from week select](documentation/exitfromweekselect.png) <br>
 
-* If the user enters a valid input then they will be presented with the days of that particular week: <br>
+-   If the user enters a valid input then they will be presented with the days of that particular week: <br>
 
 ![Days of the week](documentation/daysoftheweek.png) <br>
 
-* If the user inputs an invalid entry they get an error message: <br>
+-   If the user inputs an invalid entry they get an error message: <br>
 
 ![Invalid day input](documentation/invaliddayinput.png) <br>
 
-* If the user inputs a vale that is not in range they get an error message: <br>
+-   If the user inputs a vale that is not in range they get an error message: <br>
 
 ![Out-of-range day input](documentation/outofrangeday.png) <br>
 
-* At this stage, the user is able to return to the previous menu to reselect a week by typing '0' in case a mistake is made.
-* If a valid number is entered the user is then presented with a menu to choose either a single slot or a range of slots: <br>
+-   At this stage, the user is able to return to the previous menu to reselect a week by typing '0' in case a mistake is made.
+-   If a valid number is entered the user is then presented with a menu to choose either a single slot or a range of slots: <br>
 
 ![Choose a slot](documentation/chooseslot.png) <br>
 
-* The time input must be in the correct format and within the given range. If it is not, the user gets an error message: <br>
+-   The time input must be in the correct format and within the given range. If it is not, the user gets an error message: <br>
 
 ![Incorrect time format entry](documentation/incorrecttimeformat.png) <br>
 
-* At this stage the user can exit the program by typing 'exit' or can return to the previous menu to select a different day by typing 'cancel'.
-* If the user inputs a valid value then another menu is presented to the user depending on the state of the selected slot or range of slots:
-  * If a single 'BOOKED' slot is selected the user can cancel the appointment or return to the previous menu: <br>
-  
-  ![Single booked slot](documentation/singlebookedslot.png) <br>
-  
-  * If a single 'OPEN' slot is selected the user can book an appointment, block the slot or return to the previous menu: <br>
-  
-  ![Single open slot](documentation/singleopenslot.png) <br>
-  
-  * If a single 'BLOCKED' slot is selected the user can unblock the slot or return to the previous menu: <br>
+-   At this stage the user can exit the program by typing 'exit' or can return to the previous menu to select a different day by typing 'cancel'.
+-   If the user inputs a valid value then another menu is presented to the user depending on the state of the selected slot or range of slots:
 
-  ![Single blocked slot](documentation/singleblockedslot.png) <br>
-  
-  * If a multiple 'BOOKED' slots are selected the user can cancel all appointments or return to the previous menu: <br>
-  
-  ![Multiple booked slots](documentation/multiplebookedslots.png) <br>
-  
-  * If a multiple 'OPEN' slots are selected the user can book all slots, block all slots or return to the previous menu: <br>
-  
-  ![Multiple open slots](documentation/multipleopenslots.png) <br>
-  
-  * If a multiple 'BLOCKED' slots are selected the user can unblock all slots or return to the previous menu: <br>
-  
-  ![Multiple blocked slots](documentation/multipleblockedslots.png) <br>
-  
-  * If a mixture of 'BOOKED' and 'OPEN' slots are selected the user can book all the open slots, cancel all the booked slots or return to the previous menu: <br>
-  
-  ![Mixture of open and booked slots](documentation/mixtureopenbooked.png) <br>
-  
-  * If a mixture of 'BLOCKED' and 'OPEN' slots are selected the user can block all the open slots, unblock all the blocked slots or return to the previous menu: <br>
-  
-  ![Mixture of open and blocked slots](documentation/mixtureopenblocked.png) <br>
-  
-  * If a mixture of 'BOOKED' and 'BLOCKED' slots are selected the user can open all the remaining slots (cancels all appointments and unblocks all blocked slots) or return to the previous menu: <br>
-  
-  ![Mixture of blocked and booked slots](documentation/mixturebookedblocked.png) <br>
-  
-  * If a mixture of 'OPEN', 'BOOKED' and 'BLOCKED' slots are selected the user can open all the remaining slots (cancels all appointments and unblocks all blocked slots) or return to the previous menu: <br>
-  
-  ![Mixture of open, blocked and booked slots](documentation/mixtureopenbookedblocked.png) <br>
-  
-* In the next menu after selecting a slot or range of slots, any invalid inputs give an error message to the user: <br>
+    -   If a single 'BOOKED' slot is selected the user can cancel the appointment or return to the previous menu: <br>
+
+    ![Single booked slot](documentation/singlebookedslot.png) <br>
+
+    -   If a single 'OPEN' slot is selected the user can book an appointment, block the slot or return to the previous menu: <br>
+
+    ![Single open slot](documentation/singleopenslot.png) <br>
+
+    -   If a single 'BLOCKED' slot is selected the user can unblock the slot or return to the previous menu: <br>
+
+    ![Single blocked slot](documentation/singleblockedslot.png) <br>
+
+    -   If a multiple 'BOOKED' slots are selected the user can cancel all appointments or return to the previous menu: <br>
+
+    ![Multiple booked slots](documentation/multiplebookedslots.png) <br>
+
+    -   If a multiple 'OPEN' slots are selected the user can book all slots, block all slots or return to the previous menu: <br>
+
+    ![Multiple open slots](documentation/multipleopenslots.png) <br>
+
+    -   If a multiple 'BLOCKED' slots are selected the user can unblock all slots or return to the previous menu: <br>
+
+    ![Multiple blocked slots](documentation/multipleblockedslots.png) <br>
+
+    -   If a mixture of 'BOOKED' and 'OPEN' slots are selected the user can book all the open slots, cancel all the booked slots or return to the previous menu: <br>
+
+    ![Mixture of open and booked slots](documentation/mixtureopenbooked.png) <br>
+
+    -   If a mixture of 'BLOCKED' and 'OPEN' slots are selected the user can block all the open slots, unblock all the blocked slots or return to the previous menu: <br>
+
+    ![Mixture of open and blocked slots](documentation/mixtureopenblocked.png) <br>
+
+    -   If a mixture of 'BOOKED' and 'BLOCKED' slots are selected the user can open all the remaining slots (cancels all appointments and unblocks all blocked slots) or return to the previous menu: <br>
+
+    ![Mixture of blocked and booked slots](documentation/mixturebookedblocked.png) <br>
+
+    -   If a mixture of 'OPEN', 'BOOKED' and 'BLOCKED' slots are selected the user can open all the remaining slots (cancels all appointments and unblocks all blocked slots) or return to the previous menu: <br>
+
+    ![Mixture of open, blocked and booked slots](documentation/mixtureopenbookedblocked.png) <br>
+
+-   In the next menu after selecting a slot or range of slots, any invalid inputs give an error message to the user: <br>
 
 ![Invalid slot action](documentation/invalidslotaction.png) <br>
 
-* Returning to the previous menu will allow the user to pick a different slot or range of slots in case a mistake is made: <br>
+-   Returning to the previous menu will allow the user to pick a different slot or range of slots in case a mistake is made: <br>
 
 ![Return to time slots](documentation/reselectslot.png) <br>
 
-* If the user selects an option which involves altering a slot they will receive a message to confirm the change in case the user makes a mistake. If the user does not confirm the action then no change takes place and they are returned to the slot action menu for the slots that they have selected. However, if the user confirms the change then the system alters the slot or slots and notifies the user: <br>
+-   If the user selects an option which involves altering a slot they will receive a message to confirm the change in case the user makes a mistake. If the user does not confirm the action then no change takes place and they are returned to the slot action menu for the slots that they have selected. However, if the user confirms the change then the system alters the slot or slots and notifies the user: <br>
 
 ![Confirmation of slot action](documentation/confirmslotaction.png) <br>
 
-* If the user does not enter a valid input, they will get an error message: <br>
+-   If the user does not enter a valid input, they will get an error message: <br>
 
 ![Confirmation of slot action with invalid input](documentation/slotactionvalidation.png) <br>
 
-* The user is then prompted as to whether they would like to schedule more slots ot not. If the user decides not to, then the programs exits. If the user agrees to schedule more then the user is presented with the time slots for the day that was initially selected and can therefore adjust more slots if required.
+-   The user is then prompted as to whether they would like to schedule more slots ot not. If the user decides not to, then the programs exits. If the user agrees to schedule more then the user is presented with the time slots for the day that was initially selected and can therefore adjust more slots if required.
 
-* If the user does not enter a valid input, they will get an error message: <br>
+-   If the user does not enter a valid input, they will get an error message: <br>
 
 ![Confirmation of new schedule with invalid input](documentation/schedulemorevalidation.png) <br>
 
-*  Future features have been thoroughly discussed in the introduction of this document.
+-   Future features have been thoroughly discussed in the introduction of this document.
 
 ## Data model
 
@@ -229,9 +231,9 @@ The project primarily uses a spreadsheet-based data model. The appointment sched
 
 3. Availability Status: The status of each time slot can be one of the following:
 
-	* Open: Available for booking/blocking.
-	* Booked: Already scheduled with an appointment.
-	* Blocked: Unavailable, typically for personal or other commitments.
+    - Open: Available for booking/blocking.
+    - Booked: Already scheduled with an appointment.
+    - Blocked: Unavailable, typically for personal or other commitments.
 
 4. User Inputs: The system interacts with users who can select and modify time slots. Users can perform actions like booking appointments, cancelling bookings, unblocking slots and blocking slots using user inputs.
 
@@ -241,27 +243,27 @@ Overall, the data model is relatively simple, relying on the structure of a spre
 
 ### Languages used
 
-* Python
+-   Python
 
 ### Programs used
 
-* [Github](https://github.com/) used for version control.
-* [Lucidchart](https://www.lucidchart.com/) used for the flow diagram.
-* [Heroku](https://www.heroku.com/) used to deploy the application.
-* [Gitpod](https://www.gitpod.io/) used to develop project and organise version control.
-* [ChatGPT](https://chat.openai.com/) used to verify code.
-* [StackOverflow](https://stackoverflow.com/) used to problem solve and deal with queries.
+-   [Github](https://github.com/) used for version control.
+-   [Lucidchart](https://www.lucidchart.com/) used for the flow diagram.
+-   [Heroku](https://www.heroku.com/) used to deploy the application.
+-   [Gitpod](https://www.gitpod.io/) used to develop project and organise version control.
+-   [ChatGPT](https://chat.openai.com/) used to verify code.
+-   [StackOverflow](https://stackoverflow.com/) used to problem solve and deal with queries.
 
 ### Python libraries
 
-* gspread: This is a Python library for interacting with Google Sheets API. It provides a convenient way to read and update spreadsheet data. This library allows us to easily integrate our application with Google Sheets, where we store our appointment data.
-* google.oauth2.service_account: This is part of the Google Auth library and is used for authenticating the application with Google services using a service account. This ensures secure access to the Google Sheets API.
-* getpass: This is a Python library used for securely reading passwords and sensitive information from the command line. This enhances the security of user credentials.
-* colorama: A Python library that allows colored output to the console. Colorama is employed to provide colored output to the console, improving the user interface's visual clarity and providing feedback in a more engaging manner.
-* datetime: A Python library for working with dates and times. This library is fundamental for managing the scheduling and logic behind appointments in the application.
-* time: A Python library for time-related functions. In this application it is specificlly used for the lockout mechanism when a user fails multiple logins.
-* os: A Python library for interacting with the operating system, facilitating file operations and other system-related tasks.
-* env.py: Used to store configuration or secret information. This is a common practice for keeping sensitive data separate from the code.
+-   gspread: This is a Python library for interacting with Google Sheets API. It provides a convenient way to read and update spreadsheet data. This library allows us to easily integrate our application with Google Sheets, where we store our appointment data.
+-   google.oauth2.service_account: This is part of the Google Auth library and is used for authenticating the application with Google services using a service account. This ensures secure access to the Google Sheets API.
+-   getpass: This is a Python library used for securely reading passwords and sensitive information from the command line. This enhances the security of user credentials.
+-   colorama: A Python library that allows colored output to the console. Colorama is employed to provide colored output to the console, improving the user interface's visual clarity and providing feedback in a more engaging manner.
+-   datetime: A Python library for working with dates and times. This library is fundamental for managing the scheduling and logic behind appointments in the application.
+-   time: A Python library for time-related functions. In this application it is specificlly used for the lockout mechanism when a user fails multiple logins.
+-   os: A Python library for interacting with the operating system, facilitating file operations and other system-related tasks.
+-   env.py: Used to store configuration or secret information. This is a common practice for keeping sensitive data separate from the code.
 
 ## Testing
 
@@ -271,56 +273,58 @@ Overall, the data model is relatively simple, relying on the structure of a spre
 
 ### Testing User Stories
 
-* As a user I want to have a secure system which only I can access so that I can manage my weekly work schedule.
-  * The system has a secure login which hides the input credentials when logging in and temporarily stops the user if 3 login attempts fail consecutively: <br>
+-   As a user I want to have a secure system which only I can access so that I can manage my weekly work schedule.
 
-  ![Login attempt](documentation/loginattempt.png) <br>
-  
-* As a user I want to view my current schedule for any specific day.
-  * After logging in, the user is able to select a week and then a day. The daily schedule is then presented to the user: <br>
+    -   The system has a secure login which hides the input credentials when logging in and temporarily stops the user if 3 login attempts fail consecutively: <br>
 
-  ![Daily schedule](documentation/chooseslot.png) <br>
-  
-* As a user I want to select a week, day and time to book an appointment.
-  * When a slot is selected, it can then be adjusted depending on the user input.
-* As a user I want to ensure that my bookings are not booked back-to-back so that I have time to plan my journey and travel to my next customer.
-  * Whenever an appointment is booked, in order to prevent back-to-back bookings the slots immediately before and after the booked slot will be blocked.
-  * This applies to ranged slot bookings too.
-* As a user I want there to be safety measures so that I do not accidentally book slots where I am unavailable and similarly do not block slots where there are booked appointments.
-  * Where there booked appointment slots, the slots cannot be blocked because of the booking (the appointment must be cancelled first). This is to prevent booked appointments from being accidentally removed.
-  * Where there are blocked slots, bookings cannot be made because of the block (the block must be removed first). This is to prevent blocked appointments from being booked since a block is supposed to represent unavailability of the consultant.
-* As a user I want to block slots for times on days where I am busy with other endeavours and unblock slots when necessary.
-  * Booked appointment slots must be cancelled first to make them open slots.
-  * With any open slots, the user can select as many as they would like in a selected day as long as the slots are consecutive, and block them all.
-* As a user I want to cancel appointments that are no longer required.
-  * Booked slots can be selected and changed to open slots.
-  * Multiple booked and blocked slots can be selected together to be opened.
-* As a user I want to manage multiple slots to book long sessions, block entire days or cancel multiple appointments and slots.
-  * A range of times can be selected for the desired operation between 09:00 and 16:30 in the day and changed as necessary.
-* As a user I want to navigate the system with ease and have feedback for every decision that I make.
-  * For every step of the way, there is information text in blue to give instructions of the options available.
-  * Whenever the system is processing information, there is feedback provided in yellow.
-  * When a process is successful, feedback is provided in green.
-  * When a process fails as a result of an invalid input, feedback is provided in red.
-* As a user I want to cancel my decision if I make any mistakes at any point while I am using the application.
-  * For every step, there is an option to return to the previous menu in a case a mistake is made.
- 
+    ![Login attempt](documentation/loginattempt.png) <br>
+
+-   As a user I want to view my current schedule for any specific day.
+
+    -   After logging in, the user is able to select a week and then a day. The daily schedule is then presented to the user: <br>
+
+    ![Daily schedule](documentation/chooseslot.png) <br>
+
+-   As a user I want to select a week, day and time to book an appointment.
+    -   When a slot is selected, it can then be adjusted depending on the user input.
+-   As a user I want to ensure that my bookings are not booked back-to-back so that I have time to plan my journey and travel to my next customer.
+    -   Whenever an appointment is booked, in order to prevent back-to-back bookings the slots immediately before and after the booked slot will be blocked.
+    -   This applies to ranged slot bookings too.
+-   As a user I want there to be safety measures so that I do not accidentally book slots where I am unavailable and similarly do not block slots where there are booked appointments.
+    -   Where there booked appointment slots, the slots cannot be blocked because of the booking (the appointment must be cancelled first). This is to prevent booked appointments from being accidentally removed.
+    -   Where there are blocked slots, bookings cannot be made because of the block (the block must be removed first). This is to prevent blocked appointments from being booked since a block is supposed to represent unavailability of the consultant.
+-   As a user I want to block slots for times on days where I am busy with other endeavours and unblock slots when necessary.
+    -   Booked appointment slots must be cancelled first to make them open slots.
+    -   With any open slots, the user can select as many as they would like in a selected day as long as the slots are consecutive, and block them all.
+-   As a user I want to cancel appointments that are no longer required.
+    -   Booked slots can be selected and changed to open slots.
+    -   Multiple booked and blocked slots can be selected together to be opened.
+-   As a user I want to manage multiple slots to book long sessions, block entire days or cancel multiple appointments and slots.
+    -   A range of times can be selected for the desired operation between 09:00 and 16:30 in the day and changed as necessary.
+-   As a user I want to navigate the system with ease and have feedback for every decision that I make.
+    -   For every step of the way, there is information text in blue to give instructions of the options available.
+    -   Whenever the system is processing information, there is feedback provided in yellow.
+    -   When a process is successful, feedback is provided in green.
+    -   When a process fails as a result of an invalid input, feedback is provided in red.
+-   As a user I want to cancel my decision if I make any mistakes at any point while I am using the application.
+    -   For every step, there is an option to return to the previous menu in a case a mistake is made.
+
 ### Input testing
 
 All user inputs were tested thoroughly to ensure all input data is handled correctly and appropriate feedback is given to the user as follows:
 
-* The initial login prompt only accepts 'y' or 'n' as inputs where 'n' exits the program and 'y' initiates the next step. It has been tested with invalid inputs and correctly gives feedback to the user.
-* Both the username and password cannot be left blank and accept any values as inputs. The program correctly gives feedback if either of these fields are left empty.
-* Without the correct login details, the login fails and the correct feedback is provided to the user upon failing. 3 failed attempts locks out the user and also provides the correct feedback.
-* Upon successfully logging in, the user is provided with feedback and the dates are updated as required. To test this manually I created a function to manually set the dates:
+-   The initial login prompt only accepts 'y' or 'n' as inputs where 'n' exits the program and 'y' initiates the next step. It has been tested with invalid inputs and correctly gives feedback to the user.
+-   Both the username and password cannot be left blank and accept any values as inputs. The program correctly gives feedback if either of these fields are left empty.
+-   Without the correct login details, the login fails and the correct feedback is provided to the user upon failing. 3 failed attempts locks out the user and also provides the correct feedback.
+-   Upon successfully logging in, the user is provided with feedback and the dates are updated as required. To test this manually I created a function to manually set the dates:
 
 ```python
 def fix_cell_dates():
     """
-    This function is entirely for testing purposes. 
+    This function is entirely for testing purposes.
     The dates of the spreadsheet can be set manually.
     """
-    
+
     print(Fore.YELLOW + 'Setting dates...')
     worksheet_names = [
 	"week1",
@@ -337,7 +341,7 @@ def fix_cell_dates():
 	"week12"
     ]
     current_datetime = datetime.datetime.now()
-    
+
     for i, worksheet_name in enumerate(worksheet_names):
         worksheet = SHEET.worksheet(worksheet_name)
 
@@ -364,19 +368,19 @@ def fix_cell_dates():
 fix_cell_dates()
 ```
 
-* When selecting a week, the user must enter a correct value as provided by the list. If any invalid value is inserted an error message is correctly displayed to the user. From here the user can exit the program here which works correctly.
-* When selecting a day, the user must enter a value from '0-6' where '0' returns to the previous menu. If any invalid value is entered here, the user gets an error message.
-* When selecting a time input the value must be in th correct format and within the correct time range otherwise the user gets an error message. From here the user can exit the program or return to the previous menu, both of which work given the appropriate input.
-* When altering a slot, the input must be a value from the menu presented or else the user will get an error message. This has been tested for every use case.
-* The confirmation for changing a slot only accepts a 'y' or 'n' value where 'n' returns to the previous menu and 'y' actions the change. Any other input values give the user an error message.
-* Confirming the change works correctly and has been tested in every use case.
-* Finally, the last option presents the user with an option to continue booking or to exit the program. This prompt only accepts 'y' or 'n' and any other input provides an error message to the user.
+-   When selecting a week, the user must enter a correct value as provided by the list. If any invalid value is inserted an error message is correctly displayed to the user. From here the user can exit the program here which works correctly.
+-   When selecting a day, the user must enter a value from '0-6' where '0' returns to the previous menu. If any invalid value is entered here, the user gets an error message.
+-   When selecting a time input the value must be in th correct format and within the correct time range otherwise the user gets an error message. From here the user can exit the program or return to the previous menu, both of which work given the appropriate input.
+-   When altering a slot, the input must be a value from the menu presented or else the user will get an error message. This has been tested for every use case.
+-   The confirmation for changing a slot only accepts a 'y' or 'n' value where 'n' returns to the previous menu and 'y' actions the change. Any other input values give the user an error message.
+-   Confirming the change works correctly and has been tested in every use case.
+-   Finally, the last option presents the user with an option to continue booking or to exit the program. This prompt only accepts 'y' or 'n' and any other input provides an error message to the user.
 
 ### Bugs
 
-* When the user is locked out after 3 failed login attempts, the backend still runs (i.e. the terminal still allows inputs to be made) therefore if the user continues typing, the inputted characters may appear over the lock out message. Furthermore the input is inserted into the next field that is prompted but the characters will appear hidden. This may cause input field to be an invalid entry regardless of what the user inputs.
-* On occasion, some of the inputted characters may appear temporarily when typing the username and password.
-* There are some linting errors with this application in the CI Python Linter which suggest that some lines are too long. I opted not to change these lines because it would unnecessarily clutter the code with extra lines making it harder to read.
+-   When the user is locked out after 3 failed login attempts, the backend still runs (i.e. the terminal still allows inputs to be made) therefore if the user continues typing, the inputted characters may appear over the lock out message. Furthermore the input is inserted into the next field that is prompted but the characters will appear hidden. This may cause input field to be an invalid entry regardless of what the user inputs.
+-   On occasion, some of the inputted characters may appear temporarily when typing the username and password.
+-   There are some linting errors with this application in the CI Python Linter which suggest that some lines are too long. I opted not to change these lines because it would unnecessarily clutter the code with extra lines making it harder to read.
 
 ## Deployment
 
@@ -409,6 +413,6 @@ The following steps were then taken:
 
 ## Credits
 
-* Thanks to my mentor Antonio Rodriguez for the helpful tips with this project.
-* Thanks to [Tech with Tim](https://www.youtube.com/@TechWithTim) for helpful Python tips.
-* Thanks to Ed, Jason and Joanne for help with a few problems in the project.
+-   Thanks to my mentor Antonio Rodriguez for the helpful tips with this project.
+-   Thanks to [Tech with Tim](https://www.youtube.com/@TechWithTim) for helpful Python tips.
+-   Thanks to Ed, Jason and Joanne for help with a few problems in the project.
