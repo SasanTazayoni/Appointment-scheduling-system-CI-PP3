@@ -2,7 +2,7 @@
 
 ## Introduction
 
-![HTML](tech/python.png) ![CSS](tech/heroku.png) ![Gitpod](tech/gitpod.png) ![ChatGPT](tech/chatgpt.png)
+![HTML](tech/python.png) ![CSS](tech/heroku.png) ![Gitpod](tech/gitpod.png) ![ChatGPT](tech/chatgpt.png) ![ClaudeAI](tech/claude.png)
 
 This application is part of a future full-stack solution designed for a real IT support consultant. The consultant currently manages bookings through emails and phone calls, which leads to various issues, such as last-minute cancellations and difficulty in keeping track of booking times due to frequent changes.
 
@@ -108,11 +108,9 @@ The initial flow chart was developed before the project's actual implementation,
 ![Lockout after 3 failed login attempts](documentation/lockout.png) <br>
 
 - If the user enters the correct details, a login will be successful. The system will then check the date and time of login and then access the worksheet, select the "week1" tab select the cell "A2" (which is Monday). These 2 values will be compared and the difference in days will be calculated as follows: <br>
-
   - If the number of days is less than 7, no updates are made to the spreadsheets: <br>
 
   ![Up-to-date spreadsheet](documentation/updatespreadsheet.png) <br>
-
   - When the number of days exceeds 7, the system updates the spreadsheets based on the formula: difference_in_weeks = (monday_date - cell_date).days // 7. Using the difference_in_weeks variable, the spreadsheets are updated as follows: for example, if difference_in_weeks is 3, 'week4' will overwrite 'week1,' 'week5' will overwrite 'week2,' and so on. This process affects all tabs on the spreadsheet. For the last 3 weeks, dates are generated and inserted into cells (A2:A6), and all appointment slots are overwritten with 'OPEN' to indicate newly available slots. The system maintains consistency by ensuring that the 'week1' tab on the spreadsheet represents the current week at the time of login, following Python's convention where weeks start on Mondays at 12:00 AM.
 
   - If the 'difference_in_weeks' variable is 12 or greater, all tabs are updated to reflect the correct dates, and all appointment slots are set to 'OPEN'.
@@ -156,43 +154,33 @@ The initial flow chart was developed before the project's actual implementation,
 
 - At this stage the user can exit the program by typing 'exit' or can return to the previous menu to select a different day by typing 'cancel'.
 - If the user inputs a valid value then another menu is presented to the user depending on the state of the selected slot or range of slots:
-
   - If a single 'BOOKED' slot is selected the user can cancel the appointment or return to the previous menu: <br>
 
   ![Single booked slot](documentation/singlebookedslot.png) <br>
-
   - If a single 'OPEN' slot is selected the user can book an appointment, block the slot or return to the previous menu: <br>
 
   ![Single open slot](documentation/singleopenslot.png) <br>
-
   - If a single 'BLOCKED' slot is selected the user can unblock the slot or return to the previous menu: <br>
 
   ![Single blocked slot](documentation/singleblockedslot.png) <br>
-
   - If a multiple 'BOOKED' slots are selected the user can cancel all appointments or return to the previous menu: <br>
 
   ![Multiple booked slots](documentation/multiplebookedslots.png) <br>
-
   - If a multiple 'OPEN' slots are selected the user can book all slots, block all slots or return to the previous menu: <br>
 
   ![Multiple open slots](documentation/multipleopenslots.png) <br>
-
   - If a multiple 'BLOCKED' slots are selected the user can unblock all slots or return to the previous menu: <br>
 
   ![Multiple blocked slots](documentation/multipleblockedslots.png) <br>
-
   - If a mixture of 'BOOKED' and 'OPEN' slots are selected the user can book all the open slots, cancel all the booked slots or return to the previous menu: <br>
 
   ![Mixture of open and booked slots](documentation/mixtureopenbooked.png) <br>
-
   - If a mixture of 'BLOCKED' and 'OPEN' slots are selected the user can block all the open slots, unblock all the blocked slots or return to the previous menu: <br>
 
   ![Mixture of open and blocked slots](documentation/mixtureopenblocked.png) <br>
-
   - If a mixture of 'BOOKED' and 'BLOCKED' slots are selected the user can open all the remaining slots (cancels all appointments and unblocks all blocked slots) or return to the previous menu: <br>
 
   ![Mixture of blocked and booked slots](documentation/mixturebookedblocked.png) <br>
-
   - If a mixture of 'OPEN', 'BOOKED' and 'BLOCKED' slots are selected the user can open all the remaining slots (cancels all appointments and unblocks all blocked slots) or return to the previous menu: <br>
 
   ![Mixture of open, blocked and booked slots](documentation/mixtureopenbookedblocked.png) <br>
@@ -230,7 +218,6 @@ The project primarily uses a spreadsheet-based data model. The appointment sched
 2. Cells: Individual cells within the spreadsheet represent specific time slots. The data in these cells are used to determine the availability status (open, booked, or blocked) for each time slot.
 
 3. Availability Status: The status of each time slot can be one of the following:
-
    - Open: Available for booking/blocking.
    - Booked: Already scheduled with an appointment.
    - Blocked: Unavailable, typically for personal or other commitments.
@@ -274,13 +261,11 @@ Overall, the data model is relatively simple, relying on the structure of a spre
 ### Testing User Stories
 
 - As a user I want to have a secure system which only I can access so that I can manage my weekly work schedule.
-
   - The system has a secure login which hides the input credentials when logging in and temporarily stops the user if 3 login attempts fail consecutively: <br>
 
   ![Login attempt](documentation/loginattempt.png) <br>
 
 - As a user I want to view my current schedule for any specific day.
-
   - After logging in, the user is able to select a week and then a day. The daily schedule is then presented to the user: <br>
 
   ![Daily schedule](documentation/chooseslot.png) <br>
