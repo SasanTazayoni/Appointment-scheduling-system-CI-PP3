@@ -1,11 +1,15 @@
+"""
+Appointment Booking System - manages weekly appointment scheduling
+using Google Sheets as a backend.
+"""
+import datetime
+import getpass
+import os
+import time
+import colorama
+from colorama import Fore
 import gspread
 from google.oauth2.service_account import Credentials
-import getpass
-import colorama
-from colorama import Fore, Back
-import datetime
-import time
-import os
 colorama.init(autoreset=True)
 if os.path.exists("env.py"):
     import env
@@ -36,8 +40,6 @@ def handle_lockout():
     When triggered, this function prevents the user from taking any action.
     This is a security measure.
     """
-    locked_out = True
-
     # Disable keyboard input
     os.system('stty -echo')
 
@@ -103,16 +105,16 @@ def login():
 
     # Check if the user is locked out and handle the lockout if necessary
     if locked_out:
-        locked_out = handle_lockout()
+        handle_lockout()
 
     print()
     print(Fore.BLUE + 'Please enter the correct login details\n')
 
     while login_attempts < MAX_LOGIN_ATTEMPTS and not locked_out:
-        login = getpass.getpass("Username: ")
+        username = getpass.getpass("Username: ")
 
         # Check if the entered username is empty
-        if not login.strip():
+        if not username.strip():
             print(Fore.RED + "Username cannot be empty.")
             continue
 
@@ -126,7 +128,7 @@ def login():
                 continue
 
             # Check if the entered login and password match the expected values
-            if login == USERNAME and password == PASSWORD:
+            if username == USERNAME and password == PASSWORD:
                 print()
                 print(Fore.GREEN + "Login successful!")
                 login_attempts = 0
@@ -137,7 +139,7 @@ def login():
                 # Check if maximum login attempts reached
                 if login_attempts == MAX_LOGIN_ATTEMPTS:
                     print(Fore.RED + "Login failed.\n")
-                    locked_out = handle_lockout()
+                    handle_lockout()
                 else:
                     print(Fore.RED + "Login failed. Please try again.")
                 break
@@ -179,7 +181,7 @@ def update_cell_dates():
         for i in range(1, 13):
             worksheet_title = f"week{i}"
             worksheet = SHEET.worksheet(worksheet_title)
-            week_number = int(worksheet_title.lstrip("week"))
+            week_number = i
             target_week_number = week_number + difference_in_weeks
 
             # Check if the target week number is within the valid range (1-12)
@@ -396,7 +398,7 @@ def retrieve_appointment_slots(selected_date, selected_week):
     slots = worksheet.range(f"B{row_index}:Q{row_index}")
 
     # Get the time slots from row 2 (A2:Q2)
-    time_slots_range = worksheet.range(f"B1:Q1")
+    time_slots_range = worksheet.range("B1:Q1")
     time_slots = [cell.value for cell in time_slots_range]
 
     # Create a dictionary to store time slots and their statuses
@@ -419,7 +421,7 @@ def display_appointment_slots(selected_date, selected_week):
     """
     Display appointment slots for the selected day in the selected week.
     """
-    print(Fore.YELLOW + f"Retrieving appointment slots...")
+    print(Fore.YELLOW + "Retrieving appointment slots...")
 
     # Retrieve appointment slots for the selected date and week
     all_slots = retrieve_appointment_slots(selected_date, selected_week)
@@ -474,7 +476,6 @@ def select_appointment_slots(all_slots, selected_date, selected_week):
             elif choice.lower() == 'exit':
                 print(Fore.YELLOW + "Exiting the program...")
                 exit()  # Exit the program
-                return
 
             # Split the user input by '-' to check for a range
             if '-' in choice:
@@ -589,6 +590,7 @@ def handle_slot_action(appointment_details):
     """
     Handle actions for a single appointment slot change.
     """
+    slot_update = ''
     while True:
         if appointment_details == "OPEN":
             slot_update = handle_open_slot()
@@ -743,6 +745,7 @@ def handle_multislot_action(appointment_details_list):
     """
     # Create sets to store unique slot states
     slot_states = set(appointment_details_list)
+    multislot_update = ''
 
     # Determine the combinations of slot states
     combinations = ", ".join(sorted(slot_states))
