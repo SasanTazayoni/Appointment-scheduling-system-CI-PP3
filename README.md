@@ -1,4 +1,4 @@
-# Appointment Scheduling System (Prototype)
+# Appointment Scheduling System
 
 ## Introduction
 
