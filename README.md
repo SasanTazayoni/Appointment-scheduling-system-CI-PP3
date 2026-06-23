@@ -2,7 +2,7 @@
 
 ## Introduction
 
-![HTML](tech/python.png) ![CSS](tech/heroku.png) ![Gitpod](tech/gitpod.png) ![ChatGPT](tech/chatgpt.png) ![ClaudeAI](tech/claude.png)
+![Python](tech/python.png) ![Heroku](tech/heroku.png) ![Shell](tech/shell.png) ![Gitpod](tech/gitpod.png) ![ChatGPT](tech/chatgpt.png)
 
 This application is part of a future full-stack solution designed for a real IT support consultant. The consultant currently manages bookings through emails and phone calls, which leads to various issues, such as last-minute cancellations and difficulty in keeping track of booking times due to frequent changes.
 
