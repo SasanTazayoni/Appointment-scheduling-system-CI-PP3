@@ -16,7 +16,7 @@
   },
   "homepage": "https://github.com/lechien73/terminal#readme",
   "engines": {
-    "node": "20.x"
+    "node": "22.x"
   },
   "dependencies": {
     "node-static": "^0.7.11",
